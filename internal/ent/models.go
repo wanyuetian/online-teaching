@@ -1,9 +1,10 @@
-package models
+package ent
 
+/*
 type Course struct {
-	Name            string
-	Desc            string
-	BackgroundImage string
+	Name            string `json:"name"`
+	Desc            string `json:"desc"`
+	BackgroundImage string `json:"backgroundImage"`
 }
 type CourseTeacher struct {
 	Name   string
@@ -35,3 +36,4 @@ type CourseSection struct {
 	Type      string
 	Video     string
 }
+*/
