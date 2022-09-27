@@ -1,13 +1,13 @@
 syntax = "proto3";
 
-package helloworld.v1;
+package teaching.v1;
 
 option go_package = "online-teaching/api/teaching/v1;v1";
 option java_multiple_files = true;
 option java_package = "teaching.v1";
-option objc_class_prefix = "APIHelloworldV1";
+option objc_class_prefix = "APITeachingV1";
 
 enum ErrorReason {
-  GREETER_UNSPECIFIED = 0;
+  TEACHING_UNSPECIFIED = 0;
   USER_NOT_FOUND = 1;
 }

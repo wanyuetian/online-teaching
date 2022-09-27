@@ -3,20 +3,36 @@
 
 openapi: 3.0.3
 info:
-    title: Greeter API
-    description: The greeting service definition.
+    title: Course API
+    description: The course service definition.
     version: 0.0.1
 paths:
-    /teaching/{name}:
+    /teaching/api/v1/course:
+        post:
+            tags:
+                - Course
+            operationId: Course_CreateCourse
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/teaching.v1.CreateCourseRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/teaching.v1.CreateCourseReply'
+    /teaching/api/v1/courses:
         get:
             tags:
-                - Greeter
-            description: Sends a greeting
-            operationId: Greeter_SayHello
+                - Course
+            operationId: Course_SearchCourse
             parameters:
-                - name: name
-                  in: path
-                  required: true
+                - name: keyword
+                  in: query
                   schema:
                     type: string
             responses:
@@ -25,14 +41,73 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/helloworld.v1.HelloReply'
+                                $ref: '#/components/schemas/teaching.v1.SearchCourseReply'
 components:
     schemas:
-        helloworld.v1.HelloReply:
+        teaching.v1.CreateCourseReply:
             type: object
             properties:
+                data:
+                    $ref: '#/components/schemas/teaching.v1.CreateCourseReply_Data'
+                code:
+                    type: integer
+                    format: int32
                 message:
                     type: string
-            description: The response message containing the greetings
+        teaching.v1.CreateCourseReply_Course:
+            type: object
+            properties:
+                name:
+                    type: string
+                desc:
+                    type: string
+                backgroundImage:
+                    type: string
+                summary:
+                    type: string
+        teaching.v1.CreateCourseReply_Data:
+            type: object
+            properties:
+                course:
+                    $ref: '#/components/schemas/teaching.v1.CreateCourseReply_Course'
+        teaching.v1.CreateCourseRequest:
+            type: object
+            properties:
+                name:
+                    type: string
+                desc:
+                    type: string
+                backgroundImage:
+                    type: string
+                summary:
+                    type: string
+        teaching.v1.SearchCourseReply:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/teaching.v1.SearchCourseReply_Data'
+                code:
+                    type: integer
+                    format: int32
+                message:
+                    type: string
+        teaching.v1.SearchCourseReply_Course:
+            type: object
+            properties:
+                name:
+                    type: string
+                desc:
+                    type: string
+                backgroundImage:
+                    type: string
+                summary:
+                    type: string
+        teaching.v1.SearchCourseReply_Data:
+            type: object
+            properties:
+                courses:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/teaching.v1.SearchCourseReply_Course'
 tags:
-    - name: Greeter
+    - name: Course

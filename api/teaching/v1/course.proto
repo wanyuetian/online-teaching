@@ -7,24 +7,61 @@ import "google/api/annotations.proto";
 option go_package = "online-teaching/api/teaching/v1;v1";
 option java_multiple_files = true;
 option java_package = "dev.kratos.api.teaching.v1";
-option java_outer_classname = "HelloworldProtoV1";
+option java_outer_classname = "TeachingProtoV1";
 
-// The greeting service definition.
-service Greeter {
-  // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply) {
+// The course service definition.
+service Course {
+  rpc SearchCourse (SearchCourseRequest) returns (SearchCourseReply) {
     option (google.api.http) = {
-      get: "/teaching/{name}"
+      get: "/teaching/api/v1/courses"
+    };
+  }
+
+  rpc CreateCourse (CreateCourseRequest) returns (CreateCourseReply) {
+    option (google.api.http) = {
+      post: "/teaching/api/v1/course"
+      body: "*"
     };
   }
 }
 
-// The request message containing the user's name.
-message HelloRequest {
-  string name = 1;
+message SearchCourseRequest {
+  string keyword = 1;
 }
 
-// The response message containing the greetings
-message HelloReply {
-  string message = 1;
+message SearchCourseReply {
+  message Course {
+    string name = 1;
+    string desc = 2;
+    string background_image = 3;
+    string summary = 4;
+  }
+  message Data {
+    repeated Course courses = 1;
+  }
+  Data data = 1;
+  int32 code = 2;
+  string message = 3;
+}
+
+message CreateCourseRequest {
+  string name = 1;
+  string desc = 2;
+  string background_image = 3;
+  string summary = 4;
+}
+
+message CreateCourseReply {
+  message Course {
+    string name = 1;
+    string desc = 2;
+    string background_image = 3;
+    string summary = 4;
+  }
+  message Data {
+    Course course = 1;
+  }
+  Data data = 1;
+  int32 code = 2;
+  string message = 3;
 }
