@@ -26,9 +26,25 @@ func (cic *CourseInfoCreate) SetClickCount(i int) *CourseInfoCreate {
 	return cic
 }
 
+// SetNillableClickCount sets the "click_count" field if the given value is not nil.
+func (cic *CourseInfoCreate) SetNillableClickCount(i *int) *CourseInfoCreate {
+	if i != nil {
+		cic.SetClickCount(*i)
+	}
+	return cic
+}
+
 // SetLearnCount sets the "learn_count" field.
 func (cic *CourseInfoCreate) SetLearnCount(i int) *CourseInfoCreate {
 	cic.mutation.SetLearnCount(i)
+	return cic
+}
+
+// SetNillableLearnCount sets the "learn_count" field if the given value is not nil.
+func (cic *CourseInfoCreate) SetNillableLearnCount(i *int) *CourseInfoCreate {
+	if i != nil {
+		cic.SetLearnCount(*i)
+	}
 	return cic
 }
 
@@ -38,9 +54,25 @@ func (cic *CourseInfoCreate) SetTotalDuration(i int) *CourseInfoCreate {
 	return cic
 }
 
+// SetNillableTotalDuration sets the "total_duration" field if the given value is not nil.
+func (cic *CourseInfoCreate) SetNillableTotalDuration(i *int) *CourseInfoCreate {
+	if i != nil {
+		cic.SetTotalDuration(*i)
+	}
+	return cic
+}
+
 // SetSectionCount sets the "section_count" field.
 func (cic *CourseInfoCreate) SetSectionCount(i int) *CourseInfoCreate {
 	cic.mutation.SetSectionCount(i)
+	return cic
+}
+
+// SetNillableSectionCount sets the "section_count" field if the given value is not nil.
+func (cic *CourseInfoCreate) SetNillableSectionCount(i *int) *CourseInfoCreate {
+	if i != nil {
+		cic.SetSectionCount(*i)
+	}
 	return cic
 }
 
@@ -65,15 +97,43 @@ func (cic *CourseInfoCreate) SetNillableDetail(s *string) *CourseInfoCreate {
 }
 
 // SetState sets the "state" field.
-func (cic *CourseInfoCreate) SetState(s string) *CourseInfoCreate {
-	cic.mutation.SetState(s)
+func (cic *CourseInfoCreate) SetState(i int) *CourseInfoCreate {
+	cic.mutation.SetState(i)
 	return cic
 }
 
 // SetNillableState sets the "state" field if the given value is not nil.
-func (cic *CourseInfoCreate) SetNillableState(s *string) *CourseInfoCreate {
-	if s != nil {
-		cic.SetState(*s)
+func (cic *CourseInfoCreate) SetNillableState(i *int) *CourseInfoCreate {
+	if i != nil {
+		cic.SetState(*i)
+	}
+	return cic
+}
+
+// SetOrder sets the "order" field.
+func (cic *CourseInfoCreate) SetOrder(i int) *CourseInfoCreate {
+	cic.mutation.SetOrder(i)
+	return cic
+}
+
+// SetNillableOrder sets the "order" field if the given value is not nil.
+func (cic *CourseInfoCreate) SetNillableOrder(i *int) *CourseInfoCreate {
+	if i != nil {
+		cic.SetOrder(*i)
+	}
+	return cic
+}
+
+// SetIsQuality sets the "is_quality" field.
+func (cic *CourseInfoCreate) SetIsQuality(b bool) *CourseInfoCreate {
+	cic.mutation.SetIsQuality(b)
+	return cic
+}
+
+// SetNillableIsQuality sets the "is_quality" field if the given value is not nil.
+func (cic *CourseInfoCreate) SetNillableIsQuality(b *bool) *CourseInfoCreate {
+	if b != nil {
+		cic.SetIsQuality(*b)
 	}
 	return cic
 }
@@ -117,12 +177,6 @@ func (cic *CourseInfoCreate) SetNillableUpdatedAt(t *time.Time) *CourseInfoCreat
 	if t != nil {
 		cic.SetUpdatedAt(*t)
 	}
-	return cic
-}
-
-// SetDeletedAt sets the "deleted_at" field.
-func (cic *CourseInfoCreate) SetDeletedAt(t time.Time) *CourseInfoCreate {
-	cic.mutation.SetDeletedAt(t)
 	return cic
 }
 
@@ -203,6 +257,22 @@ func (cic *CourseInfoCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (cic *CourseInfoCreate) defaults() {
+	if _, ok := cic.mutation.ClickCount(); !ok {
+		v := courseinfo.DefaultClickCount
+		cic.mutation.SetClickCount(v)
+	}
+	if _, ok := cic.mutation.LearnCount(); !ok {
+		v := courseinfo.DefaultLearnCount
+		cic.mutation.SetLearnCount(v)
+	}
+	if _, ok := cic.mutation.TotalDuration(); !ok {
+		v := courseinfo.DefaultTotalDuration
+		cic.mutation.SetTotalDuration(v)
+	}
+	if _, ok := cic.mutation.SectionCount(); !ok {
+		v := courseinfo.DefaultSectionCount
+		cic.mutation.SetSectionCount(v)
+	}
 	if _, ok := cic.mutation.Detail(); !ok {
 		v := courseinfo.DefaultDetail
 		cic.mutation.SetDetail(v)
@@ -210,6 +280,14 @@ func (cic *CourseInfoCreate) defaults() {
 	if _, ok := cic.mutation.State(); !ok {
 		v := courseinfo.DefaultState
 		cic.mutation.SetState(v)
+	}
+	if _, ok := cic.mutation.Order(); !ok {
+		v := courseinfo.DefaultOrder
+		cic.mutation.SetOrder(v)
+	}
+	if _, ok := cic.mutation.IsQuality(); !ok {
+		v := courseinfo.DefaultIsQuality
+		cic.mutation.SetIsQuality(v)
 	}
 	if _, ok := cic.mutation.IsDeleted(); !ok {
 		v := courseinfo.DefaultIsDeleted
@@ -245,8 +323,19 @@ func (cic *CourseInfoCreate) check() error {
 	if _, ok := cic.mutation.Detail(); !ok {
 		return &ValidationError{Name: "detail", err: errors.New(`ent: missing required field "CourseInfo.detail"`)}
 	}
+	if v, ok := cic.mutation.Detail(); ok {
+		if err := courseinfo.DetailValidator(v); err != nil {
+			return &ValidationError{Name: "detail", err: fmt.Errorf(`ent: validator failed for field "CourseInfo.detail": %w`, err)}
+		}
+	}
 	if _, ok := cic.mutation.State(); !ok {
 		return &ValidationError{Name: "state", err: errors.New(`ent: missing required field "CourseInfo.state"`)}
+	}
+	if _, ok := cic.mutation.Order(); !ok {
+		return &ValidationError{Name: "order", err: errors.New(`ent: missing required field "CourseInfo.order"`)}
+	}
+	if _, ok := cic.mutation.IsQuality(); !ok {
+		return &ValidationError{Name: "is_quality", err: errors.New(`ent: missing required field "CourseInfo.is_quality"`)}
 	}
 	if _, ok := cic.mutation.IsDeleted(); !ok {
 		return &ValidationError{Name: "is_deleted", err: errors.New(`ent: missing required field "CourseInfo.is_deleted"`)}
@@ -256,9 +345,6 @@ func (cic *CourseInfoCreate) check() error {
 	}
 	if _, ok := cic.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "CourseInfo.updated_at"`)}
-	}
-	if _, ok := cic.mutation.DeletedAt(); !ok {
-		return &ValidationError{Name: "deleted_at", err: errors.New(`ent: missing required field "CourseInfo.deleted_at"`)}
 	}
 	return nil
 }
@@ -337,11 +423,27 @@ func (cic *CourseInfoCreate) createSpec() (*CourseInfo, *sqlgraph.CreateSpec) {
 	}
 	if value, ok := cic.mutation.State(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeInt,
 			Value:  value,
 			Column: courseinfo.FieldState,
 		})
 		_node.State = value
+	}
+	if value, ok := cic.mutation.Order(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: courseinfo.FieldOrder,
+		})
+		_node.Order = value
+	}
+	if value, ok := cic.mutation.IsQuality(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: courseinfo.FieldIsQuality,
+		})
+		_node.IsQuality = value
 	}
 	if value, ok := cic.mutation.IsDeleted(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -366,14 +468,6 @@ func (cic *CourseInfoCreate) createSpec() (*CourseInfo, *sqlgraph.CreateSpec) {
 			Column: courseinfo.FieldUpdatedAt,
 		})
 		_node.UpdatedAt = value
-	}
-	if value, ok := cic.mutation.DeletedAt(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeTime,
-			Value:  value,
-			Column: courseinfo.FieldDeletedAt,
-		})
-		_node.DeletedAt = value
 	}
 	return _node, _spec
 }

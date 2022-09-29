@@ -2,7 +2,7 @@ package server
 
 import (
 	"github.com/go-kratos/grpc-gateway/v2/protoc-gen-openapiv2/generator"
-	v1 "online-teaching/api/teaching/v1"
+	"online-teaching/api/teaching/v1"
 	"online-teaching/internal/conf"
 	"online-teaching/internal/service"
 
@@ -13,7 +13,7 @@ import (
 )
 
 // NewHTTPServer new an HTTP server.
-func NewHTTPServer(c *conf.Server, course *service.CourseService, logger log.Logger) *http.Server {
+func NewHTTPServer(c *conf.Server, course *service.CourseService, teacher *service.TeacherService, logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
 		http.Middleware(
 			recovery.Recovery(),
@@ -32,5 +32,6 @@ func NewHTTPServer(c *conf.Server, course *service.CourseService, logger log.Log
 	openAPIHandler := openapiv2.NewHandler(openapiv2.WithGeneratorOptions(generator.UseJSONNamesForFields(true), generator.EnumsAsInts(true)))
 	srv.HandlePrefix("/q/", openAPIHandler)
 	v1.RegisterCourseHTTPServer(srv, course)
+	v1.RegisterTeacherHTTPServer(srv, teacher)
 	return srv
 }

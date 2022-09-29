@@ -16,21 +16,19 @@ type CourseSection struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// Title holds the value of the "title" field.
+	// 小节标题
 	Title string `json:"title,omitempty"`
-	// Type holds the value of the "type" field.
+	// 小节类型
 	Type string `json:"type,omitempty"`
-	// Video holds the value of the "video" field.
+	// 小节视频地址
 	Video string `json:"video,omitempty"`
 	// IsDeleted holds the value of the "is_deleted" field.
 	IsDeleted bool `json:"is_deleted,omitempty"`
 	// CreatedAt holds the value of the "created_at" field.
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	// UpdatedAt holds the value of the "updated_at" field.
-	UpdatedAt time.Time `json:"updated_at,omitempty"`
-	// DeletedAt holds the value of the "deleted_at" field.
-	DeletedAt                     time.Time `json:"deleted_at,omitempty"`
-	course_course_section         *int
+	UpdatedAt                     time.Time `json:"updated_at,omitempty"`
+	course_sections               *int
 	course_chapter_course_section *int
 }
 
@@ -45,9 +43,9 @@ func (*CourseSection) scanValues(columns []string) ([]interface{}, error) {
 			values[i] = new(sql.NullInt64)
 		case coursesection.FieldTitle, coursesection.FieldType, coursesection.FieldVideo:
 			values[i] = new(sql.NullString)
-		case coursesection.FieldCreatedAt, coursesection.FieldUpdatedAt, coursesection.FieldDeletedAt:
+		case coursesection.FieldCreatedAt, coursesection.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
-		case coursesection.ForeignKeys[0]: // course_course_section
+		case coursesection.ForeignKeys[0]: // course_sections
 			values[i] = new(sql.NullInt64)
 		case coursesection.ForeignKeys[1]: // course_chapter_course_section
 			values[i] = new(sql.NullInt64)
@@ -108,18 +106,12 @@ func (cs *CourseSection) assignValues(columns []string, values []interface{}) er
 			} else if value.Valid {
 				cs.UpdatedAt = value.Time
 			}
-		case coursesection.FieldDeletedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field deleted_at", values[i])
-			} else if value.Valid {
-				cs.DeletedAt = value.Time
-			}
 		case coursesection.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field course_course_section", value)
+				return fmt.Errorf("unexpected type %T for edge-field course_sections", value)
 			} else if value.Valid {
-				cs.course_course_section = new(int)
-				*cs.course_course_section = int(value.Int64)
+				cs.course_sections = new(int)
+				*cs.course_sections = int(value.Int64)
 			}
 		case coursesection.ForeignKeys[1]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -173,9 +165,6 @@ func (cs *CourseSection) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
 	builder.WriteString(cs.UpdatedAt.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("deleted_at=")
-	builder.WriteString(cs.DeletedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

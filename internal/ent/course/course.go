@@ -15,54 +15,70 @@ const (
 	FieldName = "name"
 	// FieldDesc holds the string denoting the desc field in the database.
 	FieldDesc = "desc"
-	// FieldBackgroundImage holds the string denoting the background_image field in the database.
-	FieldBackgroundImage = "background_image"
+	// FieldImage holds the string denoting the image field in the database.
+	FieldImage = "image"
+	// FieldTags holds the string denoting the tags field in the database.
+	FieldTags = "tags"
+	// FieldClassification holds the string denoting the classification field in the database.
+	FieldClassification = "classification"
 	// FieldIsDeleted holds the string denoting the is_deleted field in the database.
 	FieldIsDeleted = "is_deleted"
 	// FieldCreatedAt holds the string denoting the created_at field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
-	// FieldDeletedAt holds the string denoting the deleted_at field in the database.
-	FieldDeletedAt = "deleted_at"
-	// EdgeCourseTeacher holds the string denoting the course_teacher edge name in mutations.
-	EdgeCourseTeacher = "course_teacher"
-	// EdgeCourseInfo holds the string denoting the course_info edge name in mutations.
-	EdgeCourseInfo = "course_info"
-	// EdgeCourseChapter holds the string denoting the course_chapter edge name in mutations.
-	EdgeCourseChapter = "course_chapter"
-	// EdgeCourseSection holds the string denoting the course_section edge name in mutations.
-	EdgeCourseSection = "course_section"
+	// EdgeTeachers holds the string denoting the teachers edge name in mutations.
+	EdgeTeachers = "teachers"
+	// EdgeInfos holds the string denoting the infos edge name in mutations.
+	EdgeInfos = "infos"
+	// EdgeChapters holds the string denoting the chapters edge name in mutations.
+	EdgeChapters = "chapters"
+	// EdgeSections holds the string denoting the sections edge name in mutations.
+	EdgeSections = "sections"
+	// EdgeSwipers holds the string denoting the swipers edge name in mutations.
+	EdgeSwipers = "swipers"
+	// EdgeUsers holds the string denoting the users edge name in mutations.
+	EdgeUsers = "users"
 	// Table holds the table name of the course in the database.
 	Table = "courses"
-	// CourseTeacherTable is the table that holds the course_teacher relation/edge.
-	CourseTeacherTable = "course_teachers"
-	// CourseTeacherInverseTable is the table name for the CourseTeacher entity.
-	// It exists in this package in order to avoid circular dependency with the "courseteacher" package.
-	CourseTeacherInverseTable = "course_teachers"
-	// CourseTeacherColumn is the table column denoting the course_teacher relation/edge.
-	CourseTeacherColumn = "course_course_teacher"
-	// CourseInfoTable is the table that holds the course_info relation/edge.
-	CourseInfoTable = "course_infos"
-	// CourseInfoInverseTable is the table name for the CourseInfo entity.
+	// TeachersTable is the table that holds the teachers relation/edge. The primary key declared below.
+	TeachersTable = "teacher_courses"
+	// TeachersInverseTable is the table name for the Teacher entity.
+	// It exists in this package in order to avoid circular dependency with the "teacher" package.
+	TeachersInverseTable = "teachers"
+	// InfosTable is the table that holds the infos relation/edge.
+	InfosTable = "course_infos"
+	// InfosInverseTable is the table name for the CourseInfo entity.
 	// It exists in this package in order to avoid circular dependency with the "courseinfo" package.
-	CourseInfoInverseTable = "course_infos"
-	// CourseInfoColumn is the table column denoting the course_info relation/edge.
-	CourseInfoColumn = "course_course_info"
-	// CourseChapterTable is the table that holds the course_chapter relation/edge.
-	CourseChapterTable = "course_chapters"
-	// CourseChapterInverseTable is the table name for the CourseChapter entity.
+	InfosInverseTable = "course_infos"
+	// InfosColumn is the table column denoting the infos relation/edge.
+	InfosColumn = "course_infos"
+	// ChaptersTable is the table that holds the chapters relation/edge.
+	ChaptersTable = "course_chapters"
+	// ChaptersInverseTable is the table name for the CourseChapter entity.
 	// It exists in this package in order to avoid circular dependency with the "coursechapter" package.
-	CourseChapterInverseTable = "course_chapters"
-	// CourseChapterColumn is the table column denoting the course_chapter relation/edge.
-	CourseChapterColumn = "course_course_chapter"
-	// CourseSectionTable is the table that holds the course_section relation/edge.
-	CourseSectionTable = "course_sections"
-	// CourseSectionInverseTable is the table name for the CourseSection entity.
+	ChaptersInverseTable = "course_chapters"
+	// ChaptersColumn is the table column denoting the chapters relation/edge.
+	ChaptersColumn = "course_chapters"
+	// SectionsTable is the table that holds the sections relation/edge.
+	SectionsTable = "course_sections"
+	// SectionsInverseTable is the table name for the CourseSection entity.
 	// It exists in this package in order to avoid circular dependency with the "coursesection" package.
-	CourseSectionInverseTable = "course_sections"
-	// CourseSectionColumn is the table column denoting the course_section relation/edge.
-	CourseSectionColumn = "course_course_section"
+	SectionsInverseTable = "course_sections"
+	// SectionsColumn is the table column denoting the sections relation/edge.
+	SectionsColumn = "course_sections"
+	// SwipersTable is the table that holds the swipers relation/edge.
+	SwipersTable = "course_swipers"
+	// SwipersInverseTable is the table name for the CourseSwiper entity.
+	// It exists in this package in order to avoid circular dependency with the "courseswiper" package.
+	SwipersInverseTable = "course_swipers"
+	// SwipersColumn is the table column denoting the swipers relation/edge.
+	SwipersColumn = "course_swipers"
+	// UsersTable is the table that holds the users relation/edge. The primary key declared below.
+	UsersTable = "user_courses"
+	// UsersInverseTable is the table name for the User entity.
+	// It exists in this package in order to avoid circular dependency with the "user" package.
+	UsersInverseTable = "users"
 )
 
 // Columns holds all SQL columns for course fields.
@@ -70,28 +86,27 @@ var Columns = []string{
 	FieldID,
 	FieldName,
 	FieldDesc,
-	FieldBackgroundImage,
+	FieldImage,
+	FieldTags,
+	FieldClassification,
 	FieldIsDeleted,
 	FieldCreatedAt,
 	FieldUpdatedAt,
-	FieldDeletedAt,
 }
 
-// ForeignKeys holds the SQL foreign-keys that are owned by the "courses"
-// table and are not defined as standalone fields in the schema.
-var ForeignKeys = []string{
-	"course_teacher_course",
-}
+var (
+	// TeachersPrimaryKey and TeachersColumn2 are the table columns denoting the
+	// primary key for the teachers relation (M2M).
+	TeachersPrimaryKey = []string{"teacher_id", "course_id"}
+	// UsersPrimaryKey and UsersColumn2 are the table columns denoting the
+	// primary key for the users relation (M2M).
+	UsersPrimaryKey = []string{"user_id", "course_id"}
+)
 
 // ValidColumn reports if the column name is valid (part of the table columns).
 func ValidColumn(column string) bool {
 	for i := range Columns {
 		if column == Columns[i] {
-			return true
-		}
-	}
-	for i := range ForeignKeys {
-		if column == ForeignKeys[i] {
 			return true
 		}
 	}

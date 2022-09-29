@@ -15,11 +15,10 @@ type CourseChapter struct {
 // Fields of the CourseChapter.
 func (CourseChapter) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("title").NotEmpty(),
+		field.String("title").NotEmpty().Comment("章标题"),
 		field.Bool("is_deleted").Default(false),
 		field.Time("created_at").Default(time.Now),
 		field.Time("updated_at").Default(time.Now).UpdateDefault(time.Now),
-		field.Time("deleted_at"),
 	}
 }
 

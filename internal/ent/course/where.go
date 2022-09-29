@@ -95,10 +95,24 @@ func Desc(v string) predicate.Course {
 	})
 }
 
-// BackgroundImage applies equality check predicate on the "background_image" field. It's identical to BackgroundImageEQ.
-func BackgroundImage(v string) predicate.Course {
+// Image applies equality check predicate on the "image" field. It's identical to ImageEQ.
+func Image(v string) predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldBackgroundImage), v))
+		s.Where(sql.EQ(s.C(FieldImage), v))
+	})
+}
+
+// Tags applies equality check predicate on the "tags" field. It's identical to TagsEQ.
+func Tags(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldTags), v))
+	})
+}
+
+// Classification applies equality check predicate on the "classification" field. It's identical to ClassificationEQ.
+func Classification(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldClassification), v))
 	})
 }
 
@@ -120,13 +134,6 @@ func CreatedAt(v time.Time) predicate.Course {
 func UpdatedAt(v time.Time) predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldUpdatedAt), v))
-	})
-}
-
-// DeletedAt applies equality check predicate on the "deleted_at" field. It's identical to DeletedAtEQ.
-func DeletedAt(v time.Time) predicate.Course {
-	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldDeletedAt), v))
 	})
 }
 
@@ -328,102 +335,300 @@ func DescContainsFold(v string) predicate.Course {
 	})
 }
 
-// BackgroundImageEQ applies the EQ predicate on the "background_image" field.
-func BackgroundImageEQ(v string) predicate.Course {
+// ImageEQ applies the EQ predicate on the "image" field.
+func ImageEQ(v string) predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldBackgroundImage), v))
+		s.Where(sql.EQ(s.C(FieldImage), v))
 	})
 }
 
-// BackgroundImageNEQ applies the NEQ predicate on the "background_image" field.
-func BackgroundImageNEQ(v string) predicate.Course {
+// ImageNEQ applies the NEQ predicate on the "image" field.
+func ImageNEQ(v string) predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldBackgroundImage), v))
+		s.Where(sql.NEQ(s.C(FieldImage), v))
 	})
 }
 
-// BackgroundImageIn applies the In predicate on the "background_image" field.
-func BackgroundImageIn(vs ...string) predicate.Course {
+// ImageIn applies the In predicate on the "image" field.
+func ImageIn(vs ...string) predicate.Course {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
 	}
 	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.In(s.C(FieldBackgroundImage), v...))
+		s.Where(sql.In(s.C(FieldImage), v...))
 	})
 }
 
-// BackgroundImageNotIn applies the NotIn predicate on the "background_image" field.
-func BackgroundImageNotIn(vs ...string) predicate.Course {
+// ImageNotIn applies the NotIn predicate on the "image" field.
+func ImageNotIn(vs ...string) predicate.Course {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
 	}
 	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.NotIn(s.C(FieldBackgroundImage), v...))
+		s.Where(sql.NotIn(s.C(FieldImage), v...))
 	})
 }
 
-// BackgroundImageGT applies the GT predicate on the "background_image" field.
-func BackgroundImageGT(v string) predicate.Course {
+// ImageGT applies the GT predicate on the "image" field.
+func ImageGT(v string) predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldBackgroundImage), v))
+		s.Where(sql.GT(s.C(FieldImage), v))
 	})
 }
 
-// BackgroundImageGTE applies the GTE predicate on the "background_image" field.
-func BackgroundImageGTE(v string) predicate.Course {
+// ImageGTE applies the GTE predicate on the "image" field.
+func ImageGTE(v string) predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldBackgroundImage), v))
+		s.Where(sql.GTE(s.C(FieldImage), v))
 	})
 }
 
-// BackgroundImageLT applies the LT predicate on the "background_image" field.
-func BackgroundImageLT(v string) predicate.Course {
+// ImageLT applies the LT predicate on the "image" field.
+func ImageLT(v string) predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldBackgroundImage), v))
+		s.Where(sql.LT(s.C(FieldImage), v))
 	})
 }
 
-// BackgroundImageLTE applies the LTE predicate on the "background_image" field.
-func BackgroundImageLTE(v string) predicate.Course {
+// ImageLTE applies the LTE predicate on the "image" field.
+func ImageLTE(v string) predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldBackgroundImage), v))
+		s.Where(sql.LTE(s.C(FieldImage), v))
 	})
 }
 
-// BackgroundImageContains applies the Contains predicate on the "background_image" field.
-func BackgroundImageContains(v string) predicate.Course {
+// ImageContains applies the Contains predicate on the "image" field.
+func ImageContains(v string) predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.Contains(s.C(FieldBackgroundImage), v))
+		s.Where(sql.Contains(s.C(FieldImage), v))
 	})
 }
 
-// BackgroundImageHasPrefix applies the HasPrefix predicate on the "background_image" field.
-func BackgroundImageHasPrefix(v string) predicate.Course {
+// ImageHasPrefix applies the HasPrefix predicate on the "image" field.
+func ImageHasPrefix(v string) predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.HasPrefix(s.C(FieldBackgroundImage), v))
+		s.Where(sql.HasPrefix(s.C(FieldImage), v))
 	})
 }
 
-// BackgroundImageHasSuffix applies the HasSuffix predicate on the "background_image" field.
-func BackgroundImageHasSuffix(v string) predicate.Course {
+// ImageHasSuffix applies the HasSuffix predicate on the "image" field.
+func ImageHasSuffix(v string) predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.HasSuffix(s.C(FieldBackgroundImage), v))
+		s.Where(sql.HasSuffix(s.C(FieldImage), v))
 	})
 }
 
-// BackgroundImageEqualFold applies the EqualFold predicate on the "background_image" field.
-func BackgroundImageEqualFold(v string) predicate.Course {
+// ImageEqualFold applies the EqualFold predicate on the "image" field.
+func ImageEqualFold(v string) predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.EqualFold(s.C(FieldBackgroundImage), v))
+		s.Where(sql.EqualFold(s.C(FieldImage), v))
 	})
 }
 
-// BackgroundImageContainsFold applies the ContainsFold predicate on the "background_image" field.
-func BackgroundImageContainsFold(v string) predicate.Course {
+// ImageContainsFold applies the ContainsFold predicate on the "image" field.
+func ImageContainsFold(v string) predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.ContainsFold(s.C(FieldBackgroundImage), v))
+		s.Where(sql.ContainsFold(s.C(FieldImage), v))
+	})
+}
+
+// TagsEQ applies the EQ predicate on the "tags" field.
+func TagsEQ(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldTags), v))
+	})
+}
+
+// TagsNEQ applies the NEQ predicate on the "tags" field.
+func TagsNEQ(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldTags), v))
+	})
+}
+
+// TagsIn applies the In predicate on the "tags" field.
+func TagsIn(vs ...string) predicate.Course {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.In(s.C(FieldTags), v...))
+	})
+}
+
+// TagsNotIn applies the NotIn predicate on the "tags" field.
+func TagsNotIn(vs ...string) predicate.Course {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.NotIn(s.C(FieldTags), v...))
+	})
+}
+
+// TagsGT applies the GT predicate on the "tags" field.
+func TagsGT(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldTags), v))
+	})
+}
+
+// TagsGTE applies the GTE predicate on the "tags" field.
+func TagsGTE(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldTags), v))
+	})
+}
+
+// TagsLT applies the LT predicate on the "tags" field.
+func TagsLT(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldTags), v))
+	})
+}
+
+// TagsLTE applies the LTE predicate on the "tags" field.
+func TagsLTE(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldTags), v))
+	})
+}
+
+// TagsContains applies the Contains predicate on the "tags" field.
+func TagsContains(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldTags), v))
+	})
+}
+
+// TagsHasPrefix applies the HasPrefix predicate on the "tags" field.
+func TagsHasPrefix(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldTags), v))
+	})
+}
+
+// TagsHasSuffix applies the HasSuffix predicate on the "tags" field.
+func TagsHasSuffix(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldTags), v))
+	})
+}
+
+// TagsEqualFold applies the EqualFold predicate on the "tags" field.
+func TagsEqualFold(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldTags), v))
+	})
+}
+
+// TagsContainsFold applies the ContainsFold predicate on the "tags" field.
+func TagsContainsFold(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldTags), v))
+	})
+}
+
+// ClassificationEQ applies the EQ predicate on the "classification" field.
+func ClassificationEQ(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldClassification), v))
+	})
+}
+
+// ClassificationNEQ applies the NEQ predicate on the "classification" field.
+func ClassificationNEQ(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldClassification), v))
+	})
+}
+
+// ClassificationIn applies the In predicate on the "classification" field.
+func ClassificationIn(vs ...string) predicate.Course {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.In(s.C(FieldClassification), v...))
+	})
+}
+
+// ClassificationNotIn applies the NotIn predicate on the "classification" field.
+func ClassificationNotIn(vs ...string) predicate.Course {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.NotIn(s.C(FieldClassification), v...))
+	})
+}
+
+// ClassificationGT applies the GT predicate on the "classification" field.
+func ClassificationGT(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldClassification), v))
+	})
+}
+
+// ClassificationGTE applies the GTE predicate on the "classification" field.
+func ClassificationGTE(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldClassification), v))
+	})
+}
+
+// ClassificationLT applies the LT predicate on the "classification" field.
+func ClassificationLT(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldClassification), v))
+	})
+}
+
+// ClassificationLTE applies the LTE predicate on the "classification" field.
+func ClassificationLTE(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldClassification), v))
+	})
+}
+
+// ClassificationContains applies the Contains predicate on the "classification" field.
+func ClassificationContains(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldClassification), v))
+	})
+}
+
+// ClassificationHasPrefix applies the HasPrefix predicate on the "classification" field.
+func ClassificationHasPrefix(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldClassification), v))
+	})
+}
+
+// ClassificationHasSuffix applies the HasSuffix predicate on the "classification" field.
+func ClassificationHasSuffix(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldClassification), v))
+	})
+}
+
+// ClassificationEqualFold applies the EqualFold predicate on the "classification" field.
+func ClassificationEqualFold(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldClassification), v))
+	})
+}
+
+// ClassificationContainsFold applies the ContainsFold predicate on the "classification" field.
+func ClassificationContainsFold(v string) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldClassification), v))
 	})
 }
 
@@ -569,89 +774,25 @@ func UpdatedAtLTE(v time.Time) predicate.Course {
 	})
 }
 
-// DeletedAtEQ applies the EQ predicate on the "deleted_at" field.
-func DeletedAtEQ(v time.Time) predicate.Course {
-	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldDeletedAt), v))
-	})
-}
-
-// DeletedAtNEQ applies the NEQ predicate on the "deleted_at" field.
-func DeletedAtNEQ(v time.Time) predicate.Course {
-	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldDeletedAt), v))
-	})
-}
-
-// DeletedAtIn applies the In predicate on the "deleted_at" field.
-func DeletedAtIn(vs ...time.Time) predicate.Course {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.In(s.C(FieldDeletedAt), v...))
-	})
-}
-
-// DeletedAtNotIn applies the NotIn predicate on the "deleted_at" field.
-func DeletedAtNotIn(vs ...time.Time) predicate.Course {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.NotIn(s.C(FieldDeletedAt), v...))
-	})
-}
-
-// DeletedAtGT applies the GT predicate on the "deleted_at" field.
-func DeletedAtGT(v time.Time) predicate.Course {
-	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldDeletedAt), v))
-	})
-}
-
-// DeletedAtGTE applies the GTE predicate on the "deleted_at" field.
-func DeletedAtGTE(v time.Time) predicate.Course {
-	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldDeletedAt), v))
-	})
-}
-
-// DeletedAtLT applies the LT predicate on the "deleted_at" field.
-func DeletedAtLT(v time.Time) predicate.Course {
-	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldDeletedAt), v))
-	})
-}
-
-// DeletedAtLTE applies the LTE predicate on the "deleted_at" field.
-func DeletedAtLTE(v time.Time) predicate.Course {
-	return predicate.Course(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldDeletedAt), v))
-	})
-}
-
-// HasCourseTeacher applies the HasEdge predicate on the "course_teacher" edge.
-func HasCourseTeacher() predicate.Course {
+// HasTeachers applies the HasEdge predicate on the "teachers" edge.
+func HasTeachers() predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(CourseTeacherTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, CourseTeacherTable, CourseTeacherColumn),
+			sqlgraph.To(TeachersTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2M, true, TeachersTable, TeachersPrimaryKey...),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasCourseTeacherWith applies the HasEdge predicate on the "course_teacher" edge with a given conditions (other predicates).
-func HasCourseTeacherWith(preds ...predicate.CourseTeacher) predicate.Course {
+// HasTeachersWith applies the HasEdge predicate on the "teachers" edge with a given conditions (other predicates).
+func HasTeachersWith(preds ...predicate.Teacher) predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(CourseTeacherInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, CourseTeacherTable, CourseTeacherColumn),
+			sqlgraph.To(TeachersInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2M, true, TeachersTable, TeachersPrimaryKey...),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
@@ -661,25 +802,25 @@ func HasCourseTeacherWith(preds ...predicate.CourseTeacher) predicate.Course {
 	})
 }
 
-// HasCourseInfo applies the HasEdge predicate on the "course_info" edge.
-func HasCourseInfo() predicate.Course {
+// HasInfos applies the HasEdge predicate on the "infos" edge.
+func HasInfos() predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(CourseInfoTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, CourseInfoTable, CourseInfoColumn),
+			sqlgraph.To(InfosTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, InfosTable, InfosColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasCourseInfoWith applies the HasEdge predicate on the "course_info" edge with a given conditions (other predicates).
-func HasCourseInfoWith(preds ...predicate.CourseInfo) predicate.Course {
+// HasInfosWith applies the HasEdge predicate on the "infos" edge with a given conditions (other predicates).
+func HasInfosWith(preds ...predicate.CourseInfo) predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(CourseInfoInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, CourseInfoTable, CourseInfoColumn),
+			sqlgraph.To(InfosInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, InfosTable, InfosColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
@@ -689,25 +830,25 @@ func HasCourseInfoWith(preds ...predicate.CourseInfo) predicate.Course {
 	})
 }
 
-// HasCourseChapter applies the HasEdge predicate on the "course_chapter" edge.
-func HasCourseChapter() predicate.Course {
+// HasChapters applies the HasEdge predicate on the "chapters" edge.
+func HasChapters() predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(CourseChapterTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, CourseChapterTable, CourseChapterColumn),
+			sqlgraph.To(ChaptersTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, ChaptersTable, ChaptersColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasCourseChapterWith applies the HasEdge predicate on the "course_chapter" edge with a given conditions (other predicates).
-func HasCourseChapterWith(preds ...predicate.CourseChapter) predicate.Course {
+// HasChaptersWith applies the HasEdge predicate on the "chapters" edge with a given conditions (other predicates).
+func HasChaptersWith(preds ...predicate.CourseChapter) predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(CourseChapterInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, CourseChapterTable, CourseChapterColumn),
+			sqlgraph.To(ChaptersInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, ChaptersTable, ChaptersColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
@@ -717,25 +858,81 @@ func HasCourseChapterWith(preds ...predicate.CourseChapter) predicate.Course {
 	})
 }
 
-// HasCourseSection applies the HasEdge predicate on the "course_section" edge.
-func HasCourseSection() predicate.Course {
+// HasSections applies the HasEdge predicate on the "sections" edge.
+func HasSections() predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(CourseSectionTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, CourseSectionTable, CourseSectionColumn),
+			sqlgraph.To(SectionsTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, SectionsTable, SectionsColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasCourseSectionWith applies the HasEdge predicate on the "course_section" edge with a given conditions (other predicates).
-func HasCourseSectionWith(preds ...predicate.CourseSection) predicate.Course {
+// HasSectionsWith applies the HasEdge predicate on the "sections" edge with a given conditions (other predicates).
+func HasSectionsWith(preds ...predicate.CourseSection) predicate.Course {
 	return predicate.Course(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(CourseSectionInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, CourseSectionTable, CourseSectionColumn),
+			sqlgraph.To(SectionsInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, SectionsTable, SectionsColumn),
+		)
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasSwipers applies the HasEdge predicate on the "swipers" edge.
+func HasSwipers() predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.To(SwipersTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, SwipersTable, SwipersColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasSwipersWith applies the HasEdge predicate on the "swipers" edge with a given conditions (other predicates).
+func HasSwipersWith(preds ...predicate.CourseSwiper) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.To(SwipersInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, SwipersTable, SwipersColumn),
+		)
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasUsers applies the HasEdge predicate on the "users" edge.
+func HasUsers() predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.To(UsersTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2M, true, UsersTable, UsersPrimaryKey...),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasUsersWith applies the HasEdge predicate on the "users" edge with a given conditions (other predicates).
+func HasUsersWith(preds ...predicate.User) predicate.Course {
+	return predicate.Course(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.To(UsersInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2M, true, UsersTable, UsersPrimaryKey...),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {

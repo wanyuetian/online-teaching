@@ -26,9 +26,12 @@ type config struct {
 type hooks struct {
 	Course        []ent.Hook
 	CourseChapter []ent.Hook
+	CourseComment []ent.Hook
 	CourseInfo    []ent.Hook
 	CourseSection []ent.Hook
-	CourseTeacher []ent.Hook
+	CourseSwiper  []ent.Hook
+	Teacher       []ent.Hook
+	User          []ent.Hook
 }
 
 // Options applies the options on the config object.

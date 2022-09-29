@@ -19,8 +19,6 @@ const (
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
-	// FieldDeletedAt holds the string denoting the deleted_at field in the database.
-	FieldDeletedAt = "deleted_at"
 	// EdgeCourseSection holds the string denoting the course_section edge name in mutations.
 	EdgeCourseSection = "course_section"
 	// Table holds the table name of the coursechapter in the database.
@@ -41,13 +39,12 @@ var Columns = []string{
 	FieldIsDeleted,
 	FieldCreatedAt,
 	FieldUpdatedAt,
-	FieldDeletedAt,
 }
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the "course_chapters"
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
-	"course_course_chapter",
+	"course_chapters",
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).

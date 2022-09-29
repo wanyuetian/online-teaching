@@ -13,26 +13,18 @@ var (
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "name", Type: field.TypeString, Unique: true},
 		{Name: "desc", Type: field.TypeString},
-		{Name: "background_image", Type: field.TypeString},
+		{Name: "image", Type: field.TypeString},
+		{Name: "tags", Type: field.TypeString},
+		{Name: "classification", Type: field.TypeString},
 		{Name: "is_deleted", Type: field.TypeBool, Default: false},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
-		{Name: "deleted_at", Type: field.TypeTime},
-		{Name: "course_teacher_course", Type: field.TypeInt, Nullable: true},
 	}
 	// CoursesTable holds the schema information for the "courses" table.
 	CoursesTable = &schema.Table{
 		Name:       "courses",
 		Columns:    CoursesColumns,
 		PrimaryKey: []*schema.Column{CoursesColumns[0]},
-		ForeignKeys: []*schema.ForeignKey{
-			{
-				Symbol:     "courses_course_teachers_course",
-				Columns:    []*schema.Column{CoursesColumns[8]},
-				RefColumns: []*schema.Column{CourseTeachersColumns[0]},
-				OnDelete:   schema.SetNull,
-			},
-		},
 	}
 	// CourseChaptersColumns holds the columns for the "course_chapters" table.
 	CourseChaptersColumns = []*schema.Column{
@@ -41,8 +33,7 @@ var (
 		{Name: "is_deleted", Type: field.TypeBool, Default: false},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
-		{Name: "deleted_at", Type: field.TypeTime},
-		{Name: "course_course_chapter", Type: field.TypeInt, Nullable: true},
+		{Name: "course_chapters", Type: field.TypeInt, Nullable: true},
 	}
 	// CourseChaptersTable holds the schema information for the "course_chapters" table.
 	CourseChaptersTable = &schema.Table{
@@ -51,28 +42,46 @@ var (
 		PrimaryKey: []*schema.Column{CourseChaptersColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "course_chapters_courses_course_chapter",
-				Columns:    []*schema.Column{CourseChaptersColumns[6]},
+				Symbol:     "course_chapters_courses_chapters",
+				Columns:    []*schema.Column{CourseChaptersColumns[5]},
 				RefColumns: []*schema.Column{CoursesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
 	}
-	// CourseInfosColumns holds the columns for the "course_infos" table.
-	CourseInfosColumns = []*schema.Column{
+	// CourseCommentsColumns holds the columns for the "course_comments" table.
+	CourseCommentsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "click_count", Type: field.TypeInt},
-		{Name: "learn_count", Type: field.TypeInt},
-		{Name: "total_duration", Type: field.TypeInt},
-		{Name: "section_count", Type: field.TypeInt},
-		{Name: "price", Type: field.TypeFloat64},
-		{Name: "detail", Type: field.TypeString, Default: ""},
-		{Name: "state", Type: field.TypeString, Default: "on"},
+		{Name: "username", Type: field.TypeString},
+		{Name: "comment", Type: field.TypeString},
+		{Name: "order", Type: field.TypeInt, Default: 0},
+		{Name: "is_show", Type: field.TypeBool, Default: false},
 		{Name: "is_deleted", Type: field.TypeBool, Default: false},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
-		{Name: "deleted_at", Type: field.TypeTime},
-		{Name: "course_course_info", Type: field.TypeInt, Nullable: true},
+	}
+	// CourseCommentsTable holds the schema information for the "course_comments" table.
+	CourseCommentsTable = &schema.Table{
+		Name:       "course_comments",
+		Columns:    CourseCommentsColumns,
+		PrimaryKey: []*schema.Column{CourseCommentsColumns[0]},
+	}
+	// CourseInfosColumns holds the columns for the "course_infos" table.
+	CourseInfosColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "click_count", Type: field.TypeInt, Default: 0},
+		{Name: "learn_count", Type: field.TypeInt, Default: 0},
+		{Name: "total_duration", Type: field.TypeInt, Default: 0},
+		{Name: "section_count", Type: field.TypeInt, Default: 0},
+		{Name: "price", Type: field.TypeFloat64},
+		{Name: "detail", Type: field.TypeString, Size: 8192, Default: ""},
+		{Name: "state", Type: field.TypeInt, Default: 0},
+		{Name: "order", Type: field.TypeInt, Default: 0},
+		{Name: "is_quality", Type: field.TypeBool, Default: false},
+		{Name: "is_deleted", Type: field.TypeBool, Default: false},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "course_infos", Type: field.TypeInt, Nullable: true},
 	}
 	// CourseInfosTable holds the schema information for the "course_infos" table.
 	CourseInfosTable = &schema.Table{
@@ -81,8 +90,8 @@ var (
 		PrimaryKey: []*schema.Column{CourseInfosColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "course_infos_courses_course_info",
-				Columns:    []*schema.Column{CourseInfosColumns[12]},
+				Symbol:     "course_infos_courses_infos",
+				Columns:    []*schema.Column{CourseInfosColumns[13]},
 				RefColumns: []*schema.Column{CoursesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -97,8 +106,7 @@ var (
 		{Name: "is_deleted", Type: field.TypeBool, Default: false},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
-		{Name: "deleted_at", Type: field.TypeTime},
-		{Name: "course_course_section", Type: field.TypeInt, Nullable: true},
+		{Name: "course_sections", Type: field.TypeInt, Nullable: true},
 		{Name: "course_chapter_course_section", Type: field.TypeInt, Nullable: true},
 	}
 	// CourseSectionsTable holds the schema information for the "course_sections" table.
@@ -108,21 +116,47 @@ var (
 		PrimaryKey: []*schema.Column{CourseSectionsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "course_sections_courses_course_section",
-				Columns:    []*schema.Column{CourseSectionsColumns[8]},
+				Symbol:     "course_sections_courses_sections",
+				Columns:    []*schema.Column{CourseSectionsColumns[7]},
 				RefColumns: []*schema.Column{CoursesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:     "course_sections_course_chapters_course_section",
-				Columns:    []*schema.Column{CourseSectionsColumns[9]},
+				Columns:    []*schema.Column{CourseSectionsColumns[8]},
 				RefColumns: []*schema.Column{CourseChaptersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
 	}
-	// CourseTeachersColumns holds the columns for the "course_teachers" table.
-	CourseTeachersColumns = []*schema.Column{
+	// CourseSwipersColumns holds the columns for the "course_swipers" table.
+	CourseSwipersColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "name", Type: field.TypeString},
+		{Name: "order", Type: field.TypeInt, Unique: true},
+		{Name: "image", Type: field.TypeString},
+		{Name: "is_show", Type: field.TypeBool},
+		{Name: "is_deleted", Type: field.TypeBool, Default: false},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "course_swipers", Type: field.TypeInt, Nullable: true},
+	}
+	// CourseSwipersTable holds the schema information for the "course_swipers" table.
+	CourseSwipersTable = &schema.Table{
+		Name:       "course_swipers",
+		Columns:    CourseSwipersColumns,
+		PrimaryKey: []*schema.Column{CourseSwipersColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "course_swipers_courses_swipers",
+				Columns:    []*schema.Column{CourseSwipersColumns[8]},
+				RefColumns: []*schema.Column{CoursesColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
+	}
+	// TeachersColumns holds the columns for the "teachers" table.
+	TeachersColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "name", Type: field.TypeString, Unique: true},
 		{Name: "desc", Type: field.TypeString},
@@ -131,20 +165,77 @@ var (
 		{Name: "is_deleted", Type: field.TypeBool, Default: false},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
-		{Name: "deleted_at", Type: field.TypeTime},
-		{Name: "course_course_teacher", Type: field.TypeInt, Nullable: true},
 	}
-	// CourseTeachersTable holds the schema information for the "course_teachers" table.
-	CourseTeachersTable = &schema.Table{
-		Name:       "course_teachers",
-		Columns:    CourseTeachersColumns,
-		PrimaryKey: []*schema.Column{CourseTeachersColumns[0]},
+	// TeachersTable holds the schema information for the "teachers" table.
+	TeachersTable = &schema.Table{
+		Name:       "teachers",
+		Columns:    TeachersColumns,
+		PrimaryKey: []*schema.Column{TeachersColumns[0]},
+	}
+	// UsersColumns holds the columns for the "users" table.
+	UsersColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "name", Type: field.TypeString, Unique: true},
+		{Name: "desc", Type: field.TypeString},
+		{Name: "avatar", Type: field.TypeString},
+		{Name: "title", Type: field.TypeString},
+		{Name: "is_deleted", Type: field.TypeBool, Default: false},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+	}
+	// UsersTable holds the schema information for the "users" table.
+	UsersTable = &schema.Table{
+		Name:       "users",
+		Columns:    UsersColumns,
+		PrimaryKey: []*schema.Column{UsersColumns[0]},
+	}
+	// TeacherCoursesColumns holds the columns for the "teacher_courses" table.
+	TeacherCoursesColumns = []*schema.Column{
+		{Name: "teacher_id", Type: field.TypeInt},
+		{Name: "course_id", Type: field.TypeInt},
+	}
+	// TeacherCoursesTable holds the schema information for the "teacher_courses" table.
+	TeacherCoursesTable = &schema.Table{
+		Name:       "teacher_courses",
+		Columns:    TeacherCoursesColumns,
+		PrimaryKey: []*schema.Column{TeacherCoursesColumns[0], TeacherCoursesColumns[1]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "course_teachers_courses_course_teacher",
-				Columns:    []*schema.Column{CourseTeachersColumns[9]},
+				Symbol:     "teacher_courses_teacher_id",
+				Columns:    []*schema.Column{TeacherCoursesColumns[0]},
+				RefColumns: []*schema.Column{TeachersColumns[0]},
+				OnDelete:   schema.Cascade,
+			},
+			{
+				Symbol:     "teacher_courses_course_id",
+				Columns:    []*schema.Column{TeacherCoursesColumns[1]},
 				RefColumns: []*schema.Column{CoursesColumns[0]},
-				OnDelete:   schema.SetNull,
+				OnDelete:   schema.Cascade,
+			},
+		},
+	}
+	// UserCoursesColumns holds the columns for the "user_courses" table.
+	UserCoursesColumns = []*schema.Column{
+		{Name: "user_id", Type: field.TypeInt},
+		{Name: "course_id", Type: field.TypeInt},
+	}
+	// UserCoursesTable holds the schema information for the "user_courses" table.
+	UserCoursesTable = &schema.Table{
+		Name:       "user_courses",
+		Columns:    UserCoursesColumns,
+		PrimaryKey: []*schema.Column{UserCoursesColumns[0], UserCoursesColumns[1]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "user_courses_user_id",
+				Columns:    []*schema.Column{UserCoursesColumns[0]},
+				RefColumns: []*schema.Column{UsersColumns[0]},
+				OnDelete:   schema.Cascade,
+			},
+			{
+				Symbol:     "user_courses_course_id",
+				Columns:    []*schema.Column{UserCoursesColumns[1]},
+				RefColumns: []*schema.Column{CoursesColumns[0]},
+				OnDelete:   schema.Cascade,
 			},
 		},
 	}
@@ -152,17 +243,25 @@ var (
 	Tables = []*schema.Table{
 		CoursesTable,
 		CourseChaptersTable,
+		CourseCommentsTable,
 		CourseInfosTable,
 		CourseSectionsTable,
-		CourseTeachersTable,
+		CourseSwipersTable,
+		TeachersTable,
+		UsersTable,
+		TeacherCoursesTable,
+		UserCoursesTable,
 	}
 )
 
 func init() {
-	CoursesTable.ForeignKeys[0].RefTable = CourseTeachersTable
 	CourseChaptersTable.ForeignKeys[0].RefTable = CoursesTable
 	CourseInfosTable.ForeignKeys[0].RefTable = CoursesTable
 	CourseSectionsTable.ForeignKeys[0].RefTable = CoursesTable
 	CourseSectionsTable.ForeignKeys[1].RefTable = CourseChaptersTable
-	CourseTeachersTable.ForeignKeys[0].RefTable = CoursesTable
+	CourseSwipersTable.ForeignKeys[0].RefTable = CoursesTable
+	TeacherCoursesTable.ForeignKeys[0].RefTable = TeachersTable
+	TeacherCoursesTable.ForeignKeys[1].RefTable = CoursesTable
+	UserCoursesTable.ForeignKeys[0].RefTable = UsersTable
+	UserCoursesTable.ForeignKeys[1].RefTable = CoursesTable
 }

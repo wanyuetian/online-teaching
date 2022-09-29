@@ -69,12 +69,6 @@ func (ccu *CourseChapterUpdate) SetUpdatedAt(t time.Time) *CourseChapterUpdate {
 	return ccu
 }
 
-// SetDeletedAt sets the "deleted_at" field.
-func (ccu *CourseChapterUpdate) SetDeletedAt(t time.Time) *CourseChapterUpdate {
-	ccu.mutation.SetDeletedAt(t)
-	return ccu
-}
-
 // AddCourseSectionIDs adds the "course_section" edge to the CourseSection entity by IDs.
 func (ccu *CourseChapterUpdate) AddCourseSectionIDs(ids ...int) *CourseChapterUpdate {
 	ccu.mutation.AddCourseSectionIDs(ids...)
@@ -241,13 +235,6 @@ func (ccu *CourseChapterUpdate) sqlSave(ctx context.Context) (n int, err error) 
 			Column: coursechapter.FieldUpdatedAt,
 		})
 	}
-	if value, ok := ccu.mutation.DeletedAt(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeTime,
-			Value:  value,
-			Column: coursechapter.FieldDeletedAt,
-		})
-	}
 	if ccu.mutation.CourseSectionCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
@@ -358,12 +345,6 @@ func (ccuo *CourseChapterUpdateOne) SetNillableCreatedAt(t *time.Time) *CourseCh
 // SetUpdatedAt sets the "updated_at" field.
 func (ccuo *CourseChapterUpdateOne) SetUpdatedAt(t time.Time) *CourseChapterUpdateOne {
 	ccuo.mutation.SetUpdatedAt(t)
-	return ccuo
-}
-
-// SetDeletedAt sets the "deleted_at" field.
-func (ccuo *CourseChapterUpdateOne) SetDeletedAt(t time.Time) *CourseChapterUpdateOne {
-	ccuo.mutation.SetDeletedAt(t)
 	return ccuo
 }
 
@@ -561,13 +542,6 @@ func (ccuo *CourseChapterUpdateOne) sqlSave(ctx context.Context) (_node *CourseC
 			Type:   field.TypeTime,
 			Value:  value,
 			Column: coursechapter.FieldUpdatedAt,
-		})
-	}
-	if value, ok := ccuo.mutation.DeletedAt(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeTime,
-			Value:  value,
-			Column: coursechapter.FieldDeletedAt,
 		})
 	}
 	if ccuo.mutation.CourseSectionCleared() {

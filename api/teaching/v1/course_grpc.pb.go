@@ -22,7 +22,11 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CourseClient interface {
-	SearchCourse(ctx context.Context, in *SearchCourseRequest, opts ...grpc.CallOption) (*SearchCourseReply, error)
+	SearchCourse(ctx context.Context, in *SearchCoursesRequest, opts ...grpc.CallOption) (*SearchCoursesReply, error)
+	GetCourse(ctx context.Context, in *GetCourseRequest, opts ...grpc.CallOption) (*GetCourseReply, error)
+	GetCourseDetail(ctx context.Context, in *GetCourseDetailRequest, opts ...grpc.CallOption) (*GetCourseDetailReply, error)
+	DeleteCourse(ctx context.Context, in *DeleteCourseRequest, opts ...grpc.CallOption) (*DeleteCourseReply, error)
+	UpdateCourse(ctx context.Context, in *UpdateCourseRequest, opts ...grpc.CallOption) (*UpdateCourseReply, error)
 	CreateCourse(ctx context.Context, in *CreateCourseRequest, opts ...grpc.CallOption) (*CreateCourseReply, error)
 }
 
@@ -34,9 +38,45 @@ func NewCourseClient(cc grpc.ClientConnInterface) CourseClient {
 	return &courseClient{cc}
 }
 
-func (c *courseClient) SearchCourse(ctx context.Context, in *SearchCourseRequest, opts ...grpc.CallOption) (*SearchCourseReply, error) {
-	out := new(SearchCourseReply)
+func (c *courseClient) SearchCourse(ctx context.Context, in *SearchCoursesRequest, opts ...grpc.CallOption) (*SearchCoursesReply, error) {
+	out := new(SearchCoursesReply)
 	err := c.cc.Invoke(ctx, "/teaching.v1.Course/SearchCourse", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *courseClient) GetCourse(ctx context.Context, in *GetCourseRequest, opts ...grpc.CallOption) (*GetCourseReply, error) {
+	out := new(GetCourseReply)
+	err := c.cc.Invoke(ctx, "/teaching.v1.Course/GetCourse", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *courseClient) GetCourseDetail(ctx context.Context, in *GetCourseDetailRequest, opts ...grpc.CallOption) (*GetCourseDetailReply, error) {
+	out := new(GetCourseDetailReply)
+	err := c.cc.Invoke(ctx, "/teaching.v1.Course/GetCourseDetail", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *courseClient) DeleteCourse(ctx context.Context, in *DeleteCourseRequest, opts ...grpc.CallOption) (*DeleteCourseReply, error) {
+	out := new(DeleteCourseReply)
+	err := c.cc.Invoke(ctx, "/teaching.v1.Course/DeleteCourse", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *courseClient) UpdateCourse(ctx context.Context, in *UpdateCourseRequest, opts ...grpc.CallOption) (*UpdateCourseReply, error) {
+	out := new(UpdateCourseReply)
+	err := c.cc.Invoke(ctx, "/teaching.v1.Course/UpdateCourse", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +96,11 @@ func (c *courseClient) CreateCourse(ctx context.Context, in *CreateCourseRequest
 // All implementations must embed UnimplementedCourseServer
 // for forward compatibility
 type CourseServer interface {
-	SearchCourse(context.Context, *SearchCourseRequest) (*SearchCourseReply, error)
+	SearchCourse(context.Context, *SearchCoursesRequest) (*SearchCoursesReply, error)
+	GetCourse(context.Context, *GetCourseRequest) (*GetCourseReply, error)
+	GetCourseDetail(context.Context, *GetCourseDetailRequest) (*GetCourseDetailReply, error)
+	DeleteCourse(context.Context, *DeleteCourseRequest) (*DeleteCourseReply, error)
+	UpdateCourse(context.Context, *UpdateCourseRequest) (*UpdateCourseReply, error)
 	CreateCourse(context.Context, *CreateCourseRequest) (*CreateCourseReply, error)
 	mustEmbedUnimplementedCourseServer()
 }
@@ -65,8 +109,20 @@ type CourseServer interface {
 type UnimplementedCourseServer struct {
 }
 
-func (UnimplementedCourseServer) SearchCourse(context.Context, *SearchCourseRequest) (*SearchCourseReply, error) {
+func (UnimplementedCourseServer) SearchCourse(context.Context, *SearchCoursesRequest) (*SearchCoursesReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchCourse not implemented")
+}
+func (UnimplementedCourseServer) GetCourse(context.Context, *GetCourseRequest) (*GetCourseReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCourse not implemented")
+}
+func (UnimplementedCourseServer) GetCourseDetail(context.Context, *GetCourseDetailRequest) (*GetCourseDetailReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCourseDetail not implemented")
+}
+func (UnimplementedCourseServer) DeleteCourse(context.Context, *DeleteCourseRequest) (*DeleteCourseReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCourse not implemented")
+}
+func (UnimplementedCourseServer) UpdateCourse(context.Context, *UpdateCourseRequest) (*UpdateCourseReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCourse not implemented")
 }
 func (UnimplementedCourseServer) CreateCourse(context.Context, *CreateCourseRequest) (*CreateCourseReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateCourse not implemented")
@@ -85,7 +141,7 @@ func RegisterCourseServer(s grpc.ServiceRegistrar, srv CourseServer) {
 }
 
 func _Course_SearchCourse_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SearchCourseRequest)
+	in := new(SearchCoursesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -97,7 +153,79 @@ func _Course_SearchCourse_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: "/teaching.v1.Course/SearchCourse",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CourseServer).SearchCourse(ctx, req.(*SearchCourseRequest))
+		return srv.(CourseServer).SearchCourse(ctx, req.(*SearchCoursesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Course_GetCourse_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCourseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CourseServer).GetCourse(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/teaching.v1.Course/GetCourse",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CourseServer).GetCourse(ctx, req.(*GetCourseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Course_GetCourseDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCourseDetailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CourseServer).GetCourseDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/teaching.v1.Course/GetCourseDetail",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CourseServer).GetCourseDetail(ctx, req.(*GetCourseDetailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Course_DeleteCourse_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCourseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CourseServer).DeleteCourse(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/teaching.v1.Course/DeleteCourse",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CourseServer).DeleteCourse(ctx, req.(*DeleteCourseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Course_UpdateCourse_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCourseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CourseServer).UpdateCourse(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/teaching.v1.Course/UpdateCourse",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CourseServer).UpdateCourse(ctx, req.(*UpdateCourseRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -130,6 +258,22 @@ var Course_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SearchCourse",
 			Handler:    _Course_SearchCourse_Handler,
+		},
+		{
+			MethodName: "GetCourse",
+			Handler:    _Course_GetCourse_Handler,
+		},
+		{
+			MethodName: "GetCourseDetail",
+			Handler:    _Course_GetCourseDetail_Handler,
+		},
+		{
+			MethodName: "DeleteCourse",
+			Handler:    _Course_DeleteCourse_Handler,
+		},
+		{
+			MethodName: "UpdateCourse",
+			Handler:    _Course_UpdateCourse_Handler,
 		},
 		{
 			MethodName: "CreateCourse",

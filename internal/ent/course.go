@@ -16,75 +16,98 @@ type Course struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// Name holds the value of the "name" field.
+	// 课程描述
 	Name string `json:"name,omitempty"`
-	// Desc holds the value of the "desc" field.
+	// 课程描述
 	Desc string `json:"desc,omitempty"`
-	// BackgroundImage holds the value of the "background_image" field.
-	BackgroundImage string `json:"background_image,omitempty"`
-	// IsDeleted holds the value of the "is_deleted" field.
+	// 课程图片
+	Image string `json:"image,omitempty"`
+	// 课程标签
+	Tags string `json:"tags,omitempty"`
+	// 课程分类
+	Classification string `json:"classification,omitempty"`
+	// 是否已删除
 	IsDeleted bool `json:"is_deleted,omitempty"`
-	// CreatedAt holds the value of the "created_at" field.
+	// 创建时间
 	CreatedAt time.Time `json:"created_at,omitempty"`
-	// UpdatedAt holds the value of the "updated_at" field.
+	// 更新时间
 	UpdatedAt time.Time `json:"updated_at,omitempty"`
-	// DeletedAt holds the value of the "deleted_at" field.
-	DeletedAt time.Time `json:"deleted_at,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the CourseQuery when eager-loading is set.
-	Edges                 CourseEdges `json:"edges"`
-	course_teacher_course *int
+	Edges CourseEdges `json:"edges"`
 }
 
 // CourseEdges holds the relations/edges for other nodes in the graph.
 type CourseEdges struct {
-	// CourseTeacher holds the value of the course_teacher edge.
-	CourseTeacher []*CourseTeacher `json:"course_teacher,omitempty"`
-	// CourseInfo holds the value of the course_info edge.
-	CourseInfo []*CourseInfo `json:"course_info,omitempty"`
-	// CourseChapter holds the value of the course_chapter edge.
-	CourseChapter []*CourseChapter `json:"course_chapter,omitempty"`
-	// CourseSection holds the value of the course_section edge.
-	CourseSection []*CourseSection `json:"course_section,omitempty"`
+	// Teachers holds the value of the teachers edge.
+	Teachers []*Teacher `json:"teachers,omitempty"`
+	// Infos holds the value of the infos edge.
+	Infos []*CourseInfo `json:"infos,omitempty"`
+	// Chapters holds the value of the chapters edge.
+	Chapters []*CourseChapter `json:"chapters,omitempty"`
+	// Sections holds the value of the sections edge.
+	Sections []*CourseSection `json:"sections,omitempty"`
+	// Swipers holds the value of the swipers edge.
+	Swipers []*CourseSwiper `json:"swipers,omitempty"`
+	// Users holds the value of the users edge.
+	Users []*User `json:"users,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [4]bool
+	loadedTypes [6]bool
 }
 
-// CourseTeacherOrErr returns the CourseTeacher value or an error if the edge
+// TeachersOrErr returns the Teachers value or an error if the edge
 // was not loaded in eager-loading.
-func (e CourseEdges) CourseTeacherOrErr() ([]*CourseTeacher, error) {
+func (e CourseEdges) TeachersOrErr() ([]*Teacher, error) {
 	if e.loadedTypes[0] {
-		return e.CourseTeacher, nil
+		return e.Teachers, nil
 	}
-	return nil, &NotLoadedError{edge: "course_teacher"}
+	return nil, &NotLoadedError{edge: "teachers"}
 }
 
-// CourseInfoOrErr returns the CourseInfo value or an error if the edge
+// InfosOrErr returns the Infos value or an error if the edge
 // was not loaded in eager-loading.
-func (e CourseEdges) CourseInfoOrErr() ([]*CourseInfo, error) {
+func (e CourseEdges) InfosOrErr() ([]*CourseInfo, error) {
 	if e.loadedTypes[1] {
-		return e.CourseInfo, nil
+		return e.Infos, nil
 	}
-	return nil, &NotLoadedError{edge: "course_info"}
+	return nil, &NotLoadedError{edge: "infos"}
 }
 
-// CourseChapterOrErr returns the CourseChapter value or an error if the edge
+// ChaptersOrErr returns the Chapters value or an error if the edge
 // was not loaded in eager-loading.
-func (e CourseEdges) CourseChapterOrErr() ([]*CourseChapter, error) {
+func (e CourseEdges) ChaptersOrErr() ([]*CourseChapter, error) {
 	if e.loadedTypes[2] {
-		return e.CourseChapter, nil
+		return e.Chapters, nil
 	}
-	return nil, &NotLoadedError{edge: "course_chapter"}
+	return nil, &NotLoadedError{edge: "chapters"}
 }
 
-// CourseSectionOrErr returns the CourseSection value or an error if the edge
+// SectionsOrErr returns the Sections value or an error if the edge
 // was not loaded in eager-loading.
-func (e CourseEdges) CourseSectionOrErr() ([]*CourseSection, error) {
+func (e CourseEdges) SectionsOrErr() ([]*CourseSection, error) {
 	if e.loadedTypes[3] {
-		return e.CourseSection, nil
+		return e.Sections, nil
 	}
-	return nil, &NotLoadedError{edge: "course_section"}
+	return nil, &NotLoadedError{edge: "sections"}
+}
+
+// SwipersOrErr returns the Swipers value or an error if the edge
+// was not loaded in eager-loading.
+func (e CourseEdges) SwipersOrErr() ([]*CourseSwiper, error) {
+	if e.loadedTypes[4] {
+		return e.Swipers, nil
+	}
+	return nil, &NotLoadedError{edge: "swipers"}
+}
+
+// UsersOrErr returns the Users value or an error if the edge
+// was not loaded in eager-loading.
+func (e CourseEdges) UsersOrErr() ([]*User, error) {
+	if e.loadedTypes[5] {
+		return e.Users, nil
+	}
+	return nil, &NotLoadedError{edge: "users"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -96,12 +119,10 @@ func (*Course) scanValues(columns []string) ([]interface{}, error) {
 			values[i] = new(sql.NullBool)
 		case course.FieldID:
 			values[i] = new(sql.NullInt64)
-		case course.FieldName, course.FieldDesc, course.FieldBackgroundImage:
+		case course.FieldName, course.FieldDesc, course.FieldImage, course.FieldTags, course.FieldClassification:
 			values[i] = new(sql.NullString)
-		case course.FieldCreatedAt, course.FieldUpdatedAt, course.FieldDeletedAt:
+		case course.FieldCreatedAt, course.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
-		case course.ForeignKeys[0]: // course_teacher_course
-			values[i] = new(sql.NullInt64)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type Course", columns[i])
 		}
@@ -135,11 +156,23 @@ func (c *Course) assignValues(columns []string, values []interface{}) error {
 			} else if value.Valid {
 				c.Desc = value.String
 			}
-		case course.FieldBackgroundImage:
+		case course.FieldImage:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field background_image", values[i])
+				return fmt.Errorf("unexpected type %T for field image", values[i])
 			} else if value.Valid {
-				c.BackgroundImage = value.String
+				c.Image = value.String
+			}
+		case course.FieldTags:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field tags", values[i])
+			} else if value.Valid {
+				c.Tags = value.String
+			}
+		case course.FieldClassification:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field classification", values[i])
+			} else if value.Valid {
+				c.Classification = value.String
 			}
 		case course.FieldIsDeleted:
 			if value, ok := values[i].(*sql.NullBool); !ok {
@@ -159,42 +192,39 @@ func (c *Course) assignValues(columns []string, values []interface{}) error {
 			} else if value.Valid {
 				c.UpdatedAt = value.Time
 			}
-		case course.FieldDeletedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field deleted_at", values[i])
-			} else if value.Valid {
-				c.DeletedAt = value.Time
-			}
-		case course.ForeignKeys[0]:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field course_teacher_course", value)
-			} else if value.Valid {
-				c.course_teacher_course = new(int)
-				*c.course_teacher_course = int(value.Int64)
-			}
 		}
 	}
 	return nil
 }
 
-// QueryCourseTeacher queries the "course_teacher" edge of the Course entity.
-func (c *Course) QueryCourseTeacher() *CourseTeacherQuery {
-	return (&CourseClient{config: c.config}).QueryCourseTeacher(c)
+// QueryTeachers queries the "teachers" edge of the Course entity.
+func (c *Course) QueryTeachers() *TeacherQuery {
+	return (&CourseClient{config: c.config}).QueryTeachers(c)
 }
 
-// QueryCourseInfo queries the "course_info" edge of the Course entity.
-func (c *Course) QueryCourseInfo() *CourseInfoQuery {
-	return (&CourseClient{config: c.config}).QueryCourseInfo(c)
+// QueryInfos queries the "infos" edge of the Course entity.
+func (c *Course) QueryInfos() *CourseInfoQuery {
+	return (&CourseClient{config: c.config}).QueryInfos(c)
 }
 
-// QueryCourseChapter queries the "course_chapter" edge of the Course entity.
-func (c *Course) QueryCourseChapter() *CourseChapterQuery {
-	return (&CourseClient{config: c.config}).QueryCourseChapter(c)
+// QueryChapters queries the "chapters" edge of the Course entity.
+func (c *Course) QueryChapters() *CourseChapterQuery {
+	return (&CourseClient{config: c.config}).QueryChapters(c)
 }
 
-// QueryCourseSection queries the "course_section" edge of the Course entity.
-func (c *Course) QueryCourseSection() *CourseSectionQuery {
-	return (&CourseClient{config: c.config}).QueryCourseSection(c)
+// QuerySections queries the "sections" edge of the Course entity.
+func (c *Course) QuerySections() *CourseSectionQuery {
+	return (&CourseClient{config: c.config}).QuerySections(c)
+}
+
+// QuerySwipers queries the "swipers" edge of the Course entity.
+func (c *Course) QuerySwipers() *CourseSwiperQuery {
+	return (&CourseClient{config: c.config}).QuerySwipers(c)
+}
+
+// QueryUsers queries the "users" edge of the Course entity.
+func (c *Course) QueryUsers() *UserQuery {
+	return (&CourseClient{config: c.config}).QueryUsers(c)
 }
 
 // Update returns a builder for updating this Course.
@@ -226,8 +256,14 @@ func (c *Course) String() string {
 	builder.WriteString("desc=")
 	builder.WriteString(c.Desc)
 	builder.WriteString(", ")
-	builder.WriteString("background_image=")
-	builder.WriteString(c.BackgroundImage)
+	builder.WriteString("image=")
+	builder.WriteString(c.Image)
+	builder.WriteString(", ")
+	builder.WriteString("tags=")
+	builder.WriteString(c.Tags)
+	builder.WriteString(", ")
+	builder.WriteString("classification=")
+	builder.WriteString(c.Classification)
 	builder.WriteString(", ")
 	builder.WriteString("is_deleted=")
 	builder.WriteString(fmt.Sprintf("%v", c.IsDeleted))
@@ -237,9 +273,6 @@ func (c *Course) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
 	builder.WriteString(c.UpdatedAt.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("deleted_at=")
-	builder.WriteString(c.DeletedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

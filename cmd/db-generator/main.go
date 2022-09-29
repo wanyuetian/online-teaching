@@ -3,9 +3,10 @@ package main
 import (
 	"context"
 	"log"
-	"online-teaching/internal/ent"
 
 	_ "github.com/go-sql-driver/mysql"
+
+	"online-teaching/internal/ent"
 )
 
 func main() {

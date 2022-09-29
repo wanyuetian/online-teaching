@@ -10,7 +10,9 @@ import (
 	"online-teaching/internal/ent/coursechapter"
 	"online-teaching/internal/ent/courseinfo"
 	"online-teaching/internal/ent/coursesection"
-	"online-teaching/internal/ent/courseteacher"
+	"online-teaching/internal/ent/courseswiper"
+	"online-teaching/internal/ent/teacher"
+	"online-teaching/internal/ent/user"
 	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -36,9 +38,21 @@ func (cc *CourseCreate) SetDesc(s string) *CourseCreate {
 	return cc
 }
 
-// SetBackgroundImage sets the "background_image" field.
-func (cc *CourseCreate) SetBackgroundImage(s string) *CourseCreate {
-	cc.mutation.SetBackgroundImage(s)
+// SetImage sets the "image" field.
+func (cc *CourseCreate) SetImage(s string) *CourseCreate {
+	cc.mutation.SetImage(s)
+	return cc
+}
+
+// SetTags sets the "tags" field.
+func (cc *CourseCreate) SetTags(s string) *CourseCreate {
+	cc.mutation.SetTags(s)
+	return cc
+}
+
+// SetClassification sets the "classification" field.
+func (cc *CourseCreate) SetClassification(s string) *CourseCreate {
+	cc.mutation.SetClassification(s)
 	return cc
 }
 
@@ -84,70 +98,94 @@ func (cc *CourseCreate) SetNillableUpdatedAt(t *time.Time) *CourseCreate {
 	return cc
 }
 
-// SetDeletedAt sets the "deleted_at" field.
-func (cc *CourseCreate) SetDeletedAt(t time.Time) *CourseCreate {
-	cc.mutation.SetDeletedAt(t)
+// AddTeacherIDs adds the "teachers" edge to the Teacher entity by IDs.
+func (cc *CourseCreate) AddTeacherIDs(ids ...int) *CourseCreate {
+	cc.mutation.AddTeacherIDs(ids...)
 	return cc
 }
 
-// AddCourseTeacherIDs adds the "course_teacher" edge to the CourseTeacher entity by IDs.
-func (cc *CourseCreate) AddCourseTeacherIDs(ids ...int) *CourseCreate {
-	cc.mutation.AddCourseTeacherIDs(ids...)
+// AddTeachers adds the "teachers" edges to the Teacher entity.
+func (cc *CourseCreate) AddTeachers(t ...*Teacher) *CourseCreate {
+	ids := make([]int, len(t))
+	for i := range t {
+		ids[i] = t[i].ID
+	}
+	return cc.AddTeacherIDs(ids...)
+}
+
+// AddInfoIDs adds the "infos" edge to the CourseInfo entity by IDs.
+func (cc *CourseCreate) AddInfoIDs(ids ...int) *CourseCreate {
+	cc.mutation.AddInfoIDs(ids...)
 	return cc
 }
 
-// AddCourseTeacher adds the "course_teacher" edges to the CourseTeacher entity.
-func (cc *CourseCreate) AddCourseTeacher(c ...*CourseTeacher) *CourseCreate {
+// AddInfos adds the "infos" edges to the CourseInfo entity.
+func (cc *CourseCreate) AddInfos(c ...*CourseInfo) *CourseCreate {
 	ids := make([]int, len(c))
 	for i := range c {
 		ids[i] = c[i].ID
 	}
-	return cc.AddCourseTeacherIDs(ids...)
+	return cc.AddInfoIDs(ids...)
 }
 
-// AddCourseInfoIDs adds the "course_info" edge to the CourseInfo entity by IDs.
-func (cc *CourseCreate) AddCourseInfoIDs(ids ...int) *CourseCreate {
-	cc.mutation.AddCourseInfoIDs(ids...)
+// AddChapterIDs adds the "chapters" edge to the CourseChapter entity by IDs.
+func (cc *CourseCreate) AddChapterIDs(ids ...int) *CourseCreate {
+	cc.mutation.AddChapterIDs(ids...)
 	return cc
 }
 
-// AddCourseInfo adds the "course_info" edges to the CourseInfo entity.
-func (cc *CourseCreate) AddCourseInfo(c ...*CourseInfo) *CourseCreate {
+// AddChapters adds the "chapters" edges to the CourseChapter entity.
+func (cc *CourseCreate) AddChapters(c ...*CourseChapter) *CourseCreate {
 	ids := make([]int, len(c))
 	for i := range c {
 		ids[i] = c[i].ID
 	}
-	return cc.AddCourseInfoIDs(ids...)
+	return cc.AddChapterIDs(ids...)
 }
 
-// AddCourseChapterIDs adds the "course_chapter" edge to the CourseChapter entity by IDs.
-func (cc *CourseCreate) AddCourseChapterIDs(ids ...int) *CourseCreate {
-	cc.mutation.AddCourseChapterIDs(ids...)
+// AddSectionIDs adds the "sections" edge to the CourseSection entity by IDs.
+func (cc *CourseCreate) AddSectionIDs(ids ...int) *CourseCreate {
+	cc.mutation.AddSectionIDs(ids...)
 	return cc
 }
 
-// AddCourseChapter adds the "course_chapter" edges to the CourseChapter entity.
-func (cc *CourseCreate) AddCourseChapter(c ...*CourseChapter) *CourseCreate {
+// AddSections adds the "sections" edges to the CourseSection entity.
+func (cc *CourseCreate) AddSections(c ...*CourseSection) *CourseCreate {
 	ids := make([]int, len(c))
 	for i := range c {
 		ids[i] = c[i].ID
 	}
-	return cc.AddCourseChapterIDs(ids...)
+	return cc.AddSectionIDs(ids...)
 }
 
-// AddCourseSectionIDs adds the "course_section" edge to the CourseSection entity by IDs.
-func (cc *CourseCreate) AddCourseSectionIDs(ids ...int) *CourseCreate {
-	cc.mutation.AddCourseSectionIDs(ids...)
+// AddSwiperIDs adds the "swipers" edge to the CourseSwiper entity by IDs.
+func (cc *CourseCreate) AddSwiperIDs(ids ...int) *CourseCreate {
+	cc.mutation.AddSwiperIDs(ids...)
 	return cc
 }
 
-// AddCourseSection adds the "course_section" edges to the CourseSection entity.
-func (cc *CourseCreate) AddCourseSection(c ...*CourseSection) *CourseCreate {
+// AddSwipers adds the "swipers" edges to the CourseSwiper entity.
+func (cc *CourseCreate) AddSwipers(c ...*CourseSwiper) *CourseCreate {
 	ids := make([]int, len(c))
 	for i := range c {
 		ids[i] = c[i].ID
 	}
-	return cc.AddCourseSectionIDs(ids...)
+	return cc.AddSwiperIDs(ids...)
+}
+
+// AddUserIDs adds the "users" edge to the User entity by IDs.
+func (cc *CourseCreate) AddUserIDs(ids ...int) *CourseCreate {
+	cc.mutation.AddUserIDs(ids...)
+	return cc
+}
+
+// AddUsers adds the "users" edges to the User entity.
+func (cc *CourseCreate) AddUsers(u ...*User) *CourseCreate {
+	ids := make([]int, len(u))
+	for i := range u {
+		ids[i] = u[i].ID
+	}
+	return cc.AddUserIDs(ids...)
 }
 
 // Mutation returns the CourseMutation object of the builder.
@@ -254,8 +292,14 @@ func (cc *CourseCreate) check() error {
 	if _, ok := cc.mutation.Desc(); !ok {
 		return &ValidationError{Name: "desc", err: errors.New(`ent: missing required field "Course.desc"`)}
 	}
-	if _, ok := cc.mutation.BackgroundImage(); !ok {
-		return &ValidationError{Name: "background_image", err: errors.New(`ent: missing required field "Course.background_image"`)}
+	if _, ok := cc.mutation.Image(); !ok {
+		return &ValidationError{Name: "image", err: errors.New(`ent: missing required field "Course.image"`)}
+	}
+	if _, ok := cc.mutation.Tags(); !ok {
+		return &ValidationError{Name: "tags", err: errors.New(`ent: missing required field "Course.tags"`)}
+	}
+	if _, ok := cc.mutation.Classification(); !ok {
+		return &ValidationError{Name: "classification", err: errors.New(`ent: missing required field "Course.classification"`)}
 	}
 	if _, ok := cc.mutation.IsDeleted(); !ok {
 		return &ValidationError{Name: "is_deleted", err: errors.New(`ent: missing required field "Course.is_deleted"`)}
@@ -265,9 +309,6 @@ func (cc *CourseCreate) check() error {
 	}
 	if _, ok := cc.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "Course.updated_at"`)}
-	}
-	if _, ok := cc.mutation.DeletedAt(); !ok {
-		return &ValidationError{Name: "deleted_at", err: errors.New(`ent: missing required field "Course.deleted_at"`)}
 	}
 	return nil
 }
@@ -312,13 +353,29 @@ func (cc *CourseCreate) createSpec() (*Course, *sqlgraph.CreateSpec) {
 		})
 		_node.Desc = value
 	}
-	if value, ok := cc.mutation.BackgroundImage(); ok {
+	if value, ok := cc.mutation.Image(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
-			Column: course.FieldBackgroundImage,
+			Column: course.FieldImage,
 		})
-		_node.BackgroundImage = value
+		_node.Image = value
+	}
+	if value, ok := cc.mutation.Tags(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: course.FieldTags,
+		})
+		_node.Tags = value
+	}
+	if value, ok := cc.mutation.Classification(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: course.FieldClassification,
+		})
+		_node.Classification = value
 	}
 	if value, ok := cc.mutation.IsDeleted(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -344,25 +401,17 @@ func (cc *CourseCreate) createSpec() (*Course, *sqlgraph.CreateSpec) {
 		})
 		_node.UpdatedAt = value
 	}
-	if value, ok := cc.mutation.DeletedAt(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeTime,
-			Value:  value,
-			Column: course.FieldDeletedAt,
-		})
-		_node.DeletedAt = value
-	}
-	if nodes := cc.mutation.CourseTeacherIDs(); len(nodes) > 0 {
+	if nodes := cc.mutation.TeachersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   course.CourseTeacherTable,
-			Columns: []string{course.CourseTeacherColumn},
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   course.TeachersTable,
+			Columns: course.TeachersPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: courseteacher.FieldID,
+					Column: teacher.FieldID,
 				},
 			},
 		}
@@ -371,12 +420,12 @@ func (cc *CourseCreate) createSpec() (*Course, *sqlgraph.CreateSpec) {
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := cc.mutation.CourseInfoIDs(); len(nodes) > 0 {
+	if nodes := cc.mutation.InfosIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   course.CourseInfoTable,
-			Columns: []string{course.CourseInfoColumn},
+			Table:   course.InfosTable,
+			Columns: []string{course.InfosColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -390,12 +439,12 @@ func (cc *CourseCreate) createSpec() (*Course, *sqlgraph.CreateSpec) {
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := cc.mutation.CourseChapterIDs(); len(nodes) > 0 {
+	if nodes := cc.mutation.ChaptersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   course.CourseChapterTable,
-			Columns: []string{course.CourseChapterColumn},
+			Table:   course.ChaptersTable,
+			Columns: []string{course.ChaptersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -409,17 +458,55 @@ func (cc *CourseCreate) createSpec() (*Course, *sqlgraph.CreateSpec) {
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := cc.mutation.CourseSectionIDs(); len(nodes) > 0 {
+	if nodes := cc.mutation.SectionsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   course.CourseSectionTable,
-			Columns: []string{course.CourseSectionColumn},
+			Table:   course.SectionsTable,
+			Columns: []string{course.SectionsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
 					Column: coursesection.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := cc.mutation.SwipersIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   course.SwipersTable,
+			Columns: []string{course.SwipersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: courseswiper.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := cc.mutation.UsersIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   course.UsersTable,
+			Columns: course.UsersPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: user.FieldID,
 				},
 			},
 		}

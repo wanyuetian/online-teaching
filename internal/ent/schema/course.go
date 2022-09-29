@@ -15,22 +15,25 @@ type Course struct {
 // Fields of the Course.
 func (Course) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("name").NotEmpty().Unique(),
-		field.String("desc"),
-		field.String("background_image"),
-		field.Bool("is_deleted").Default(false),
-		field.Time("created_at").Default(time.Now),
-		field.Time("updated_at").Default(time.Now).UpdateDefault(time.Now),
-		field.Time("deleted_at"),
+		field.String("name").NotEmpty().Unique().Comment("课程描述"),
+		field.String("desc").Comment("课程描述"),
+		field.String("image").Comment("课程图片"),
+		field.String("tags").Comment("课程标签"),
+		field.String("classification").Comment("课程分类"),
+		field.Bool("is_deleted").Default(false).Comment("是否已删除"),
+		field.Time("created_at").Default(time.Now).Comment("创建时间"),
+		field.Time("updated_at").Default(time.Now).UpdateDefault(time.Now).Comment("更新时间"),
 	}
 }
 
 // Edges of the Course.
 func (Course) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("course_teacher", CourseTeacher.Type),
-		edge.To("course_info", CourseInfo.Type),
-		edge.To("course_chapter", CourseChapter.Type),
-		edge.To("course_section", CourseSection.Type),
+		edge.From("teachers", Teacher.Type).Ref("courses"),
+		edge.To("infos", CourseInfo.Type),
+		edge.To("chapters", CourseChapter.Type),
+		edge.To("sections", CourseSection.Type),
+		edge.To("swipers", CourseSwiper.Type),
+		edge.From("users", User.Type).Ref("courses"),
 	}
 }

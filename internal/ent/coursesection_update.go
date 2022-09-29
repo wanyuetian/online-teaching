@@ -88,12 +88,6 @@ func (csu *CourseSectionUpdate) SetUpdatedAt(t time.Time) *CourseSectionUpdate {
 	return csu
 }
 
-// SetDeletedAt sets the "deleted_at" field.
-func (csu *CourseSectionUpdate) SetDeletedAt(t time.Time) *CourseSectionUpdate {
-	csu.mutation.SetDeletedAt(t)
-	return csu
-}
-
 // Mutation returns the CourseSectionMutation object of the builder.
 func (csu *CourseSectionUpdate) Mutation() *CourseSectionMutation {
 	return csu.mutation
@@ -238,13 +232,6 @@ func (csu *CourseSectionUpdate) sqlSave(ctx context.Context) (n int, err error) 
 			Column: coursesection.FieldUpdatedAt,
 		})
 	}
-	if value, ok := csu.mutation.DeletedAt(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeTime,
-			Value:  value,
-			Column: coursesection.FieldDeletedAt,
-		})
-	}
 	if n, err = sqlgraph.UpdateNodes(ctx, csu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{coursesection.Label}
@@ -321,12 +308,6 @@ func (csuo *CourseSectionUpdateOne) SetNillableCreatedAt(t *time.Time) *CourseSe
 // SetUpdatedAt sets the "updated_at" field.
 func (csuo *CourseSectionUpdateOne) SetUpdatedAt(t time.Time) *CourseSectionUpdateOne {
 	csuo.mutation.SetUpdatedAt(t)
-	return csuo
-}
-
-// SetDeletedAt sets the "deleted_at" field.
-func (csuo *CourseSectionUpdateOne) SetDeletedAt(t time.Time) *CourseSectionUpdateOne {
-	csuo.mutation.SetDeletedAt(t)
 	return csuo
 }
 
@@ -502,13 +483,6 @@ func (csuo *CourseSectionUpdateOne) sqlSave(ctx context.Context) (_node *CourseS
 			Type:   field.TypeTime,
 			Value:  value,
 			Column: coursesection.FieldUpdatedAt,
-		})
-	}
-	if value, ok := csuo.mutation.DeletedAt(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeTime,
-			Value:  value,
-			Column: coursesection.FieldDeletedAt,
 		})
 	}
 	_node = &CourseSection{config: csuo.config}

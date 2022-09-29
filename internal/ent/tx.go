@@ -16,12 +16,18 @@ type Tx struct {
 	Course *CourseClient
 	// CourseChapter is the client for interacting with the CourseChapter builders.
 	CourseChapter *CourseChapterClient
+	// CourseComment is the client for interacting with the CourseComment builders.
+	CourseComment *CourseCommentClient
 	// CourseInfo is the client for interacting with the CourseInfo builders.
 	CourseInfo *CourseInfoClient
 	// CourseSection is the client for interacting with the CourseSection builders.
 	CourseSection *CourseSectionClient
-	// CourseTeacher is the client for interacting with the CourseTeacher builders.
-	CourseTeacher *CourseTeacherClient
+	// CourseSwiper is the client for interacting with the CourseSwiper builders.
+	CourseSwiper *CourseSwiperClient
+	// Teacher is the client for interacting with the Teacher builders.
+	Teacher *TeacherClient
+	// User is the client for interacting with the User builders.
+	User *UserClient
 
 	// lazily loaded.
 	client     *Client
@@ -159,9 +165,12 @@ func (tx *Tx) Client() *Client {
 func (tx *Tx) init() {
 	tx.Course = NewCourseClient(tx.config)
 	tx.CourseChapter = NewCourseChapterClient(tx.config)
+	tx.CourseComment = NewCourseCommentClient(tx.config)
 	tx.CourseInfo = NewCourseInfoClient(tx.config)
 	tx.CourseSection = NewCourseSectionClient(tx.config)
-	tx.CourseTeacher = NewCourseTeacherClient(tx.config)
+	tx.CourseSwiper = NewCourseSwiperClient(tx.config)
+	tx.Teacher = NewTeacherClient(tx.config)
+	tx.User = NewUserClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.

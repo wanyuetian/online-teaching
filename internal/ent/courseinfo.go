@@ -16,29 +16,31 @@ type CourseInfo struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// ClickCount holds the value of the "click_count" field.
+	// 课程点击量
 	ClickCount int `json:"click_count,omitempty"`
-	// LearnCount holds the value of the "learn_count" field.
+	// 课程学习人数
 	LearnCount int `json:"learn_count,omitempty"`
-	// TotalDuration holds the value of the "total_duration" field.
+	// 课程总时长
 	TotalDuration int `json:"total_duration,omitempty"`
-	// SectionCount holds the value of the "section_count" field.
+	// 课程小节数
 	SectionCount int `json:"section_count,omitempty"`
-	// Price holds the value of the "price" field.
+	// 课程价格
 	Price float64 `json:"price,omitempty"`
-	// Detail holds the value of the "detail" field.
+	// 课程详细描述
 	Detail string `json:"detail,omitempty"`
-	// State holds the value of the "state" field.
-	State string `json:"state,omitempty"`
+	// 课程状态
+	State int `json:"state,omitempty"`
+	// 序号
+	Order int `json:"order,omitempty"`
+	// 是否精品
+	IsQuality bool `json:"is_quality,omitempty"`
 	// IsDeleted holds the value of the "is_deleted" field.
 	IsDeleted bool `json:"is_deleted,omitempty"`
 	// CreatedAt holds the value of the "created_at" field.
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	// UpdatedAt holds the value of the "updated_at" field.
-	UpdatedAt time.Time `json:"updated_at,omitempty"`
-	// DeletedAt holds the value of the "deleted_at" field.
-	DeletedAt          time.Time `json:"deleted_at,omitempty"`
-	course_course_info *int
+	UpdatedAt    time.Time `json:"updated_at,omitempty"`
+	course_infos *int
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -46,17 +48,17 @@ func (*CourseInfo) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case courseinfo.FieldIsDeleted:
+		case courseinfo.FieldIsQuality, courseinfo.FieldIsDeleted:
 			values[i] = new(sql.NullBool)
 		case courseinfo.FieldPrice:
 			values[i] = new(sql.NullFloat64)
-		case courseinfo.FieldID, courseinfo.FieldClickCount, courseinfo.FieldLearnCount, courseinfo.FieldTotalDuration, courseinfo.FieldSectionCount:
+		case courseinfo.FieldID, courseinfo.FieldClickCount, courseinfo.FieldLearnCount, courseinfo.FieldTotalDuration, courseinfo.FieldSectionCount, courseinfo.FieldState, courseinfo.FieldOrder:
 			values[i] = new(sql.NullInt64)
-		case courseinfo.FieldDetail, courseinfo.FieldState:
+		case courseinfo.FieldDetail:
 			values[i] = new(sql.NullString)
-		case courseinfo.FieldCreatedAt, courseinfo.FieldUpdatedAt, courseinfo.FieldDeletedAt:
+		case courseinfo.FieldCreatedAt, courseinfo.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
-		case courseinfo.ForeignKeys[0]: // course_course_info
+		case courseinfo.ForeignKeys[0]: // course_infos
 			values[i] = new(sql.NullInt64)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type CourseInfo", columns[i])
@@ -116,10 +118,22 @@ func (ci *CourseInfo) assignValues(columns []string, values []interface{}) error
 				ci.Detail = value.String
 			}
 		case courseinfo.FieldState:
-			if value, ok := values[i].(*sql.NullString); !ok {
+			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field state", values[i])
 			} else if value.Valid {
-				ci.State = value.String
+				ci.State = int(value.Int64)
+			}
+		case courseinfo.FieldOrder:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field order", values[i])
+			} else if value.Valid {
+				ci.Order = int(value.Int64)
+			}
+		case courseinfo.FieldIsQuality:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field is_quality", values[i])
+			} else if value.Valid {
+				ci.IsQuality = value.Bool
 			}
 		case courseinfo.FieldIsDeleted:
 			if value, ok := values[i].(*sql.NullBool); !ok {
@@ -139,18 +153,12 @@ func (ci *CourseInfo) assignValues(columns []string, values []interface{}) error
 			} else if value.Valid {
 				ci.UpdatedAt = value.Time
 			}
-		case courseinfo.FieldDeletedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field deleted_at", values[i])
-			} else if value.Valid {
-				ci.DeletedAt = value.Time
-			}
 		case courseinfo.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field course_course_info", value)
+				return fmt.Errorf("unexpected type %T for edge-field course_infos", value)
 			} else if value.Valid {
-				ci.course_course_info = new(int)
-				*ci.course_course_info = int(value.Int64)
+				ci.course_infos = new(int)
+				*ci.course_infos = int(value.Int64)
 			}
 		}
 	}
@@ -199,7 +207,13 @@ func (ci *CourseInfo) String() string {
 	builder.WriteString(ci.Detail)
 	builder.WriteString(", ")
 	builder.WriteString("state=")
-	builder.WriteString(ci.State)
+	builder.WriteString(fmt.Sprintf("%v", ci.State))
+	builder.WriteString(", ")
+	builder.WriteString("order=")
+	builder.WriteString(fmt.Sprintf("%v", ci.Order))
+	builder.WriteString(", ")
+	builder.WriteString("is_quality=")
+	builder.WriteString(fmt.Sprintf("%v", ci.IsQuality))
 	builder.WriteString(", ")
 	builder.WriteString("is_deleted=")
 	builder.WriteString(fmt.Sprintf("%v", ci.IsDeleted))
@@ -209,9 +223,6 @@ func (ci *CourseInfo) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
 	builder.WriteString(ci.UpdatedAt.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("deleted_at=")
-	builder.WriteString(ci.DeletedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

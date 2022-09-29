@@ -21,7 +21,145 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type SearchCourseRequest struct {
+type GetCourseDetailReply_Course_State int32
+
+const (
+	GetCourseDetailReply_Course_OFF GetCourseDetailReply_Course_State = 0
+	GetCourseDetailReply_Course_ON  GetCourseDetailReply_Course_State = 1
+)
+
+// Enum value maps for GetCourseDetailReply_Course_State.
+var (
+	GetCourseDetailReply_Course_State_name = map[int32]string{
+		0: "OFF",
+		1: "ON",
+	}
+	GetCourseDetailReply_Course_State_value = map[string]int32{
+		"OFF": 0,
+		"ON":  1,
+	}
+)
+
+func (x GetCourseDetailReply_Course_State) Enum() *GetCourseDetailReply_Course_State {
+	p := new(GetCourseDetailReply_Course_State)
+	*p = x
+	return p
+}
+
+func (x GetCourseDetailReply_Course_State) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (GetCourseDetailReply_Course_State) Descriptor() protoreflect.EnumDescriptor {
+	return file_teaching_v1_course_proto_enumTypes[0].Descriptor()
+}
+
+func (GetCourseDetailReply_Course_State) Type() protoreflect.EnumType {
+	return &file_teaching_v1_course_proto_enumTypes[0]
+}
+
+func (x GetCourseDetailReply_Course_State) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use GetCourseDetailReply_Course_State.Descriptor instead.
+func (GetCourseDetailReply_Course_State) EnumDescriptor() ([]byte, []int) {
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{5, 1, 0}
+}
+
+type CreateCourseRequest_State int32
+
+const (
+	CreateCourseRequest_OFF CreateCourseRequest_State = 0
+	CreateCourseRequest_ON  CreateCourseRequest_State = 1
+)
+
+// Enum value maps for CreateCourseRequest_State.
+var (
+	CreateCourseRequest_State_name = map[int32]string{
+		0: "OFF",
+		1: "ON",
+	}
+	CreateCourseRequest_State_value = map[string]int32{
+		"OFF": 0,
+		"ON":  1,
+	}
+)
+
+func (x CreateCourseRequest_State) Enum() *CreateCourseRequest_State {
+	p := new(CreateCourseRequest_State)
+	*p = x
+	return p
+}
+
+func (x CreateCourseRequest_State) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (CreateCourseRequest_State) Descriptor() protoreflect.EnumDescriptor {
+	return file_teaching_v1_course_proto_enumTypes[1].Descriptor()
+}
+
+func (CreateCourseRequest_State) Type() protoreflect.EnumType {
+	return &file_teaching_v1_course_proto_enumTypes[1]
+}
+
+func (x CreateCourseRequest_State) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use CreateCourseRequest_State.Descriptor instead.
+func (CreateCourseRequest_State) EnumDescriptor() ([]byte, []int) {
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{8, 0}
+}
+
+type CreateCourseReply_Data_State int32
+
+const (
+	CreateCourseReply_Data_OFF CreateCourseReply_Data_State = 0
+	CreateCourseReply_Data_ON  CreateCourseReply_Data_State = 1
+)
+
+// Enum value maps for CreateCourseReply_Data_State.
+var (
+	CreateCourseReply_Data_State_name = map[int32]string{
+		0: "OFF",
+		1: "ON",
+	}
+	CreateCourseReply_Data_State_value = map[string]int32{
+		"OFF": 0,
+		"ON":  1,
+	}
+)
+
+func (x CreateCourseReply_Data_State) Enum() *CreateCourseReply_Data_State {
+	p := new(CreateCourseReply_Data_State)
+	*p = x
+	return p
+}
+
+func (x CreateCourseReply_Data_State) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (CreateCourseReply_Data_State) Descriptor() protoreflect.EnumDescriptor {
+	return file_teaching_v1_course_proto_enumTypes[2].Descriptor()
+}
+
+func (CreateCourseReply_Data_State) Type() protoreflect.EnumType {
+	return &file_teaching_v1_course_proto_enumTypes[2]
+}
+
+func (x CreateCourseReply_Data_State) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use CreateCourseReply_Data_State.Descriptor instead.
+func (CreateCourseReply_Data_State) EnumDescriptor() ([]byte, []int) {
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{9, 0, 0}
+}
+
+type SearchCoursesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -29,8 +167,8 @@ type SearchCourseRequest struct {
 	Keyword string `protobuf:"bytes,1,opt,name=keyword,proto3" json:"keyword,omitempty"`
 }
 
-func (x *SearchCourseRequest) Reset() {
-	*x = SearchCourseRequest{}
+func (x *SearchCoursesRequest) Reset() {
+	*x = SearchCoursesRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_teaching_v1_course_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -38,13 +176,13 @@ func (x *SearchCourseRequest) Reset() {
 	}
 }
 
-func (x *SearchCourseRequest) String() string {
+func (x *SearchCoursesRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*SearchCourseRequest) ProtoMessage() {}
+func (*SearchCoursesRequest) ProtoMessage() {}
 
-func (x *SearchCourseRequest) ProtoReflect() protoreflect.Message {
+func (x *SearchCoursesRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_teaching_v1_course_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -56,30 +194,30 @@ func (x *SearchCourseRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SearchCourseRequest.ProtoReflect.Descriptor instead.
-func (*SearchCourseRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use SearchCoursesRequest.ProtoReflect.Descriptor instead.
+func (*SearchCoursesRequest) Descriptor() ([]byte, []int) {
 	return file_teaching_v1_course_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *SearchCourseRequest) GetKeyword() string {
+func (x *SearchCoursesRequest) GetKeyword() string {
 	if x != nil {
 		return x.Keyword
 	}
 	return ""
 }
 
-type SearchCourseReply struct {
+type SearchCoursesReply struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Data    *SearchCourseReply_Data `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
-	Code    int32                   `protobuf:"varint,2,opt,name=code,proto3" json:"code,omitempty"`
-	Message string                  `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	Data    *SearchCoursesReply_Data `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
+	Code    int32                    `protobuf:"varint,2,opt,name=code,proto3" json:"code,omitempty"`
+	Message string                   `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
 }
 
-func (x *SearchCourseReply) Reset() {
-	*x = SearchCourseReply{}
+func (x *SearchCoursesReply) Reset() {
+	*x = SearchCoursesReply{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_teaching_v1_course_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -87,13 +225,13 @@ func (x *SearchCourseReply) Reset() {
 	}
 }
 
-func (x *SearchCourseReply) String() string {
+func (x *SearchCoursesReply) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*SearchCourseReply) ProtoMessage() {}
+func (*SearchCoursesReply) ProtoMessage() {}
 
-func (x *SearchCourseReply) ProtoReflect() protoreflect.Message {
+func (x *SearchCoursesReply) ProtoReflect() protoreflect.Message {
 	mi := &file_teaching_v1_course_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -105,26 +243,356 @@ func (x *SearchCourseReply) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SearchCourseReply.ProtoReflect.Descriptor instead.
-func (*SearchCourseReply) Descriptor() ([]byte, []int) {
+// Deprecated: Use SearchCoursesReply.ProtoReflect.Descriptor instead.
+func (*SearchCoursesReply) Descriptor() ([]byte, []int) {
 	return file_teaching_v1_course_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *SearchCourseReply) GetData() *SearchCourseReply_Data {
+func (x *SearchCoursesReply) GetData() *SearchCoursesReply_Data {
 	if x != nil {
 		return x.Data
 	}
 	return nil
 }
 
-func (x *SearchCourseReply) GetCode() int32 {
+func (x *SearchCoursesReply) GetCode() int32 {
 	if x != nil {
 		return x.Code
 	}
 	return 0
 }
 
-func (x *SearchCourseReply) GetMessage() string {
+func (x *SearchCoursesReply) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+type GetCourseRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	CourseId int32 `protobuf:"varint,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+}
+
+func (x *GetCourseRequest) Reset() {
+	*x = GetCourseRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_teaching_v1_course_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetCourseRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCourseRequest) ProtoMessage() {}
+
+func (x *GetCourseRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_teaching_v1_course_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCourseRequest.ProtoReflect.Descriptor instead.
+func (*GetCourseRequest) Descriptor() ([]byte, []int) {
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetCourseRequest) GetCourseId() int32 {
+	if x != nil {
+		return x.CourseId
+	}
+	return 0
+}
+
+type GetCourseReply struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Data    *GetCourseReply_Data `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
+	Code    int32                `protobuf:"varint,2,opt,name=code,proto3" json:"code,omitempty"`
+	Message string               `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+}
+
+func (x *GetCourseReply) Reset() {
+	*x = GetCourseReply{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_teaching_v1_course_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetCourseReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCourseReply) ProtoMessage() {}
+
+func (x *GetCourseReply) ProtoReflect() protoreflect.Message {
+	mi := &file_teaching_v1_course_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCourseReply.ProtoReflect.Descriptor instead.
+func (*GetCourseReply) Descriptor() ([]byte, []int) {
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetCourseReply) GetData() *GetCourseReply_Data {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetCourseReply) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *GetCourseReply) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+type GetCourseDetailRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	CourseId int32 `protobuf:"varint,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+}
+
+func (x *GetCourseDetailRequest) Reset() {
+	*x = GetCourseDetailRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_teaching_v1_course_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetCourseDetailRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCourseDetailRequest) ProtoMessage() {}
+
+func (x *GetCourseDetailRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_teaching_v1_course_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCourseDetailRequest.ProtoReflect.Descriptor instead.
+func (*GetCourseDetailRequest) Descriptor() ([]byte, []int) {
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetCourseDetailRequest) GetCourseId() int32 {
+	if x != nil {
+		return x.CourseId
+	}
+	return 0
+}
+
+type GetCourseDetailReply struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Data    *GetCourseDetailReply_Data `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
+	Code    int32                      `protobuf:"varint,2,opt,name=code,proto3" json:"code,omitempty"`
+	Message string                     `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+}
+
+func (x *GetCourseDetailReply) Reset() {
+	*x = GetCourseDetailReply{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_teaching_v1_course_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetCourseDetailReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCourseDetailReply) ProtoMessage() {}
+
+func (x *GetCourseDetailReply) ProtoReflect() protoreflect.Message {
+	mi := &file_teaching_v1_course_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCourseDetailReply.ProtoReflect.Descriptor instead.
+func (*GetCourseDetailReply) Descriptor() ([]byte, []int) {
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetCourseDetailReply) GetData() *GetCourseDetailReply_Data {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *GetCourseDetailReply) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *GetCourseDetailReply) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+type DeleteCourseRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	CourseId int32 `protobuf:"varint,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+}
+
+func (x *DeleteCourseRequest) Reset() {
+	*x = DeleteCourseRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_teaching_v1_course_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteCourseRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteCourseRequest) ProtoMessage() {}
+
+func (x *DeleteCourseRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_teaching_v1_course_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteCourseRequest.ProtoReflect.Descriptor instead.
+func (*DeleteCourseRequest) Descriptor() ([]byte, []int) {
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *DeleteCourseRequest) GetCourseId() int32 {
+	if x != nil {
+		return x.CourseId
+	}
+	return 0
+}
+
+type DeleteCourseReply struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Data    *DeleteCourseReply_Data `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
+	Code    int32                   `protobuf:"varint,2,opt,name=code,proto3" json:"code,omitempty"`
+	Message string                  `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+}
+
+func (x *DeleteCourseReply) Reset() {
+	*x = DeleteCourseReply{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_teaching_v1_course_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteCourseReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteCourseReply) ProtoMessage() {}
+
+func (x *DeleteCourseReply) ProtoReflect() protoreflect.Message {
+	mi := &file_teaching_v1_course_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteCourseReply.ProtoReflect.Descriptor instead.
+func (*DeleteCourseReply) Descriptor() ([]byte, []int) {
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *DeleteCourseReply) GetData() *DeleteCourseReply_Data {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *DeleteCourseReply) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *DeleteCourseReply) GetMessage() string {
 	if x != nil {
 		return x.Message
 	}
@@ -136,16 +604,24 @@ type CreateCourseRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Name            string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Desc            string `protobuf:"bytes,2,opt,name=desc,proto3" json:"desc,omitempty"`
-	BackgroundImage string `protobuf:"bytes,3,opt,name=background_image,json=backgroundImage,proto3" json:"background_image,omitempty"`
-	Summary         string `protobuf:"bytes,4,opt,name=summary,proto3" json:"summary,omitempty"`
+	Name           string                    `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Desc           string                    `protobuf:"bytes,2,opt,name=desc,proto3" json:"desc,omitempty"`
+	Image          string                    `protobuf:"bytes,3,opt,name=image,proto3" json:"image,omitempty"`
+	Summary        string                    `protobuf:"bytes,4,opt,name=summary,proto3" json:"summary,omitempty"`
+	Tags           string                    `protobuf:"bytes,5,opt,name=tags,proto3" json:"tags,omitempty"`
+	Classification string                    `protobuf:"bytes,6,opt,name=classification,proto3" json:"classification,omitempty"`
+	Price          uint64                    `protobuf:"fixed64,7,opt,name=price,proto3" json:"price,omitempty"`
+	Detail         string                    `protobuf:"bytes,8,opt,name=detail,proto3" json:"detail,omitempty"`
+	State          CreateCourseRequest_State `protobuf:"varint,9,opt,name=state,proto3,enum=teaching.v1.CreateCourseRequest_State" json:"state,omitempty"`
+	Order          int32                     `protobuf:"varint,10,opt,name=order,proto3" json:"order,omitempty"`
+	IsQuality      bool                      `protobuf:"varint,11,opt,name=is_quality,json=isQuality,proto3" json:"is_quality,omitempty"`
+	TeacherId      []int32                   `protobuf:"varint,12,rep,packed,name=teacher_id,json=teacherId,proto3" json:"teacher_id,omitempty"`
 }
 
 func (x *CreateCourseRequest) Reset() {
 	*x = CreateCourseRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_teaching_v1_course_proto_msgTypes[2]
+		mi := &file_teaching_v1_course_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -158,7 +634,7 @@ func (x *CreateCourseRequest) String() string {
 func (*CreateCourseRequest) ProtoMessage() {}
 
 func (x *CreateCourseRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_teaching_v1_course_proto_msgTypes[2]
+	mi := &file_teaching_v1_course_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -171,7 +647,7 @@ func (x *CreateCourseRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCourseRequest.ProtoReflect.Descriptor instead.
 func (*CreateCourseRequest) Descriptor() ([]byte, []int) {
-	return file_teaching_v1_course_proto_rawDescGZIP(), []int{2}
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *CreateCourseRequest) GetName() string {
@@ -188,9 +664,9 @@ func (x *CreateCourseRequest) GetDesc() string {
 	return ""
 }
 
-func (x *CreateCourseRequest) GetBackgroundImage() string {
+func (x *CreateCourseRequest) GetImage() string {
 	if x != nil {
-		return x.BackgroundImage
+		return x.Image
 	}
 	return ""
 }
@@ -200,6 +676,62 @@ func (x *CreateCourseRequest) GetSummary() string {
 		return x.Summary
 	}
 	return ""
+}
+
+func (x *CreateCourseRequest) GetTags() string {
+	if x != nil {
+		return x.Tags
+	}
+	return ""
+}
+
+func (x *CreateCourseRequest) GetClassification() string {
+	if x != nil {
+		return x.Classification
+	}
+	return ""
+}
+
+func (x *CreateCourseRequest) GetPrice() uint64 {
+	if x != nil {
+		return x.Price
+	}
+	return 0
+}
+
+func (x *CreateCourseRequest) GetDetail() string {
+	if x != nil {
+		return x.Detail
+	}
+	return ""
+}
+
+func (x *CreateCourseRequest) GetState() CreateCourseRequest_State {
+	if x != nil {
+		return x.State
+	}
+	return CreateCourseRequest_OFF
+}
+
+func (x *CreateCourseRequest) GetOrder() int32 {
+	if x != nil {
+		return x.Order
+	}
+	return 0
+}
+
+func (x *CreateCourseRequest) GetIsQuality() bool {
+	if x != nil {
+		return x.IsQuality
+	}
+	return false
+}
+
+func (x *CreateCourseRequest) GetTeacherId() []int32 {
+	if x != nil {
+		return x.TeacherId
+	}
+	return nil
 }
 
 type CreateCourseReply struct {
@@ -215,7 +747,7 @@ type CreateCourseReply struct {
 func (x *CreateCourseReply) Reset() {
 	*x = CreateCourseReply{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_teaching_v1_course_proto_msgTypes[3]
+		mi := &file_teaching_v1_course_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -228,7 +760,7 @@ func (x *CreateCourseReply) String() string {
 func (*CreateCourseReply) ProtoMessage() {}
 
 func (x *CreateCourseReply) ProtoReflect() protoreflect.Message {
-	mi := &file_teaching_v1_course_proto_msgTypes[3]
+	mi := &file_teaching_v1_course_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -241,7 +773,7 @@ func (x *CreateCourseReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCourseReply.ProtoReflect.Descriptor instead.
 func (*CreateCourseReply) Descriptor() ([]byte, []int) {
-	return file_teaching_v1_course_proto_rawDescGZIP(), []int{3}
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *CreateCourseReply) GetData() *CreateCourseReply_Data {
@@ -265,34 +797,35 @@ func (x *CreateCourseReply) GetMessage() string {
 	return ""
 }
 
-type SearchCourseReply_Course struct {
+type UpdateCourseRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Name            string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Desc            string `protobuf:"bytes,2,opt,name=desc,proto3" json:"desc,omitempty"`
-	BackgroundImage string `protobuf:"bytes,3,opt,name=background_image,json=backgroundImage,proto3" json:"background_image,omitempty"`
-	Summary         string `protobuf:"bytes,4,opt,name=summary,proto3" json:"summary,omitempty"`
+	CourseId int32  `protobuf:"varint,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	Name     string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Desc     string `protobuf:"bytes,3,opt,name=desc,proto3" json:"desc,omitempty"`
+	Image    string `protobuf:"bytes,4,opt,name=image,proto3" json:"image,omitempty"`
+	Summary  string `protobuf:"bytes,5,opt,name=summary,proto3" json:"summary,omitempty"`
 }
 
-func (x *SearchCourseReply_Course) Reset() {
-	*x = SearchCourseReply_Course{}
+func (x *UpdateCourseRequest) Reset() {
+	*x = UpdateCourseRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_teaching_v1_course_proto_msgTypes[4]
+		mi := &file_teaching_v1_course_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *SearchCourseReply_Course) String() string {
+func (x *UpdateCourseRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*SearchCourseReply_Course) ProtoMessage() {}
+func (*UpdateCourseRequest) ProtoMessage() {}
 
-func (x *SearchCourseReply_Course) ProtoReflect() protoreflect.Message {
-	mi := &file_teaching_v1_course_proto_msgTypes[4]
+func (x *UpdateCourseRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_teaching_v1_course_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -303,64 +836,73 @@ func (x *SearchCourseReply_Course) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SearchCourseReply_Course.ProtoReflect.Descriptor instead.
-func (*SearchCourseReply_Course) Descriptor() ([]byte, []int) {
-	return file_teaching_v1_course_proto_rawDescGZIP(), []int{1, 0}
+// Deprecated: Use UpdateCourseRequest.ProtoReflect.Descriptor instead.
+func (*UpdateCourseRequest) Descriptor() ([]byte, []int) {
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *SearchCourseReply_Course) GetName() string {
+func (x *UpdateCourseRequest) GetCourseId() int32 {
+	if x != nil {
+		return x.CourseId
+	}
+	return 0
+}
+
+func (x *UpdateCourseRequest) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-func (x *SearchCourseReply_Course) GetDesc() string {
+func (x *UpdateCourseRequest) GetDesc() string {
 	if x != nil {
 		return x.Desc
 	}
 	return ""
 }
 
-func (x *SearchCourseReply_Course) GetBackgroundImage() string {
+func (x *UpdateCourseRequest) GetImage() string {
 	if x != nil {
-		return x.BackgroundImage
+		return x.Image
 	}
 	return ""
 }
 
-func (x *SearchCourseReply_Course) GetSummary() string {
+func (x *UpdateCourseRequest) GetSummary() string {
 	if x != nil {
 		return x.Summary
 	}
 	return ""
 }
 
-type SearchCourseReply_Data struct {
+type UpdateCourseReply struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Courses []*SearchCourseReply_Course `protobuf:"bytes,1,rep,name=courses,proto3" json:"courses,omitempty"`
+	Data    *UpdateCourseReply_Data `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
+	Code    int32                   `protobuf:"varint,2,opt,name=code,proto3" json:"code,omitempty"`
+	Message string                  `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
 }
 
-func (x *SearchCourseReply_Data) Reset() {
-	*x = SearchCourseReply_Data{}
+func (x *UpdateCourseReply) Reset() {
+	*x = UpdateCourseReply{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_teaching_v1_course_proto_msgTypes[5]
+		mi := &file_teaching_v1_course_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *SearchCourseReply_Data) String() string {
+func (x *UpdateCourseReply) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*SearchCourseReply_Data) ProtoMessage() {}
+func (*UpdateCourseReply) ProtoMessage() {}
 
-func (x *SearchCourseReply_Data) ProtoReflect() protoreflect.Message {
-	mi := &file_teaching_v1_course_proto_msgTypes[5]
+func (x *UpdateCourseReply) ProtoReflect() protoreflect.Message {
+	mi := &file_teaching_v1_course_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -371,46 +913,274 @@ func (x *SearchCourseReply_Data) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SearchCourseReply_Data.ProtoReflect.Descriptor instead.
-func (*SearchCourseReply_Data) Descriptor() ([]byte, []int) {
+// Deprecated: Use UpdateCourseReply.ProtoReflect.Descriptor instead.
+func (*UpdateCourseReply) Descriptor() ([]byte, []int) {
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *UpdateCourseReply) GetData() *UpdateCourseReply_Data {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *UpdateCourseReply) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *UpdateCourseReply) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+type SearchCoursesReply_Teacher struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TeacherId int32  `protobuf:"varint,1,opt,name=teacher_id,json=teacherId,proto3" json:"teacher_id,omitempty"`
+	Name      string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Desc      string `protobuf:"bytes,3,opt,name=desc,proto3" json:"desc,omitempty"`
+	Avatar    string `protobuf:"bytes,4,opt,name=avatar,proto3" json:"avatar,omitempty"`
+	Title     string `protobuf:"bytes,5,opt,name=title,proto3" json:"title,omitempty"`
+}
+
+func (x *SearchCoursesReply_Teacher) Reset() {
+	*x = SearchCoursesReply_Teacher{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_teaching_v1_course_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SearchCoursesReply_Teacher) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchCoursesReply_Teacher) ProtoMessage() {}
+
+func (x *SearchCoursesReply_Teacher) ProtoReflect() protoreflect.Message {
+	mi := &file_teaching_v1_course_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchCoursesReply_Teacher.ProtoReflect.Descriptor instead.
+func (*SearchCoursesReply_Teacher) Descriptor() ([]byte, []int) {
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{1, 0}
+}
+
+func (x *SearchCoursesReply_Teacher) GetTeacherId() int32 {
+	if x != nil {
+		return x.TeacherId
+	}
+	return 0
+}
+
+func (x *SearchCoursesReply_Teacher) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *SearchCoursesReply_Teacher) GetDesc() string {
+	if x != nil {
+		return x.Desc
+	}
+	return ""
+}
+
+func (x *SearchCoursesReply_Teacher) GetAvatar() string {
+	if x != nil {
+		return x.Avatar
+	}
+	return ""
+}
+
+func (x *SearchCoursesReply_Teacher) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+type SearchCoursesReply_Course struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Name           string                        `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Desc           string                        `protobuf:"bytes,2,opt,name=desc,proto3" json:"desc,omitempty"`
+	Image          string                        `protobuf:"bytes,3,opt,name=image,proto3" json:"image,omitempty"`
+	Tags           string                        `protobuf:"bytes,4,opt,name=tags,proto3" json:"tags,omitempty"`
+	Classification string                        `protobuf:"bytes,5,opt,name=classification,proto3" json:"classification,omitempty"`
+	Teachers       []*SearchCoursesReply_Teacher `protobuf:"bytes,6,rep,name=teachers,proto3" json:"teachers,omitempty"`
+}
+
+func (x *SearchCoursesReply_Course) Reset() {
+	*x = SearchCoursesReply_Course{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_teaching_v1_course_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SearchCoursesReply_Course) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchCoursesReply_Course) ProtoMessage() {}
+
+func (x *SearchCoursesReply_Course) ProtoReflect() protoreflect.Message {
+	mi := &file_teaching_v1_course_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchCoursesReply_Course.ProtoReflect.Descriptor instead.
+func (*SearchCoursesReply_Course) Descriptor() ([]byte, []int) {
 	return file_teaching_v1_course_proto_rawDescGZIP(), []int{1, 1}
 }
 
-func (x *SearchCourseReply_Data) GetCourses() []*SearchCourseReply_Course {
+func (x *SearchCoursesReply_Course) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *SearchCoursesReply_Course) GetDesc() string {
+	if x != nil {
+		return x.Desc
+	}
+	return ""
+}
+
+func (x *SearchCoursesReply_Course) GetImage() string {
+	if x != nil {
+		return x.Image
+	}
+	return ""
+}
+
+func (x *SearchCoursesReply_Course) GetTags() string {
+	if x != nil {
+		return x.Tags
+	}
+	return ""
+}
+
+func (x *SearchCoursesReply_Course) GetClassification() string {
+	if x != nil {
+		return x.Classification
+	}
+	return ""
+}
+
+func (x *SearchCoursesReply_Course) GetTeachers() []*SearchCoursesReply_Teacher {
+	if x != nil {
+		return x.Teachers
+	}
+	return nil
+}
+
+type SearchCoursesReply_Data struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Courses []*SearchCoursesReply_Course `protobuf:"bytes,1,rep,name=courses,proto3" json:"courses,omitempty"`
+}
+
+func (x *SearchCoursesReply_Data) Reset() {
+	*x = SearchCoursesReply_Data{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_teaching_v1_course_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SearchCoursesReply_Data) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchCoursesReply_Data) ProtoMessage() {}
+
+func (x *SearchCoursesReply_Data) ProtoReflect() protoreflect.Message {
+	mi := &file_teaching_v1_course_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchCoursesReply_Data.ProtoReflect.Descriptor instead.
+func (*SearchCoursesReply_Data) Descriptor() ([]byte, []int) {
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{1, 2}
+}
+
+func (x *SearchCoursesReply_Data) GetCourses() []*SearchCoursesReply_Course {
 	if x != nil {
 		return x.Courses
 	}
 	return nil
 }
 
-type CreateCourseReply_Course struct {
+type GetCourseReply_Course struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Name            string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Desc            string `protobuf:"bytes,2,opt,name=desc,proto3" json:"desc,omitempty"`
-	BackgroundImage string `protobuf:"bytes,3,opt,name=background_image,json=backgroundImage,proto3" json:"background_image,omitempty"`
-	Summary         string `protobuf:"bytes,4,opt,name=summary,proto3" json:"summary,omitempty"`
+	Name     string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Desc     string `protobuf:"bytes,2,opt,name=desc,proto3" json:"desc,omitempty"`
+	Image    string `protobuf:"bytes,3,opt,name=image,proto3" json:"image,omitempty"`
+	Summary  string `protobuf:"bytes,4,opt,name=summary,proto3" json:"summary,omitempty"`
+	CourseId int32  `protobuf:"varint,5,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 }
 
-func (x *CreateCourseReply_Course) Reset() {
-	*x = CreateCourseReply_Course{}
+func (x *GetCourseReply_Course) Reset() {
+	*x = GetCourseReply_Course{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_teaching_v1_course_proto_msgTypes[6]
+		mi := &file_teaching_v1_course_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *CreateCourseReply_Course) String() string {
+func (x *GetCourseReply_Course) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateCourseReply_Course) ProtoMessage() {}
+func (*GetCourseReply_Course) ProtoMessage() {}
 
-func (x *CreateCourseReply_Course) ProtoReflect() protoreflect.Message {
-	mi := &file_teaching_v1_course_proto_msgTypes[6]
+func (x *GetCourseReply_Course) ProtoReflect() protoreflect.Message {
+	mi := &file_teaching_v1_course_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -421,37 +1191,470 @@ func (x *CreateCourseReply_Course) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateCourseReply_Course.ProtoReflect.Descriptor instead.
-func (*CreateCourseReply_Course) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetCourseReply_Course.ProtoReflect.Descriptor instead.
+func (*GetCourseReply_Course) Descriptor() ([]byte, []int) {
 	return file_teaching_v1_course_proto_rawDescGZIP(), []int{3, 0}
 }
 
-func (x *CreateCourseReply_Course) GetName() string {
+func (x *GetCourseReply_Course) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-func (x *CreateCourseReply_Course) GetDesc() string {
+func (x *GetCourseReply_Course) GetDesc() string {
 	if x != nil {
 		return x.Desc
 	}
 	return ""
 }
 
-func (x *CreateCourseReply_Course) GetBackgroundImage() string {
+func (x *GetCourseReply_Course) GetImage() string {
 	if x != nil {
-		return x.BackgroundImage
+		return x.Image
 	}
 	return ""
 }
 
-func (x *CreateCourseReply_Course) GetSummary() string {
+func (x *GetCourseReply_Course) GetSummary() string {
 	if x != nil {
 		return x.Summary
 	}
 	return ""
+}
+
+func (x *GetCourseReply_Course) GetCourseId() int32 {
+	if x != nil {
+		return x.CourseId
+	}
+	return 0
+}
+
+type GetCourseReply_Data struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Course *GetCourseReply_Course `protobuf:"bytes,1,opt,name=course,proto3" json:"course,omitempty"`
+}
+
+func (x *GetCourseReply_Data) Reset() {
+	*x = GetCourseReply_Data{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_teaching_v1_course_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetCourseReply_Data) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCourseReply_Data) ProtoMessage() {}
+
+func (x *GetCourseReply_Data) ProtoReflect() protoreflect.Message {
+	mi := &file_teaching_v1_course_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCourseReply_Data.ProtoReflect.Descriptor instead.
+func (*GetCourseReply_Data) Descriptor() ([]byte, []int) {
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{3, 1}
+}
+
+func (x *GetCourseReply_Data) GetCourse() *GetCourseReply_Course {
+	if x != nil {
+		return x.Course
+	}
+	return nil
+}
+
+type GetCourseDetailReply_Teacher struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TeacherId int32  `protobuf:"varint,1,opt,name=teacher_id,json=teacherId,proto3" json:"teacher_id,omitempty"`
+	Name      string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Desc      string `protobuf:"bytes,3,opt,name=desc,proto3" json:"desc,omitempty"`
+	Avatar    string `protobuf:"bytes,4,opt,name=avatar,proto3" json:"avatar,omitempty"`
+	Title     string `protobuf:"bytes,5,opt,name=title,proto3" json:"title,omitempty"`
+}
+
+func (x *GetCourseDetailReply_Teacher) Reset() {
+	*x = GetCourseDetailReply_Teacher{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_teaching_v1_course_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetCourseDetailReply_Teacher) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCourseDetailReply_Teacher) ProtoMessage() {}
+
+func (x *GetCourseDetailReply_Teacher) ProtoReflect() protoreflect.Message {
+	mi := &file_teaching_v1_course_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCourseDetailReply_Teacher.ProtoReflect.Descriptor instead.
+func (*GetCourseDetailReply_Teacher) Descriptor() ([]byte, []int) {
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{5, 0}
+}
+
+func (x *GetCourseDetailReply_Teacher) GetTeacherId() int32 {
+	if x != nil {
+		return x.TeacherId
+	}
+	return 0
+}
+
+func (x *GetCourseDetailReply_Teacher) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *GetCourseDetailReply_Teacher) GetDesc() string {
+	if x != nil {
+		return x.Desc
+	}
+	return ""
+}
+
+func (x *GetCourseDetailReply_Teacher) GetAvatar() string {
+	if x != nil {
+		return x.Avatar
+	}
+	return ""
+}
+
+func (x *GetCourseDetailReply_Teacher) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+type GetCourseDetailReply_Course struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Name           string                            `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Desc           string                            `protobuf:"bytes,2,opt,name=desc,proto3" json:"desc,omitempty"`
+	Image          string                            `protobuf:"bytes,3,opt,name=image,proto3" json:"image,omitempty"`
+	Summary        string                            `protobuf:"bytes,4,opt,name=summary,proto3" json:"summary,omitempty"`
+	Tags           string                            `protobuf:"bytes,5,opt,name=tags,proto3" json:"tags,omitempty"`
+	Classification string                            `protobuf:"bytes,6,opt,name=classification,proto3" json:"classification,omitempty"`
+	Price          uint64                            `protobuf:"fixed64,7,opt,name=price,proto3" json:"price,omitempty"`
+	Detail         string                            `protobuf:"bytes,8,opt,name=detail,proto3" json:"detail,omitempty"`
+	State          GetCourseDetailReply_Course_State `protobuf:"varint,9,opt,name=state,proto3,enum=teaching.v1.GetCourseDetailReply_Course_State" json:"state,omitempty"`
+	Order          int32                             `protobuf:"varint,10,opt,name=order,proto3" json:"order,omitempty"`
+	IsQuality      bool                              `protobuf:"varint,11,opt,name=is_quality,json=isQuality,proto3" json:"is_quality,omitempty"`
+	Teachers       []*GetCourseDetailReply_Teacher   `protobuf:"bytes,12,rep,name=teachers,proto3" json:"teachers,omitempty"`
+}
+
+func (x *GetCourseDetailReply_Course) Reset() {
+	*x = GetCourseDetailReply_Course{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_teaching_v1_course_proto_msgTypes[18]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetCourseDetailReply_Course) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCourseDetailReply_Course) ProtoMessage() {}
+
+func (x *GetCourseDetailReply_Course) ProtoReflect() protoreflect.Message {
+	mi := &file_teaching_v1_course_proto_msgTypes[18]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCourseDetailReply_Course.ProtoReflect.Descriptor instead.
+func (*GetCourseDetailReply_Course) Descriptor() ([]byte, []int) {
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{5, 1}
+}
+
+func (x *GetCourseDetailReply_Course) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *GetCourseDetailReply_Course) GetDesc() string {
+	if x != nil {
+		return x.Desc
+	}
+	return ""
+}
+
+func (x *GetCourseDetailReply_Course) GetImage() string {
+	if x != nil {
+		return x.Image
+	}
+	return ""
+}
+
+func (x *GetCourseDetailReply_Course) GetSummary() string {
+	if x != nil {
+		return x.Summary
+	}
+	return ""
+}
+
+func (x *GetCourseDetailReply_Course) GetTags() string {
+	if x != nil {
+		return x.Tags
+	}
+	return ""
+}
+
+func (x *GetCourseDetailReply_Course) GetClassification() string {
+	if x != nil {
+		return x.Classification
+	}
+	return ""
+}
+
+func (x *GetCourseDetailReply_Course) GetPrice() uint64 {
+	if x != nil {
+		return x.Price
+	}
+	return 0
+}
+
+func (x *GetCourseDetailReply_Course) GetDetail() string {
+	if x != nil {
+		return x.Detail
+	}
+	return ""
+}
+
+func (x *GetCourseDetailReply_Course) GetState() GetCourseDetailReply_Course_State {
+	if x != nil {
+		return x.State
+	}
+	return GetCourseDetailReply_Course_OFF
+}
+
+func (x *GetCourseDetailReply_Course) GetOrder() int32 {
+	if x != nil {
+		return x.Order
+	}
+	return 0
+}
+
+func (x *GetCourseDetailReply_Course) GetIsQuality() bool {
+	if x != nil {
+		return x.IsQuality
+	}
+	return false
+}
+
+func (x *GetCourseDetailReply_Course) GetTeachers() []*GetCourseDetailReply_Teacher {
+	if x != nil {
+		return x.Teachers
+	}
+	return nil
+}
+
+type GetCourseDetailReply_Data struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Course *GetCourseDetailReply_Course `protobuf:"bytes,1,opt,name=course,proto3" json:"course,omitempty"`
+}
+
+func (x *GetCourseDetailReply_Data) Reset() {
+	*x = GetCourseDetailReply_Data{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_teaching_v1_course_proto_msgTypes[19]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetCourseDetailReply_Data) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCourseDetailReply_Data) ProtoMessage() {}
+
+func (x *GetCourseDetailReply_Data) ProtoReflect() protoreflect.Message {
+	mi := &file_teaching_v1_course_proto_msgTypes[19]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCourseDetailReply_Data.ProtoReflect.Descriptor instead.
+func (*GetCourseDetailReply_Data) Descriptor() ([]byte, []int) {
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{5, 2}
+}
+
+func (x *GetCourseDetailReply_Data) GetCourse() *GetCourseDetailReply_Course {
+	if x != nil {
+		return x.Course
+	}
+	return nil
+}
+
+type DeleteCourseReply_Course struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Name     string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Desc     string `protobuf:"bytes,2,opt,name=desc,proto3" json:"desc,omitempty"`
+	Image    string `protobuf:"bytes,3,opt,name=image,proto3" json:"image,omitempty"`
+	CourseId int32  `protobuf:"varint,4,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+}
+
+func (x *DeleteCourseReply_Course) Reset() {
+	*x = DeleteCourseReply_Course{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_teaching_v1_course_proto_msgTypes[20]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteCourseReply_Course) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteCourseReply_Course) ProtoMessage() {}
+
+func (x *DeleteCourseReply_Course) ProtoReflect() protoreflect.Message {
+	mi := &file_teaching_v1_course_proto_msgTypes[20]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteCourseReply_Course.ProtoReflect.Descriptor instead.
+func (*DeleteCourseReply_Course) Descriptor() ([]byte, []int) {
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{7, 0}
+}
+
+func (x *DeleteCourseReply_Course) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *DeleteCourseReply_Course) GetDesc() string {
+	if x != nil {
+		return x.Desc
+	}
+	return ""
+}
+
+func (x *DeleteCourseReply_Course) GetImage() string {
+	if x != nil {
+		return x.Image
+	}
+	return ""
+}
+
+func (x *DeleteCourseReply_Course) GetCourseId() int32 {
+	if x != nil {
+		return x.CourseId
+	}
+	return 0
+}
+
+type DeleteCourseReply_Data struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Course *DeleteCourseReply_Course `protobuf:"bytes,1,opt,name=course,proto3" json:"course,omitempty"`
+}
+
+func (x *DeleteCourseReply_Data) Reset() {
+	*x = DeleteCourseReply_Data{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_teaching_v1_course_proto_msgTypes[21]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteCourseReply_Data) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteCourseReply_Data) ProtoMessage() {}
+
+func (x *DeleteCourseReply_Data) ProtoReflect() protoreflect.Message {
+	mi := &file_teaching_v1_course_proto_msgTypes[21]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteCourseReply_Data.ProtoReflect.Descriptor instead.
+func (*DeleteCourseReply_Data) Descriptor() ([]byte, []int) {
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{7, 1}
+}
+
+func (x *DeleteCourseReply_Data) GetCourse() *DeleteCourseReply_Course {
+	if x != nil {
+		return x.Course
+	}
+	return nil
 }
 
 type CreateCourseReply_Data struct {
@@ -459,13 +1662,25 @@ type CreateCourseReply_Data struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Course *CreateCourseReply_Course `protobuf:"bytes,1,opt,name=course,proto3" json:"course,omitempty"`
+	Name           string                       `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Desc           string                       `protobuf:"bytes,2,opt,name=desc,proto3" json:"desc,omitempty"`
+	Image          string                       `protobuf:"bytes,3,opt,name=image,proto3" json:"image,omitempty"`
+	Summary        string                       `protobuf:"bytes,4,opt,name=summary,proto3" json:"summary,omitempty"`
+	Tags           string                       `protobuf:"bytes,5,opt,name=tags,proto3" json:"tags,omitempty"`
+	Classification string                       `protobuf:"bytes,6,opt,name=classification,proto3" json:"classification,omitempty"`
+	Price          uint64                       `protobuf:"fixed64,7,opt,name=price,proto3" json:"price,omitempty"`
+	Detail         string                       `protobuf:"bytes,8,opt,name=detail,proto3" json:"detail,omitempty"`
+	State          CreateCourseReply_Data_State `protobuf:"varint,9,opt,name=state,proto3,enum=teaching.v1.CreateCourseReply_Data_State" json:"state,omitempty"`
+	Order          int32                        `protobuf:"varint,10,opt,name=order,proto3" json:"order,omitempty"`
+	IsQuality      bool                         `protobuf:"varint,11,opt,name=is_quality,json=isQuality,proto3" json:"is_quality,omitempty"`
+	TeacherId      []int32                      `protobuf:"varint,12,rep,packed,name=teacher_id,json=teacherId,proto3" json:"teacher_id,omitempty"`
+	CourseId       int32                        `protobuf:"varint,13,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 }
 
 func (x *CreateCourseReply_Data) Reset() {
 	*x = CreateCourseReply_Data{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_teaching_v1_course_proto_msgTypes[7]
+		mi := &file_teaching_v1_course_proto_msgTypes[22]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -478,7 +1693,7 @@ func (x *CreateCourseReply_Data) String() string {
 func (*CreateCourseReply_Data) ProtoMessage() {}
 
 func (x *CreateCourseReply_Data) ProtoReflect() protoreflect.Message {
-	mi := &file_teaching_v1_course_proto_msgTypes[7]
+	mi := &file_teaching_v1_course_proto_msgTypes[22]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -491,10 +1706,220 @@ func (x *CreateCourseReply_Data) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCourseReply_Data.ProtoReflect.Descriptor instead.
 func (*CreateCourseReply_Data) Descriptor() ([]byte, []int) {
-	return file_teaching_v1_course_proto_rawDescGZIP(), []int{3, 1}
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{9, 0}
 }
 
-func (x *CreateCourseReply_Data) GetCourse() *CreateCourseReply_Course {
+func (x *CreateCourseReply_Data) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *CreateCourseReply_Data) GetDesc() string {
+	if x != nil {
+		return x.Desc
+	}
+	return ""
+}
+
+func (x *CreateCourseReply_Data) GetImage() string {
+	if x != nil {
+		return x.Image
+	}
+	return ""
+}
+
+func (x *CreateCourseReply_Data) GetSummary() string {
+	if x != nil {
+		return x.Summary
+	}
+	return ""
+}
+
+func (x *CreateCourseReply_Data) GetTags() string {
+	if x != nil {
+		return x.Tags
+	}
+	return ""
+}
+
+func (x *CreateCourseReply_Data) GetClassification() string {
+	if x != nil {
+		return x.Classification
+	}
+	return ""
+}
+
+func (x *CreateCourseReply_Data) GetPrice() uint64 {
+	if x != nil {
+		return x.Price
+	}
+	return 0
+}
+
+func (x *CreateCourseReply_Data) GetDetail() string {
+	if x != nil {
+		return x.Detail
+	}
+	return ""
+}
+
+func (x *CreateCourseReply_Data) GetState() CreateCourseReply_Data_State {
+	if x != nil {
+		return x.State
+	}
+	return CreateCourseReply_Data_OFF
+}
+
+func (x *CreateCourseReply_Data) GetOrder() int32 {
+	if x != nil {
+		return x.Order
+	}
+	return 0
+}
+
+func (x *CreateCourseReply_Data) GetIsQuality() bool {
+	if x != nil {
+		return x.IsQuality
+	}
+	return false
+}
+
+func (x *CreateCourseReply_Data) GetTeacherId() []int32 {
+	if x != nil {
+		return x.TeacherId
+	}
+	return nil
+}
+
+func (x *CreateCourseReply_Data) GetCourseId() int32 {
+	if x != nil {
+		return x.CourseId
+	}
+	return 0
+}
+
+type UpdateCourseReply_Course struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	CourseId int32  `protobuf:"varint,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	Name     string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Desc     string `protobuf:"bytes,3,opt,name=desc,proto3" json:"desc,omitempty"`
+	Image    string `protobuf:"bytes,4,opt,name=image,proto3" json:"image,omitempty"`
+	Summary  string `protobuf:"bytes,5,opt,name=summary,proto3" json:"summary,omitempty"`
+}
+
+func (x *UpdateCourseReply_Course) Reset() {
+	*x = UpdateCourseReply_Course{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_teaching_v1_course_proto_msgTypes[23]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateCourseReply_Course) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateCourseReply_Course) ProtoMessage() {}
+
+func (x *UpdateCourseReply_Course) ProtoReflect() protoreflect.Message {
+	mi := &file_teaching_v1_course_proto_msgTypes[23]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateCourseReply_Course.ProtoReflect.Descriptor instead.
+func (*UpdateCourseReply_Course) Descriptor() ([]byte, []int) {
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{11, 0}
+}
+
+func (x *UpdateCourseReply_Course) GetCourseId() int32 {
+	if x != nil {
+		return x.CourseId
+	}
+	return 0
+}
+
+func (x *UpdateCourseReply_Course) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UpdateCourseReply_Course) GetDesc() string {
+	if x != nil {
+		return x.Desc
+	}
+	return ""
+}
+
+func (x *UpdateCourseReply_Course) GetImage() string {
+	if x != nil {
+		return x.Image
+	}
+	return ""
+}
+
+func (x *UpdateCourseReply_Course) GetSummary() string {
+	if x != nil {
+		return x.Summary
+	}
+	return ""
+}
+
+type UpdateCourseReply_Data struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Course *UpdateCourseReply_Course `protobuf:"bytes,1,opt,name=course,proto3" json:"course,omitempty"`
+}
+
+func (x *UpdateCourseReply_Data) Reset() {
+	*x = UpdateCourseReply_Data{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_teaching_v1_course_proto_msgTypes[24]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateCourseReply_Data) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateCourseReply_Data) ProtoMessage() {}
+
+func (x *UpdateCourseReply_Data) ProtoReflect() protoreflect.Message {
+	mi := &file_teaching_v1_course_proto_msgTypes[24]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateCourseReply_Data.ProtoReflect.Descriptor instead.
+func (*UpdateCourseReply_Data) Descriptor() ([]byte, []int) {
+	return file_teaching_v1_course_proto_rawDescGZIP(), []int{11, 1}
+}
+
+func (x *UpdateCourseReply_Data) GetCourse() *UpdateCourseReply_Course {
 	if x != nil {
 		return x.Course
 	}
@@ -508,79 +1933,278 @@ var file_teaching_v1_course_proto_rawDesc = []byte{
 	0x75, 0x72, 0x73, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0b, 0x74, 0x65, 0x61, 0x63,
 	0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x1a, 0x1c, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f,
 	0x61, 0x70, 0x69, 0x2f, 0x61, 0x6e, 0x6e, 0x6f, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2e,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x2f, 0x0a, 0x13, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x43,
-	0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07,
-	0x6b, 0x65, 0x79, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6b,
-	0x65, 0x79, 0x77, 0x6f, 0x72, 0x64, 0x22, 0xba, 0x02, 0x0a, 0x11, 0x53, 0x65, 0x61, 0x72, 0x63,
-	0x68, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x12, 0x37, 0x0a, 0x04,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x30, 0x0a, 0x14, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x43,
+	0x6f, 0x75, 0x72, 0x73, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x18, 0x0a,
+	0x07, 0x6b, 0x65, 0x79, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07,
+	0x6b, 0x65, 0x79, 0x77, 0x6f, 0x72, 0x64, 0x22, 0x90, 0x04, 0x0a, 0x12, 0x53, 0x65, 0x61, 0x72,
+	0x63, 0x68, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x73, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x12, 0x38,
+	0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x24, 0x2e, 0x74,
+	0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x65, 0x61, 0x72, 0x63,
+	0x68, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x73, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x2e, 0x44, 0x61,
+	0x74, 0x61, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x12, 0x18, 0x0a, 0x07,
+	0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d,
+	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x1a, 0x7e, 0x0a, 0x07, 0x54, 0x65, 0x61, 0x63, 0x68, 0x65,
+	0x72, 0x12, 0x1d, 0x0a, 0x0a, 0x74, 0x65, 0x61, 0x63, 0x68, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x09, 0x74, 0x65, 0x61, 0x63, 0x68, 0x65, 0x72, 0x49, 0x64,
+	0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04,
+	0x6e, 0x61, 0x6d, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x64, 0x65, 0x73, 0x63, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x04, 0x64, 0x65, 0x73, 0x63, 0x12, 0x16, 0x0a, 0x06, 0x61, 0x76, 0x61, 0x74,
+	0x61, 0x72, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x61, 0x76, 0x61, 0x74, 0x61, 0x72,
+	0x12, 0x14, 0x0a, 0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x1a, 0xc7, 0x01, 0x0a, 0x06, 0x43, 0x6f, 0x75, 0x72, 0x73,
+	0x65, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x64, 0x65, 0x73, 0x63, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x04, 0x64, 0x65, 0x73, 0x63, 0x12, 0x14, 0x0a, 0x05, 0x69, 0x6d, 0x61,
+	0x67, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x12,
+	0x12, 0x0a, 0x04, 0x74, 0x61, 0x67, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x74,
+	0x61, 0x67, 0x73, 0x12, 0x26, 0x0a, 0x0e, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x69, 0x66, 0x69, 0x63,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0e, 0x63, 0x6c, 0x61,
+	0x73, 0x73, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x43, 0x0a, 0x08, 0x74,
+	0x65, 0x61, 0x63, 0x68, 0x65, 0x72, 0x73, 0x18, 0x06, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x27, 0x2e,
+	0x74, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x65, 0x61, 0x72,
+	0x63, 0x68, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x73, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x2e, 0x54,
+	0x65, 0x61, 0x63, 0x68, 0x65, 0x72, 0x52, 0x08, 0x74, 0x65, 0x61, 0x63, 0x68, 0x65, 0x72, 0x73,
+	0x1a, 0x48, 0x0a, 0x04, 0x44, 0x61, 0x74, 0x61, 0x12, 0x40, 0x0a, 0x07, 0x63, 0x6f, 0x75, 0x72,
+	0x73, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x74, 0x65, 0x61, 0x63,
+	0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x43, 0x6f,
+	0x75, 0x72, 0x73, 0x65, 0x73, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x2e, 0x43, 0x6f, 0x75, 0x72, 0x73,
+	0x65, 0x52, 0x07, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x73, 0x22, 0x2f, 0x0a, 0x10, 0x47, 0x65,
+	0x74, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1b,
+	0x0a, 0x09, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x05, 0x52, 0x08, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x49, 0x64, 0x22, 0xb7, 0x02, 0x0a, 0x0e,
+	0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x12, 0x34,
+	0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x74,
+	0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f,
+	0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x2e, 0x44, 0x61, 0x74, 0x61, 0x52, 0x04,
+	0x64, 0x61, 0x74, 0x61, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x05, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61,
+	0x67, 0x65, 0x1a, 0x7d, 0x0a, 0x06, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x12, 0x12, 0x0a, 0x04,
+	0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65,
+	0x12, 0x12, 0x0a, 0x04, 0x64, 0x65, 0x73, 0x63, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04,
+	0x64, 0x65, 0x73, 0x63, 0x12, 0x14, 0x0a, 0x05, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x18, 0x03, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x05, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75,
+	0x6d, 0x6d, 0x61, 0x72, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x73, 0x75, 0x6d,
+	0x6d, 0x61, 0x72, 0x79, 0x12, 0x1b, 0x0a, 0x09, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x5f, 0x69,
+	0x64, 0x18, 0x05, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x49,
+	0x64, 0x1a, 0x42, 0x0a, 0x04, 0x44, 0x61, 0x74, 0x61, 0x12, 0x3a, 0x0a, 0x06, 0x63, 0x6f, 0x75,
+	0x72, 0x73, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x74, 0x65, 0x61, 0x63,
+	0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x72, 0x73,
+	0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x2e, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x06, 0x63,
+	0x6f, 0x75, 0x72, 0x73, 0x65, 0x22, 0x35, 0x0a, 0x16, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x72,
+	0x73, 0x65, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x1b, 0x0a, 0x09, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x05, 0x52, 0x08, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x49, 0x64, 0x22, 0xf3, 0x05, 0x0a,
+	0x14, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c,
+	0x52, 0x65, 0x70, 0x6c, 0x79, 0x12, 0x3a, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76,
+	0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x44, 0x65, 0x74, 0x61, 0x69,
+	0x6c, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x2e, 0x44, 0x61, 0x74, 0x61, 0x52, 0x04, 0x64, 0x61, 0x74,
+	0x61, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52,
+	0x04, 0x63, 0x6f, 0x64, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x1a,
+	0x7e, 0x0a, 0x07, 0x54, 0x65, 0x61, 0x63, 0x68, 0x65, 0x72, 0x12, 0x1d, 0x0a, 0x0a, 0x74, 0x65,
+	0x61, 0x63, 0x68, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x09,
+	0x74, 0x65, 0x61, 0x63, 0x68, 0x65, 0x72, 0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d,
+	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x12, 0x0a,
+	0x04, 0x64, 0x65, 0x73, 0x63, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x64, 0x65, 0x73,
+	0x63, 0x12, 0x16, 0x0a, 0x06, 0x61, 0x76, 0x61, 0x74, 0x61, 0x72, 0x18, 0x04, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x06, 0x61, 0x76, 0x61, 0x74, 0x61, 0x72, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x69, 0x74,
+	0x6c, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x1a,
+	0xa6, 0x03, 0x0a, 0x06, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61,
+	0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x12,
+	0x0a, 0x04, 0x64, 0x65, 0x73, 0x63, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x64, 0x65,
+	0x73, 0x63, 0x12, 0x14, 0x0a, 0x05, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x05, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x6d, 0x6d,
+	0x61, 0x72, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x73, 0x75, 0x6d, 0x6d, 0x61,
+	0x72, 0x79, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x61, 0x67, 0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x04, 0x74, 0x61, 0x67, 0x73, 0x12, 0x26, 0x0a, 0x0e, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x69,
+	0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0e,
+	0x63, 0x6c, 0x61, 0x73, 0x73, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x14,
+	0x0a, 0x05, 0x70, 0x72, 0x69, 0x63, 0x65, 0x18, 0x07, 0x20, 0x01, 0x28, 0x06, 0x52, 0x05, 0x70,
+	0x72, 0x69, 0x63, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x64, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x18, 0x08,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x64, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x12, 0x44, 0x0a, 0x05,
+	0x73, 0x74, 0x61, 0x74, 0x65, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x2e, 0x2e, 0x74, 0x65,
+	0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75,
+	0x72, 0x73, 0x65, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x2e, 0x43,
+	0x6f, 0x75, 0x72, 0x73, 0x65, 0x2e, 0x53, 0x74, 0x61, 0x74, 0x65, 0x52, 0x05, 0x73, 0x74, 0x61,
+	0x74, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x18, 0x0a, 0x20, 0x01, 0x28,
+	0x05, 0x52, 0x05, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x12, 0x1d, 0x0a, 0x0a, 0x69, 0x73, 0x5f, 0x71,
+	0x75, 0x61, 0x6c, 0x69, 0x74, 0x79, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x08, 0x52, 0x09, 0x69, 0x73,
+	0x51, 0x75, 0x61, 0x6c, 0x69, 0x74, 0x79, 0x12, 0x45, 0x0a, 0x08, 0x74, 0x65, 0x61, 0x63, 0x68,
+	0x65, 0x72, 0x73, 0x18, 0x0c, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x29, 0x2e, 0x74, 0x65, 0x61, 0x63,
+	0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x72, 0x73,
+	0x65, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x2e, 0x54, 0x65, 0x61,
+	0x63, 0x68, 0x65, 0x72, 0x52, 0x08, 0x74, 0x65, 0x61, 0x63, 0x68, 0x65, 0x72, 0x73, 0x22, 0x18,
+	0x0a, 0x05, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x07, 0x0a, 0x03, 0x4f, 0x46, 0x46, 0x10, 0x00,
+	0x12, 0x06, 0x0a, 0x02, 0x4f, 0x4e, 0x10, 0x01, 0x1a, 0x48, 0x0a, 0x04, 0x44, 0x61, 0x74, 0x61,
+	0x12, 0x40, 0x0a, 0x06, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x28, 0x2e, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x47,
+	0x65, 0x74, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x52, 0x65,
+	0x70, 0x6c, 0x79, 0x2e, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x06, 0x63, 0x6f, 0x75, 0x72,
+	0x73, 0x65, 0x22, 0x32, 0x0a, 0x13, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x72,
+	0x73, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1b, 0x0a, 0x09, 0x63, 0x6f, 0x75,
+	0x72, 0x73, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x63, 0x6f,
+	0x75, 0x72, 0x73, 0x65, 0x49, 0x64, 0x22, 0xa6, 0x02, 0x0a, 0x11, 0x44, 0x65, 0x6c, 0x65, 0x74,
+	0x65, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x12, 0x37, 0x0a, 0x04,
 	0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x74, 0x65, 0x61,
-	0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x43,
+	0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43,
 	0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x2e, 0x44, 0x61, 0x74, 0x61, 0x52,
 	0x04, 0x64, 0x61, 0x74, 0x61, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x02, 0x20,
 	0x01, 0x28, 0x05, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73,
 	0x73, 0x61, 0x67, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73,
-	0x61, 0x67, 0x65, 0x1a, 0x75, 0x0a, 0x06, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x12, 0x12, 0x0a,
+	0x61, 0x67, 0x65, 0x1a, 0x63, 0x0a, 0x06, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x12, 0x12, 0x0a,
 	0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d,
 	0x65, 0x12, 0x12, 0x0a, 0x04, 0x64, 0x65, 0x73, 0x63, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x04, 0x64, 0x65, 0x73, 0x63, 0x12, 0x29, 0x0a, 0x10, 0x62, 0x61, 0x63, 0x6b, 0x67, 0x72, 0x6f,
-	0x75, 0x6e, 0x64, 0x5f, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x0f, 0x62, 0x61, 0x63, 0x6b, 0x67, 0x72, 0x6f, 0x75, 0x6e, 0x64, 0x49, 0x6d, 0x61, 0x67, 0x65,
-	0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x6d, 0x6d, 0x61, 0x72, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x07, 0x73, 0x75, 0x6d, 0x6d, 0x61, 0x72, 0x79, 0x1a, 0x47, 0x0a, 0x04, 0x44, 0x61,
-	0x74, 0x61, 0x12, 0x3f, 0x0a, 0x07, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x73, 0x18, 0x01, 0x20,
-	0x03, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76,
-	0x31, 0x2e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65,
-	0x70, 0x6c, 0x79, 0x2e, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x07, 0x63, 0x6f, 0x75, 0x72,
-	0x73, 0x65, 0x73, 0x22, 0x82, 0x01, 0x0a, 0x13, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f,
-	0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x6e,
+	0x04, 0x64, 0x65, 0x73, 0x63, 0x12, 0x14, 0x0a, 0x05, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x12, 0x1b, 0x0a, 0x09, 0x63,
+	0x6f, 0x75, 0x72, 0x73, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08,
+	0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x49, 0x64, 0x1a, 0x45, 0x0a, 0x04, 0x44, 0x61, 0x74, 0x61,
+	0x12, 0x3d, 0x0a, 0x06, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x25, 0x2e, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x44,
+	0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79,
+	0x2e, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x06, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x22,
+	0x83, 0x03, 0x0a, 0x13, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x64,
+	0x65, 0x73, 0x63, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x64, 0x65, 0x73, 0x63, 0x12,
+	0x14, 0x0a, 0x05, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05,
+	0x69, 0x6d, 0x61, 0x67, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x6d, 0x6d, 0x61, 0x72, 0x79,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x73, 0x75, 0x6d, 0x6d, 0x61, 0x72, 0x79, 0x12,
+	0x12, 0x0a, 0x04, 0x74, 0x61, 0x67, 0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x74,
+	0x61, 0x67, 0x73, 0x12, 0x26, 0x0a, 0x0e, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x69, 0x66, 0x69, 0x63,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0e, 0x63, 0x6c, 0x61,
+	0x73, 0x73, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x14, 0x0a, 0x05, 0x70,
+	0x72, 0x69, 0x63, 0x65, 0x18, 0x07, 0x20, 0x01, 0x28, 0x06, 0x52, 0x05, 0x70, 0x72, 0x69, 0x63,
+	0x65, 0x12, 0x16, 0x0a, 0x06, 0x64, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x18, 0x08, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x06, 0x64, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x12, 0x3c, 0x0a, 0x05, 0x73, 0x74, 0x61,
+	0x74, 0x65, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x26, 0x2e, 0x74, 0x65, 0x61, 0x63, 0x68,
+	0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x75,
+	0x72, 0x73, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x53, 0x74, 0x61, 0x74, 0x65,
+	0x52, 0x05, 0x73, 0x74, 0x61, 0x74, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x6f, 0x72, 0x64, 0x65, 0x72,
+	0x18, 0x0a, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x12, 0x1d, 0x0a,
+	0x0a, 0x69, 0x73, 0x5f, 0x71, 0x75, 0x61, 0x6c, 0x69, 0x74, 0x79, 0x18, 0x0b, 0x20, 0x01, 0x28,
+	0x08, 0x52, 0x09, 0x69, 0x73, 0x51, 0x75, 0x61, 0x6c, 0x69, 0x74, 0x79, 0x12, 0x1d, 0x0a, 0x0a,
+	0x74, 0x65, 0x61, 0x63, 0x68, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x0c, 0x20, 0x03, 0x28, 0x05,
+	0x52, 0x09, 0x74, 0x65, 0x61, 0x63, 0x68, 0x65, 0x72, 0x49, 0x64, 0x22, 0x18, 0x0a, 0x05, 0x53,
+	0x74, 0x61, 0x74, 0x65, 0x12, 0x07, 0x0a, 0x03, 0x4f, 0x46, 0x46, 0x10, 0x00, 0x12, 0x06, 0x0a,
+	0x02, 0x4f, 0x4e, 0x10, 0x01, 0x22, 0x91, 0x04, 0x0a, 0x11, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
+	0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x12, 0x37, 0x0a, 0x04, 0x64,
+	0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x74, 0x65, 0x61, 0x63,
+	0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f,
+	0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x2e, 0x44, 0x61, 0x74, 0x61, 0x52, 0x04,
+	0x64, 0x61, 0x74, 0x61, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x05, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61,
+	0x67, 0x65, 0x1a, 0x94, 0x03, 0x0a, 0x04, 0x44, 0x61, 0x74, 0x61, 0x12, 0x12, 0x0a, 0x04, 0x6e,
 	0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12,
 	0x12, 0x0a, 0x04, 0x64, 0x65, 0x73, 0x63, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x64,
-	0x65, 0x73, 0x63, 0x12, 0x29, 0x0a, 0x10, 0x62, 0x61, 0x63, 0x6b, 0x67, 0x72, 0x6f, 0x75, 0x6e,
-	0x64, 0x5f, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f, 0x62,
-	0x61, 0x63, 0x6b, 0x67, 0x72, 0x6f, 0x75, 0x6e, 0x64, 0x49, 0x6d, 0x61, 0x67, 0x65, 0x12, 0x18,
-	0x0a, 0x07, 0x73, 0x75, 0x6d, 0x6d, 0x61, 0x72, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x07, 0x73, 0x75, 0x6d, 0x6d, 0x61, 0x72, 0x79, 0x22, 0xb8, 0x02, 0x0a, 0x11, 0x43, 0x72, 0x65,
-	0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x12, 0x37,
-	0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x74,
+	0x65, 0x73, 0x63, 0x12, 0x14, 0x0a, 0x05, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x05, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x6d,
+	0x6d, 0x61, 0x72, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x73, 0x75, 0x6d, 0x6d,
+	0x61, 0x72, 0x79, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x61, 0x67, 0x73, 0x18, 0x05, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x04, 0x74, 0x61, 0x67, 0x73, 0x12, 0x26, 0x0a, 0x0e, 0x63, 0x6c, 0x61, 0x73, 0x73,
+	0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x0e, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12,
+	0x14, 0x0a, 0x05, 0x70, 0x72, 0x69, 0x63, 0x65, 0x18, 0x07, 0x20, 0x01, 0x28, 0x06, 0x52, 0x05,
+	0x70, 0x72, 0x69, 0x63, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x64, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x18,
+	0x08, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x64, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x12, 0x3f, 0x0a,
+	0x05, 0x73, 0x74, 0x61, 0x74, 0x65, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x29, 0x2e, 0x74,
 	0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74,
 	0x65, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x2e, 0x44, 0x61, 0x74,
-	0x61, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6d,
-	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65,
-	0x73, 0x73, 0x61, 0x67, 0x65, 0x1a, 0x75, 0x0a, 0x06, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x12,
-	0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e,
-	0x61, 0x6d, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x64, 0x65, 0x73, 0x63, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x04, 0x64, 0x65, 0x73, 0x63, 0x12, 0x29, 0x0a, 0x10, 0x62, 0x61, 0x63, 0x6b, 0x67,
-	0x72, 0x6f, 0x75, 0x6e, 0x64, 0x5f, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x0f, 0x62, 0x61, 0x63, 0x6b, 0x67, 0x72, 0x6f, 0x75, 0x6e, 0x64, 0x49, 0x6d, 0x61,
-	0x67, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x6d, 0x6d, 0x61, 0x72, 0x79, 0x18, 0x04, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x07, 0x73, 0x75, 0x6d, 0x6d, 0x61, 0x72, 0x79, 0x1a, 0x45, 0x0a, 0x04,
-	0x44, 0x61, 0x74, 0x61, 0x12, 0x3d, 0x0a, 0x06, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e,
-	0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52,
-	0x65, 0x70, 0x6c, 0x79, 0x2e, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x06, 0x63, 0x6f, 0x75,
-	0x72, 0x73, 0x65, 0x32, 0xf2, 0x01, 0x0a, 0x06, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x12, 0x72,
-	0x0a, 0x0c, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x12, 0x20,
-	0x2e, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x65, 0x61,
-	0x72, 0x63, 0x68, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x1e, 0x2e, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x53,
-	0x65, 0x61, 0x72, 0x63, 0x68, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79,
-	0x22, 0x20, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1a, 0x12, 0x18, 0x2f, 0x74, 0x65, 0x61, 0x63, 0x68,
+	0x61, 0x2e, 0x53, 0x74, 0x61, 0x74, 0x65, 0x52, 0x05, 0x73, 0x74, 0x61, 0x74, 0x65, 0x12, 0x14,
+	0x0a, 0x05, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x6f,
+	0x72, 0x64, 0x65, 0x72, 0x12, 0x1d, 0x0a, 0x0a, 0x69, 0x73, 0x5f, 0x71, 0x75, 0x61, 0x6c, 0x69,
+	0x74, 0x79, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x08, 0x52, 0x09, 0x69, 0x73, 0x51, 0x75, 0x61, 0x6c,
+	0x69, 0x74, 0x79, 0x12, 0x1d, 0x0a, 0x0a, 0x74, 0x65, 0x61, 0x63, 0x68, 0x65, 0x72, 0x5f, 0x69,
+	0x64, 0x18, 0x0c, 0x20, 0x03, 0x28, 0x05, 0x52, 0x09, 0x74, 0x65, 0x61, 0x63, 0x68, 0x65, 0x72,
+	0x49, 0x64, 0x12, 0x1b, 0x0a, 0x09, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x5f, 0x69, 0x64, 0x18,
+	0x0d, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x49, 0x64, 0x22,
+	0x18, 0x0a, 0x05, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x07, 0x0a, 0x03, 0x4f, 0x46, 0x46, 0x10,
+	0x00, 0x12, 0x06, 0x0a, 0x02, 0x4f, 0x4e, 0x10, 0x01, 0x22, 0x8a, 0x01, 0x0a, 0x13, 0x55, 0x70,
+	0x64, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x12, 0x1b, 0x0a, 0x09, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x49, 0x64, 0x12, 0x12,
+	0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61,
+	0x6d, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x64, 0x65, 0x73, 0x63, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x04, 0x64, 0x65, 0x73, 0x63, 0x12, 0x14, 0x0a, 0x05, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x18,
+	0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x12, 0x18, 0x0a, 0x07,
+	0x73, 0x75, 0x6d, 0x6d, 0x61, 0x72, 0x79, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x73,
+	0x75, 0x6d, 0x6d, 0x61, 0x72, 0x79, 0x22, 0xc0, 0x02, 0x0a, 0x11, 0x55, 0x70, 0x64, 0x61, 0x74,
+	0x65, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x12, 0x37, 0x0a, 0x04,
+	0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x74, 0x65, 0x61,
+	0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43,
+	0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x2e, 0x44, 0x61, 0x74, 0x61, 0x52,
+	0x04, 0x64, 0x61, 0x74, 0x61, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x05, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73,
+	0x73, 0x61, 0x67, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x1a, 0x7d, 0x0a, 0x06, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x12, 0x1b, 0x0a,
+	0x09, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05,
+	0x52, 0x08, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61,
+	0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x12,
+	0x0a, 0x04, 0x64, 0x65, 0x73, 0x63, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x64, 0x65,
+	0x73, 0x63, 0x12, 0x14, 0x0a, 0x05, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x05, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x6d, 0x6d,
+	0x61, 0x72, 0x79, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x73, 0x75, 0x6d, 0x6d, 0x61,
+	0x72, 0x79, 0x1a, 0x45, 0x0a, 0x04, 0x44, 0x61, 0x74, 0x61, 0x12, 0x3d, 0x0a, 0x06, 0x63, 0x6f,
+	0x75, 0x72, 0x73, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x74, 0x65, 0x61,
+	0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43,
+	0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x2e, 0x43, 0x6f, 0x75, 0x72, 0x73,
+	0x65, 0x52, 0x06, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x32, 0xe8, 0x05, 0x0a, 0x06, 0x43, 0x6f,
+	0x75, 0x72, 0x73, 0x65, 0x12, 0x74, 0x0a, 0x0c, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x43, 0x6f,
+	0x75, 0x72, 0x73, 0x65, 0x12, 0x21, 0x2e, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e,
+	0x76, 0x31, 0x2e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x73,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69,
+	0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x43, 0x6f, 0x75, 0x72,
+	0x73, 0x65, 0x73, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x20, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1a,
+	0x12, 0x18, 0x2f, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f,
+	0x76, 0x31, 0x2f, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x73, 0x12, 0x74, 0x0a, 0x09, 0x47, 0x65,
+	0x74, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x12, 0x1d, 0x2e, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69,
+	0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e,
+	0x67, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65,
+	0x70, 0x6c, 0x79, 0x22, 0x2b, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x25, 0x12, 0x23, 0x2f, 0x74, 0x65,
+	0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x63, 0x6f,
+	0x75, 0x72, 0x73, 0x65, 0x2f, 0x7b, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x5f, 0x69, 0x64, 0x7d,
+	0x12, 0x86, 0x01, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x44, 0x65,
+	0x74, 0x61, 0x69, 0x6c, 0x12, 0x23, 0x2e, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e,
+	0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x44, 0x65, 0x74, 0x61,
+	0x69, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x21, 0x2e, 0x74, 0x65, 0x61, 0x63,
+	0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x75, 0x72, 0x73,
+	0x65, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x2b, 0x82, 0xd3,
+	0xe4, 0x93, 0x02, 0x25, 0x12, 0x23, 0x2f, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2f,
+	0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2f, 0x7b, 0x63,
+	0x6f, 0x75, 0x72, 0x73, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0x7d, 0x0a, 0x0c, 0x44, 0x65, 0x6c,
+	0x65, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x12, 0x20, 0x2e, 0x74, 0x65, 0x61, 0x63,
+	0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x6f,
+	0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x74, 0x65,
+	0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65,
+	0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x2b, 0x82, 0xd3, 0xe4,
+	0x93, 0x02, 0x25, 0x2a, 0x23, 0x2f, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2f, 0x61,
+	0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x2f, 0x7b, 0x63, 0x6f,
+	0x75, 0x72, 0x73, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0x74, 0x0a, 0x0c, 0x55, 0x70, 0x64, 0x61,
+	0x74, 0x65, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x12, 0x20, 0x2e, 0x74, 0x65, 0x61, 0x63, 0x68,
+	0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x75,
+	0x72, 0x73, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x74, 0x65, 0x61,
+	0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43,
+	0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x22, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0x1c, 0x1a, 0x17, 0x2f, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2f, 0x61, 0x70,
+	0x69, 0x2f, 0x76, 0x31, 0x2f, 0x63, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x3a, 0x01, 0x2a, 0x12, 0x74,
+	0x0a, 0x0c, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x12, 0x20,
+	0x2e, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65,
+	0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x1e, 0x2e, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x43,
+	0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79,
+	0x22, 0x22, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1c, 0x22, 0x17, 0x2f, 0x74, 0x65, 0x61, 0x63, 0x68,
 	0x69, 0x6e, 0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x63, 0x6f, 0x75, 0x72, 0x73,
-	0x65, 0x73, 0x12, 0x74, 0x0a, 0x0c, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x72,
-	0x73, 0x65, 0x12, 0x20, 0x2e, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31,
-	0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e,
-	0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x75, 0x72, 0x73, 0x65, 0x52,
-	0x65, 0x70, 0x6c, 0x79, 0x22, 0x22, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1c, 0x22, 0x17, 0x2f, 0x74,
-	0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x63,
-	0x6f, 0x75, 0x72, 0x73, 0x65, 0x3a, 0x01, 0x2a, 0x42, 0x53, 0x0a, 0x1a, 0x64, 0x65, 0x76, 0x2e,
-	0x6b, 0x72, 0x61, 0x74, 0x6f, 0x73, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x74, 0x65, 0x61, 0x63, 0x68,
-	0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x42, 0x0f, 0x54, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67,
-	0x50, 0x72, 0x6f, 0x74, 0x6f, 0x56, 0x31, 0x50, 0x01, 0x5a, 0x22, 0x6f, 0x6e, 0x6c, 0x69, 0x6e,
-	0x65, 0x2d, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x74,
-	0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2f, 0x76, 0x31, 0x3b, 0x76, 0x31, 0x62, 0x06, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x3a, 0x01, 0x2a, 0x42, 0x53, 0x0a, 0x1a, 0x64, 0x65, 0x76, 0x2e, 0x6b, 0x72, 0x61, 0x74,
+	0x6f, 0x73, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x74, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2e,
+	0x76, 0x31, 0x42, 0x0f, 0x54, 0x65, 0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x50, 0x72, 0x6f, 0x74,
+	0x6f, 0x56, 0x31, 0x50, 0x01, 0x5a, 0x22, 0x6f, 0x6e, 0x6c, 0x69, 0x6e, 0x65, 0x2d, 0x74, 0x65,
+	0x61, 0x63, 0x68, 0x69, 0x6e, 0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x74, 0x65, 0x61, 0x63, 0x68,
+	0x69, 0x6e, 0x67, 0x2f, 0x76, 0x31, 0x3b, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x33,
 }
 
 var (
@@ -595,31 +2219,72 @@ func file_teaching_v1_course_proto_rawDescGZIP() []byte {
 	return file_teaching_v1_course_proto_rawDescData
 }
 
-var file_teaching_v1_course_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_teaching_v1_course_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_teaching_v1_course_proto_msgTypes = make([]protoimpl.MessageInfo, 25)
 var file_teaching_v1_course_proto_goTypes = []interface{}{
-	(*SearchCourseRequest)(nil),      // 0: teaching.v1.SearchCourseRequest
-	(*SearchCourseReply)(nil),        // 1: teaching.v1.SearchCourseReply
-	(*CreateCourseRequest)(nil),      // 2: teaching.v1.CreateCourseRequest
-	(*CreateCourseReply)(nil),        // 3: teaching.v1.CreateCourseReply
-	(*SearchCourseReply_Course)(nil), // 4: teaching.v1.SearchCourseReply.Course
-	(*SearchCourseReply_Data)(nil),   // 5: teaching.v1.SearchCourseReply.Data
-	(*CreateCourseReply_Course)(nil), // 6: teaching.v1.CreateCourseReply.Course
-	(*CreateCourseReply_Data)(nil),   // 7: teaching.v1.CreateCourseReply.Data
+	(GetCourseDetailReply_Course_State)(0), // 0: teaching.v1.GetCourseDetailReply.Course.State
+	(CreateCourseRequest_State)(0),         // 1: teaching.v1.CreateCourseRequest.State
+	(CreateCourseReply_Data_State)(0),      // 2: teaching.v1.CreateCourseReply.Data.State
+	(*SearchCoursesRequest)(nil),           // 3: teaching.v1.SearchCoursesRequest
+	(*SearchCoursesReply)(nil),             // 4: teaching.v1.SearchCoursesReply
+	(*GetCourseRequest)(nil),               // 5: teaching.v1.GetCourseRequest
+	(*GetCourseReply)(nil),                 // 6: teaching.v1.GetCourseReply
+	(*GetCourseDetailRequest)(nil),         // 7: teaching.v1.GetCourseDetailRequest
+	(*GetCourseDetailReply)(nil),           // 8: teaching.v1.GetCourseDetailReply
+	(*DeleteCourseRequest)(nil),            // 9: teaching.v1.DeleteCourseRequest
+	(*DeleteCourseReply)(nil),              // 10: teaching.v1.DeleteCourseReply
+	(*CreateCourseRequest)(nil),            // 11: teaching.v1.CreateCourseRequest
+	(*CreateCourseReply)(nil),              // 12: teaching.v1.CreateCourseReply
+	(*UpdateCourseRequest)(nil),            // 13: teaching.v1.UpdateCourseRequest
+	(*UpdateCourseReply)(nil),              // 14: teaching.v1.UpdateCourseReply
+	(*SearchCoursesReply_Teacher)(nil),     // 15: teaching.v1.SearchCoursesReply.Teacher
+	(*SearchCoursesReply_Course)(nil),      // 16: teaching.v1.SearchCoursesReply.Course
+	(*SearchCoursesReply_Data)(nil),        // 17: teaching.v1.SearchCoursesReply.Data
+	(*GetCourseReply_Course)(nil),          // 18: teaching.v1.GetCourseReply.Course
+	(*GetCourseReply_Data)(nil),            // 19: teaching.v1.GetCourseReply.Data
+	(*GetCourseDetailReply_Teacher)(nil),   // 20: teaching.v1.GetCourseDetailReply.Teacher
+	(*GetCourseDetailReply_Course)(nil),    // 21: teaching.v1.GetCourseDetailReply.Course
+	(*GetCourseDetailReply_Data)(nil),      // 22: teaching.v1.GetCourseDetailReply.Data
+	(*DeleteCourseReply_Course)(nil),       // 23: teaching.v1.DeleteCourseReply.Course
+	(*DeleteCourseReply_Data)(nil),         // 24: teaching.v1.DeleteCourseReply.Data
+	(*CreateCourseReply_Data)(nil),         // 25: teaching.v1.CreateCourseReply.Data
+	(*UpdateCourseReply_Course)(nil),       // 26: teaching.v1.UpdateCourseReply.Course
+	(*UpdateCourseReply_Data)(nil),         // 27: teaching.v1.UpdateCourseReply.Data
 }
 var file_teaching_v1_course_proto_depIdxs = []int32{
-	5, // 0: teaching.v1.SearchCourseReply.data:type_name -> teaching.v1.SearchCourseReply.Data
-	7, // 1: teaching.v1.CreateCourseReply.data:type_name -> teaching.v1.CreateCourseReply.Data
-	4, // 2: teaching.v1.SearchCourseReply.Data.courses:type_name -> teaching.v1.SearchCourseReply.Course
-	6, // 3: teaching.v1.CreateCourseReply.Data.course:type_name -> teaching.v1.CreateCourseReply.Course
-	0, // 4: teaching.v1.Course.SearchCourse:input_type -> teaching.v1.SearchCourseRequest
-	2, // 5: teaching.v1.Course.CreateCourse:input_type -> teaching.v1.CreateCourseRequest
-	1, // 6: teaching.v1.Course.SearchCourse:output_type -> teaching.v1.SearchCourseReply
-	3, // 7: teaching.v1.Course.CreateCourse:output_type -> teaching.v1.CreateCourseReply
-	6, // [6:8] is the sub-list for method output_type
-	4, // [4:6] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	17, // 0: teaching.v1.SearchCoursesReply.data:type_name -> teaching.v1.SearchCoursesReply.Data
+	19, // 1: teaching.v1.GetCourseReply.data:type_name -> teaching.v1.GetCourseReply.Data
+	22, // 2: teaching.v1.GetCourseDetailReply.data:type_name -> teaching.v1.GetCourseDetailReply.Data
+	24, // 3: teaching.v1.DeleteCourseReply.data:type_name -> teaching.v1.DeleteCourseReply.Data
+	1,  // 4: teaching.v1.CreateCourseRequest.state:type_name -> teaching.v1.CreateCourseRequest.State
+	25, // 5: teaching.v1.CreateCourseReply.data:type_name -> teaching.v1.CreateCourseReply.Data
+	27, // 6: teaching.v1.UpdateCourseReply.data:type_name -> teaching.v1.UpdateCourseReply.Data
+	15, // 7: teaching.v1.SearchCoursesReply.Course.teachers:type_name -> teaching.v1.SearchCoursesReply.Teacher
+	16, // 8: teaching.v1.SearchCoursesReply.Data.courses:type_name -> teaching.v1.SearchCoursesReply.Course
+	18, // 9: teaching.v1.GetCourseReply.Data.course:type_name -> teaching.v1.GetCourseReply.Course
+	0,  // 10: teaching.v1.GetCourseDetailReply.Course.state:type_name -> teaching.v1.GetCourseDetailReply.Course.State
+	20, // 11: teaching.v1.GetCourseDetailReply.Course.teachers:type_name -> teaching.v1.GetCourseDetailReply.Teacher
+	21, // 12: teaching.v1.GetCourseDetailReply.Data.course:type_name -> teaching.v1.GetCourseDetailReply.Course
+	23, // 13: teaching.v1.DeleteCourseReply.Data.course:type_name -> teaching.v1.DeleteCourseReply.Course
+	2,  // 14: teaching.v1.CreateCourseReply.Data.state:type_name -> teaching.v1.CreateCourseReply.Data.State
+	26, // 15: teaching.v1.UpdateCourseReply.Data.course:type_name -> teaching.v1.UpdateCourseReply.Course
+	3,  // 16: teaching.v1.Course.SearchCourse:input_type -> teaching.v1.SearchCoursesRequest
+	5,  // 17: teaching.v1.Course.GetCourse:input_type -> teaching.v1.GetCourseRequest
+	7,  // 18: teaching.v1.Course.GetCourseDetail:input_type -> teaching.v1.GetCourseDetailRequest
+	9,  // 19: teaching.v1.Course.DeleteCourse:input_type -> teaching.v1.DeleteCourseRequest
+	13, // 20: teaching.v1.Course.UpdateCourse:input_type -> teaching.v1.UpdateCourseRequest
+	11, // 21: teaching.v1.Course.CreateCourse:input_type -> teaching.v1.CreateCourseRequest
+	4,  // 22: teaching.v1.Course.SearchCourse:output_type -> teaching.v1.SearchCoursesReply
+	6,  // 23: teaching.v1.Course.GetCourse:output_type -> teaching.v1.GetCourseReply
+	8,  // 24: teaching.v1.Course.GetCourseDetail:output_type -> teaching.v1.GetCourseDetailReply
+	10, // 25: teaching.v1.Course.DeleteCourse:output_type -> teaching.v1.DeleteCourseReply
+	14, // 26: teaching.v1.Course.UpdateCourse:output_type -> teaching.v1.UpdateCourseReply
+	12, // 27: teaching.v1.Course.CreateCourse:output_type -> teaching.v1.CreateCourseReply
+	22, // [22:28] is the sub-list for method output_type
+	16, // [16:22] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_teaching_v1_course_proto_init() }
@@ -629,7 +2294,7 @@ func file_teaching_v1_course_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_teaching_v1_course_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SearchCourseRequest); i {
+			switch v := v.(*SearchCoursesRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -641,7 +2306,7 @@ func file_teaching_v1_course_proto_init() {
 			}
 		}
 		file_teaching_v1_course_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SearchCourseReply); i {
+			switch v := v.(*SearchCoursesReply); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -653,7 +2318,7 @@ func file_teaching_v1_course_proto_init() {
 			}
 		}
 		file_teaching_v1_course_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateCourseRequest); i {
+			switch v := v.(*GetCourseRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -665,7 +2330,7 @@ func file_teaching_v1_course_proto_init() {
 			}
 		}
 		file_teaching_v1_course_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateCourseReply); i {
+			switch v := v.(*GetCourseReply); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -677,7 +2342,7 @@ func file_teaching_v1_course_proto_init() {
 			}
 		}
 		file_teaching_v1_course_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SearchCourseReply_Course); i {
+			switch v := v.(*GetCourseDetailRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -689,7 +2354,7 @@ func file_teaching_v1_course_proto_init() {
 			}
 		}
 		file_teaching_v1_course_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SearchCourseReply_Data); i {
+			switch v := v.(*GetCourseDetailReply); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -701,7 +2366,7 @@ func file_teaching_v1_course_proto_init() {
 			}
 		}
 		file_teaching_v1_course_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateCourseReply_Course); i {
+			switch v := v.(*DeleteCourseRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -713,7 +2378,211 @@ func file_teaching_v1_course_proto_init() {
 			}
 		}
 		file_teaching_v1_course_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteCourseReply); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_teaching_v1_course_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateCourseRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_teaching_v1_course_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateCourseReply); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_teaching_v1_course_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateCourseRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_teaching_v1_course_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateCourseReply); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_teaching_v1_course_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SearchCoursesReply_Teacher); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_teaching_v1_course_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SearchCoursesReply_Course); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_teaching_v1_course_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SearchCoursesReply_Data); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_teaching_v1_course_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetCourseReply_Course); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_teaching_v1_course_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetCourseReply_Data); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_teaching_v1_course_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetCourseDetailReply_Teacher); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_teaching_v1_course_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetCourseDetailReply_Course); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_teaching_v1_course_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetCourseDetailReply_Data); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_teaching_v1_course_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteCourseReply_Course); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_teaching_v1_course_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteCourseReply_Data); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_teaching_v1_course_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CreateCourseReply_Data); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_teaching_v1_course_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateCourseReply_Course); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_teaching_v1_course_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateCourseReply_Data); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -730,13 +2599,14 @@ func file_teaching_v1_course_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_teaching_v1_course_proto_rawDesc,
-			NumEnums:      0,
-			NumMessages:   8,
+			NumEnums:      3,
+			NumMessages:   25,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_teaching_v1_course_proto_goTypes,
 		DependencyIndexes: file_teaching_v1_course_proto_depIdxs,
+		EnumInfos:         file_teaching_v1_course_proto_enumTypes,
 		MessageInfos:      file_teaching_v1_course_proto_msgTypes,
 	}.Build()
 	File_teaching_v1_course_proto = out.File

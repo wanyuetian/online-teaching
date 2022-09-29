@@ -8,9 +8,12 @@ import (
 	"fmt"
 	"online-teaching/internal/ent/course"
 	"online-teaching/internal/ent/coursechapter"
+	"online-teaching/internal/ent/coursecomment"
 	"online-teaching/internal/ent/courseinfo"
 	"online-teaching/internal/ent/coursesection"
-	"online-teaching/internal/ent/courseteacher"
+	"online-teaching/internal/ent/courseswiper"
+	"online-teaching/internal/ent/teacher"
+	"online-teaching/internal/ent/user"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -37,9 +40,12 @@ func columnChecker(table string) func(string) error {
 	checks := map[string]func(string) bool{
 		course.Table:        course.ValidColumn,
 		coursechapter.Table: coursechapter.ValidColumn,
+		coursecomment.Table: coursecomment.ValidColumn,
 		courseinfo.Table:    courseinfo.ValidColumn,
 		coursesection.Table: coursesection.ValidColumn,
-		courseteacher.Table: courseteacher.ValidColumn,
+		courseswiper.Table:  courseswiper.ValidColumn,
+		teacher.Table:       teacher.ValidColumn,
+		user.Table:          user.ValidColumn,
 	}
 	check, ok := checks[table]
 	if !ok {

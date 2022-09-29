@@ -35,6 +35,14 @@ func (ciu *CourseInfoUpdate) SetClickCount(i int) *CourseInfoUpdate {
 	return ciu
 }
 
+// SetNillableClickCount sets the "click_count" field if the given value is not nil.
+func (ciu *CourseInfoUpdate) SetNillableClickCount(i *int) *CourseInfoUpdate {
+	if i != nil {
+		ciu.SetClickCount(*i)
+	}
+	return ciu
+}
+
 // AddClickCount adds i to the "click_count" field.
 func (ciu *CourseInfoUpdate) AddClickCount(i int) *CourseInfoUpdate {
 	ciu.mutation.AddClickCount(i)
@@ -45,6 +53,14 @@ func (ciu *CourseInfoUpdate) AddClickCount(i int) *CourseInfoUpdate {
 func (ciu *CourseInfoUpdate) SetLearnCount(i int) *CourseInfoUpdate {
 	ciu.mutation.ResetLearnCount()
 	ciu.mutation.SetLearnCount(i)
+	return ciu
+}
+
+// SetNillableLearnCount sets the "learn_count" field if the given value is not nil.
+func (ciu *CourseInfoUpdate) SetNillableLearnCount(i *int) *CourseInfoUpdate {
+	if i != nil {
+		ciu.SetLearnCount(*i)
+	}
 	return ciu
 }
 
@@ -61,6 +77,14 @@ func (ciu *CourseInfoUpdate) SetTotalDuration(i int) *CourseInfoUpdate {
 	return ciu
 }
 
+// SetNillableTotalDuration sets the "total_duration" field if the given value is not nil.
+func (ciu *CourseInfoUpdate) SetNillableTotalDuration(i *int) *CourseInfoUpdate {
+	if i != nil {
+		ciu.SetTotalDuration(*i)
+	}
+	return ciu
+}
+
 // AddTotalDuration adds i to the "total_duration" field.
 func (ciu *CourseInfoUpdate) AddTotalDuration(i int) *CourseInfoUpdate {
 	ciu.mutation.AddTotalDuration(i)
@@ -71,6 +95,14 @@ func (ciu *CourseInfoUpdate) AddTotalDuration(i int) *CourseInfoUpdate {
 func (ciu *CourseInfoUpdate) SetSectionCount(i int) *CourseInfoUpdate {
 	ciu.mutation.ResetSectionCount()
 	ciu.mutation.SetSectionCount(i)
+	return ciu
+}
+
+// SetNillableSectionCount sets the "section_count" field if the given value is not nil.
+func (ciu *CourseInfoUpdate) SetNillableSectionCount(i *int) *CourseInfoUpdate {
+	if i != nil {
+		ciu.SetSectionCount(*i)
+	}
 	return ciu
 }
 
@@ -108,15 +140,57 @@ func (ciu *CourseInfoUpdate) SetNillableDetail(s *string) *CourseInfoUpdate {
 }
 
 // SetState sets the "state" field.
-func (ciu *CourseInfoUpdate) SetState(s string) *CourseInfoUpdate {
-	ciu.mutation.SetState(s)
+func (ciu *CourseInfoUpdate) SetState(i int) *CourseInfoUpdate {
+	ciu.mutation.ResetState()
+	ciu.mutation.SetState(i)
 	return ciu
 }
 
 // SetNillableState sets the "state" field if the given value is not nil.
-func (ciu *CourseInfoUpdate) SetNillableState(s *string) *CourseInfoUpdate {
-	if s != nil {
-		ciu.SetState(*s)
+func (ciu *CourseInfoUpdate) SetNillableState(i *int) *CourseInfoUpdate {
+	if i != nil {
+		ciu.SetState(*i)
+	}
+	return ciu
+}
+
+// AddState adds i to the "state" field.
+func (ciu *CourseInfoUpdate) AddState(i int) *CourseInfoUpdate {
+	ciu.mutation.AddState(i)
+	return ciu
+}
+
+// SetOrder sets the "order" field.
+func (ciu *CourseInfoUpdate) SetOrder(i int) *CourseInfoUpdate {
+	ciu.mutation.ResetOrder()
+	ciu.mutation.SetOrder(i)
+	return ciu
+}
+
+// SetNillableOrder sets the "order" field if the given value is not nil.
+func (ciu *CourseInfoUpdate) SetNillableOrder(i *int) *CourseInfoUpdate {
+	if i != nil {
+		ciu.SetOrder(*i)
+	}
+	return ciu
+}
+
+// AddOrder adds i to the "order" field.
+func (ciu *CourseInfoUpdate) AddOrder(i int) *CourseInfoUpdate {
+	ciu.mutation.AddOrder(i)
+	return ciu
+}
+
+// SetIsQuality sets the "is_quality" field.
+func (ciu *CourseInfoUpdate) SetIsQuality(b bool) *CourseInfoUpdate {
+	ciu.mutation.SetIsQuality(b)
+	return ciu
+}
+
+// SetNillableIsQuality sets the "is_quality" field if the given value is not nil.
+func (ciu *CourseInfoUpdate) SetNillableIsQuality(b *bool) *CourseInfoUpdate {
+	if b != nil {
+		ciu.SetIsQuality(*b)
 	}
 	return ciu
 }
@@ -155,12 +229,6 @@ func (ciu *CourseInfoUpdate) SetUpdatedAt(t time.Time) *CourseInfoUpdate {
 	return ciu
 }
 
-// SetDeletedAt sets the "deleted_at" field.
-func (ciu *CourseInfoUpdate) SetDeletedAt(t time.Time) *CourseInfoUpdate {
-	ciu.mutation.SetDeletedAt(t)
-	return ciu
-}
-
 // Mutation returns the CourseInfoMutation object of the builder.
 func (ciu *CourseInfoUpdate) Mutation() *CourseInfoMutation {
 	return ciu.mutation
@@ -174,12 +242,18 @@ func (ciu *CourseInfoUpdate) Save(ctx context.Context) (int, error) {
 	)
 	ciu.defaults()
 	if len(ciu.hooks) == 0 {
+		if err = ciu.check(); err != nil {
+			return 0, err
+		}
 		affected, err = ciu.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*CourseInfoMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = ciu.check(); err != nil {
+				return 0, err
 			}
 			ciu.mutation = mutation
 			affected, err = ciu.sqlSave(ctx)
@@ -227,6 +301,16 @@ func (ciu *CourseInfoUpdate) defaults() {
 		v := courseinfo.UpdateDefaultUpdatedAt()
 		ciu.mutation.SetUpdatedAt(v)
 	}
+}
+
+// check runs all checks and user-defined validators on the builder.
+func (ciu *CourseInfoUpdate) check() error {
+	if v, ok := ciu.mutation.Detail(); ok {
+		if err := courseinfo.DetailValidator(v); err != nil {
+			return &ValidationError{Name: "detail", err: fmt.Errorf(`ent: validator failed for field "CourseInfo.detail": %w`, err)}
+		}
+	}
+	return nil
 }
 
 func (ciu *CourseInfoUpdate) sqlSave(ctx context.Context) (n int, err error) {
@@ -326,9 +410,37 @@ func (ciu *CourseInfoUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := ciu.mutation.State(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeInt,
 			Value:  value,
 			Column: courseinfo.FieldState,
+		})
+	}
+	if value, ok := ciu.mutation.AddedState(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: courseinfo.FieldState,
+		})
+	}
+	if value, ok := ciu.mutation.Order(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: courseinfo.FieldOrder,
+		})
+	}
+	if value, ok := ciu.mutation.AddedOrder(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: courseinfo.FieldOrder,
+		})
+	}
+	if value, ok := ciu.mutation.IsQuality(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: courseinfo.FieldIsQuality,
 		})
 	}
 	if value, ok := ciu.mutation.IsDeleted(); ok {
@@ -350,13 +462,6 @@ func (ciu *CourseInfoUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Type:   field.TypeTime,
 			Value:  value,
 			Column: courseinfo.FieldUpdatedAt,
-		})
-	}
-	if value, ok := ciu.mutation.DeletedAt(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeTime,
-			Value:  value,
-			Column: courseinfo.FieldDeletedAt,
 		})
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, ciu.driver, _spec); err != nil {
@@ -385,6 +490,14 @@ func (ciuo *CourseInfoUpdateOne) SetClickCount(i int) *CourseInfoUpdateOne {
 	return ciuo
 }
 
+// SetNillableClickCount sets the "click_count" field if the given value is not nil.
+func (ciuo *CourseInfoUpdateOne) SetNillableClickCount(i *int) *CourseInfoUpdateOne {
+	if i != nil {
+		ciuo.SetClickCount(*i)
+	}
+	return ciuo
+}
+
 // AddClickCount adds i to the "click_count" field.
 func (ciuo *CourseInfoUpdateOne) AddClickCount(i int) *CourseInfoUpdateOne {
 	ciuo.mutation.AddClickCount(i)
@@ -395,6 +508,14 @@ func (ciuo *CourseInfoUpdateOne) AddClickCount(i int) *CourseInfoUpdateOne {
 func (ciuo *CourseInfoUpdateOne) SetLearnCount(i int) *CourseInfoUpdateOne {
 	ciuo.mutation.ResetLearnCount()
 	ciuo.mutation.SetLearnCount(i)
+	return ciuo
+}
+
+// SetNillableLearnCount sets the "learn_count" field if the given value is not nil.
+func (ciuo *CourseInfoUpdateOne) SetNillableLearnCount(i *int) *CourseInfoUpdateOne {
+	if i != nil {
+		ciuo.SetLearnCount(*i)
+	}
 	return ciuo
 }
 
@@ -411,6 +532,14 @@ func (ciuo *CourseInfoUpdateOne) SetTotalDuration(i int) *CourseInfoUpdateOne {
 	return ciuo
 }
 
+// SetNillableTotalDuration sets the "total_duration" field if the given value is not nil.
+func (ciuo *CourseInfoUpdateOne) SetNillableTotalDuration(i *int) *CourseInfoUpdateOne {
+	if i != nil {
+		ciuo.SetTotalDuration(*i)
+	}
+	return ciuo
+}
+
 // AddTotalDuration adds i to the "total_duration" field.
 func (ciuo *CourseInfoUpdateOne) AddTotalDuration(i int) *CourseInfoUpdateOne {
 	ciuo.mutation.AddTotalDuration(i)
@@ -421,6 +550,14 @@ func (ciuo *CourseInfoUpdateOne) AddTotalDuration(i int) *CourseInfoUpdateOne {
 func (ciuo *CourseInfoUpdateOne) SetSectionCount(i int) *CourseInfoUpdateOne {
 	ciuo.mutation.ResetSectionCount()
 	ciuo.mutation.SetSectionCount(i)
+	return ciuo
+}
+
+// SetNillableSectionCount sets the "section_count" field if the given value is not nil.
+func (ciuo *CourseInfoUpdateOne) SetNillableSectionCount(i *int) *CourseInfoUpdateOne {
+	if i != nil {
+		ciuo.SetSectionCount(*i)
+	}
 	return ciuo
 }
 
@@ -458,15 +595,57 @@ func (ciuo *CourseInfoUpdateOne) SetNillableDetail(s *string) *CourseInfoUpdateO
 }
 
 // SetState sets the "state" field.
-func (ciuo *CourseInfoUpdateOne) SetState(s string) *CourseInfoUpdateOne {
-	ciuo.mutation.SetState(s)
+func (ciuo *CourseInfoUpdateOne) SetState(i int) *CourseInfoUpdateOne {
+	ciuo.mutation.ResetState()
+	ciuo.mutation.SetState(i)
 	return ciuo
 }
 
 // SetNillableState sets the "state" field if the given value is not nil.
-func (ciuo *CourseInfoUpdateOne) SetNillableState(s *string) *CourseInfoUpdateOne {
-	if s != nil {
-		ciuo.SetState(*s)
+func (ciuo *CourseInfoUpdateOne) SetNillableState(i *int) *CourseInfoUpdateOne {
+	if i != nil {
+		ciuo.SetState(*i)
+	}
+	return ciuo
+}
+
+// AddState adds i to the "state" field.
+func (ciuo *CourseInfoUpdateOne) AddState(i int) *CourseInfoUpdateOne {
+	ciuo.mutation.AddState(i)
+	return ciuo
+}
+
+// SetOrder sets the "order" field.
+func (ciuo *CourseInfoUpdateOne) SetOrder(i int) *CourseInfoUpdateOne {
+	ciuo.mutation.ResetOrder()
+	ciuo.mutation.SetOrder(i)
+	return ciuo
+}
+
+// SetNillableOrder sets the "order" field if the given value is not nil.
+func (ciuo *CourseInfoUpdateOne) SetNillableOrder(i *int) *CourseInfoUpdateOne {
+	if i != nil {
+		ciuo.SetOrder(*i)
+	}
+	return ciuo
+}
+
+// AddOrder adds i to the "order" field.
+func (ciuo *CourseInfoUpdateOne) AddOrder(i int) *CourseInfoUpdateOne {
+	ciuo.mutation.AddOrder(i)
+	return ciuo
+}
+
+// SetIsQuality sets the "is_quality" field.
+func (ciuo *CourseInfoUpdateOne) SetIsQuality(b bool) *CourseInfoUpdateOne {
+	ciuo.mutation.SetIsQuality(b)
+	return ciuo
+}
+
+// SetNillableIsQuality sets the "is_quality" field if the given value is not nil.
+func (ciuo *CourseInfoUpdateOne) SetNillableIsQuality(b *bool) *CourseInfoUpdateOne {
+	if b != nil {
+		ciuo.SetIsQuality(*b)
 	}
 	return ciuo
 }
@@ -505,12 +684,6 @@ func (ciuo *CourseInfoUpdateOne) SetUpdatedAt(t time.Time) *CourseInfoUpdateOne 
 	return ciuo
 }
 
-// SetDeletedAt sets the "deleted_at" field.
-func (ciuo *CourseInfoUpdateOne) SetDeletedAt(t time.Time) *CourseInfoUpdateOne {
-	ciuo.mutation.SetDeletedAt(t)
-	return ciuo
-}
-
 // Mutation returns the CourseInfoMutation object of the builder.
 func (ciuo *CourseInfoUpdateOne) Mutation() *CourseInfoMutation {
 	return ciuo.mutation
@@ -531,12 +704,18 @@ func (ciuo *CourseInfoUpdateOne) Save(ctx context.Context) (*CourseInfo, error) 
 	)
 	ciuo.defaults()
 	if len(ciuo.hooks) == 0 {
+		if err = ciuo.check(); err != nil {
+			return nil, err
+		}
 		node, err = ciuo.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*CourseInfoMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = ciuo.check(); err != nil {
+				return nil, err
 			}
 			ciuo.mutation = mutation
 			node, err = ciuo.sqlSave(ctx)
@@ -590,6 +769,16 @@ func (ciuo *CourseInfoUpdateOne) defaults() {
 		v := courseinfo.UpdateDefaultUpdatedAt()
 		ciuo.mutation.SetUpdatedAt(v)
 	}
+}
+
+// check runs all checks and user-defined validators on the builder.
+func (ciuo *CourseInfoUpdateOne) check() error {
+	if v, ok := ciuo.mutation.Detail(); ok {
+		if err := courseinfo.DetailValidator(v); err != nil {
+			return &ValidationError{Name: "detail", err: fmt.Errorf(`ent: validator failed for field "CourseInfo.detail": %w`, err)}
+		}
+	}
+	return nil
 }
 
 func (ciuo *CourseInfoUpdateOne) sqlSave(ctx context.Context) (_node *CourseInfo, err error) {
@@ -706,9 +895,37 @@ func (ciuo *CourseInfoUpdateOne) sqlSave(ctx context.Context) (_node *CourseInfo
 	}
 	if value, ok := ciuo.mutation.State(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeInt,
 			Value:  value,
 			Column: courseinfo.FieldState,
+		})
+	}
+	if value, ok := ciuo.mutation.AddedState(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: courseinfo.FieldState,
+		})
+	}
+	if value, ok := ciuo.mutation.Order(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: courseinfo.FieldOrder,
+		})
+	}
+	if value, ok := ciuo.mutation.AddedOrder(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: courseinfo.FieldOrder,
+		})
+	}
+	if value, ok := ciuo.mutation.IsQuality(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeBool,
+			Value:  value,
+			Column: courseinfo.FieldIsQuality,
 		})
 	}
 	if value, ok := ciuo.mutation.IsDeleted(); ok {
@@ -730,13 +947,6 @@ func (ciuo *CourseInfoUpdateOne) sqlSave(ctx context.Context) (_node *CourseInfo
 			Type:   field.TypeTime,
 			Value:  value,
 			Column: courseinfo.FieldUpdatedAt,
-		})
-	}
-	if value, ok := ciuo.mutation.DeletedAt(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeTime,
-			Value:  value,
-			Column: courseinfo.FieldDeletedAt,
 		})
 	}
 	_node = &CourseInfo{config: ciuo.config}

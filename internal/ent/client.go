@@ -12,9 +12,12 @@ import (
 
 	"online-teaching/internal/ent/course"
 	"online-teaching/internal/ent/coursechapter"
+	"online-teaching/internal/ent/coursecomment"
 	"online-teaching/internal/ent/courseinfo"
 	"online-teaching/internal/ent/coursesection"
-	"online-teaching/internal/ent/courseteacher"
+	"online-teaching/internal/ent/courseswiper"
+	"online-teaching/internal/ent/teacher"
+	"online-teaching/internal/ent/user"
 
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
@@ -30,12 +33,18 @@ type Client struct {
 	Course *CourseClient
 	// CourseChapter is the client for interacting with the CourseChapter builders.
 	CourseChapter *CourseChapterClient
+	// CourseComment is the client for interacting with the CourseComment builders.
+	CourseComment *CourseCommentClient
 	// CourseInfo is the client for interacting with the CourseInfo builders.
 	CourseInfo *CourseInfoClient
 	// CourseSection is the client for interacting with the CourseSection builders.
 	CourseSection *CourseSectionClient
-	// CourseTeacher is the client for interacting with the CourseTeacher builders.
-	CourseTeacher *CourseTeacherClient
+	// CourseSwiper is the client for interacting with the CourseSwiper builders.
+	CourseSwiper *CourseSwiperClient
+	// Teacher is the client for interacting with the Teacher builders.
+	Teacher *TeacherClient
+	// User is the client for interacting with the User builders.
+	User *UserClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -51,9 +60,12 @@ func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.Course = NewCourseClient(c.config)
 	c.CourseChapter = NewCourseChapterClient(c.config)
+	c.CourseComment = NewCourseCommentClient(c.config)
 	c.CourseInfo = NewCourseInfoClient(c.config)
 	c.CourseSection = NewCourseSectionClient(c.config)
-	c.CourseTeacher = NewCourseTeacherClient(c.config)
+	c.CourseSwiper = NewCourseSwiperClient(c.config)
+	c.Teacher = NewTeacherClient(c.config)
+	c.User = NewUserClient(c.config)
 }
 
 // Open opens a database/sql.DB specified by the driver name and
@@ -89,9 +101,12 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		config:        cfg,
 		Course:        NewCourseClient(cfg),
 		CourseChapter: NewCourseChapterClient(cfg),
+		CourseComment: NewCourseCommentClient(cfg),
 		CourseInfo:    NewCourseInfoClient(cfg),
 		CourseSection: NewCourseSectionClient(cfg),
-		CourseTeacher: NewCourseTeacherClient(cfg),
+		CourseSwiper:  NewCourseSwiperClient(cfg),
+		Teacher:       NewTeacherClient(cfg),
+		User:          NewUserClient(cfg),
 	}, nil
 }
 
@@ -113,9 +128,12 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		config:        cfg,
 		Course:        NewCourseClient(cfg),
 		CourseChapter: NewCourseChapterClient(cfg),
+		CourseComment: NewCourseCommentClient(cfg),
 		CourseInfo:    NewCourseInfoClient(cfg),
 		CourseSection: NewCourseSectionClient(cfg),
-		CourseTeacher: NewCourseTeacherClient(cfg),
+		CourseSwiper:  NewCourseSwiperClient(cfg),
+		Teacher:       NewTeacherClient(cfg),
+		User:          NewUserClient(cfg),
 	}, nil
 }
 
@@ -147,9 +165,12 @@ func (c *Client) Close() error {
 func (c *Client) Use(hooks ...Hook) {
 	c.Course.Use(hooks...)
 	c.CourseChapter.Use(hooks...)
+	c.CourseComment.Use(hooks...)
 	c.CourseInfo.Use(hooks...)
 	c.CourseSection.Use(hooks...)
-	c.CourseTeacher.Use(hooks...)
+	c.CourseSwiper.Use(hooks...)
+	c.Teacher.Use(hooks...)
+	c.User.Use(hooks...)
 }
 
 // CourseClient is a client for the Course schema.
@@ -237,15 +258,15 @@ func (c *CourseClient) GetX(ctx context.Context, id int) *Course {
 	return obj
 }
 
-// QueryCourseTeacher queries the course_teacher edge of a Course.
-func (c *CourseClient) QueryCourseTeacher(co *Course) *CourseTeacherQuery {
-	query := &CourseTeacherQuery{config: c.config}
+// QueryTeachers queries the teachers edge of a Course.
+func (c *CourseClient) QueryTeachers(co *Course) *TeacherQuery {
+	query := &TeacherQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := co.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(course.Table, course.FieldID, id),
-			sqlgraph.To(courseteacher.Table, courseteacher.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, course.CourseTeacherTable, course.CourseTeacherColumn),
+			sqlgraph.To(teacher.Table, teacher.FieldID),
+			sqlgraph.Edge(sqlgraph.M2M, true, course.TeachersTable, course.TeachersPrimaryKey...),
 		)
 		fromV = sqlgraph.Neighbors(co.driver.Dialect(), step)
 		return fromV, nil
@@ -253,15 +274,15 @@ func (c *CourseClient) QueryCourseTeacher(co *Course) *CourseTeacherQuery {
 	return query
 }
 
-// QueryCourseInfo queries the course_info edge of a Course.
-func (c *CourseClient) QueryCourseInfo(co *Course) *CourseInfoQuery {
+// QueryInfos queries the infos edge of a Course.
+func (c *CourseClient) QueryInfos(co *Course) *CourseInfoQuery {
 	query := &CourseInfoQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := co.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(course.Table, course.FieldID, id),
 			sqlgraph.To(courseinfo.Table, courseinfo.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, course.CourseInfoTable, course.CourseInfoColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, course.InfosTable, course.InfosColumn),
 		)
 		fromV = sqlgraph.Neighbors(co.driver.Dialect(), step)
 		return fromV, nil
@@ -269,15 +290,15 @@ func (c *CourseClient) QueryCourseInfo(co *Course) *CourseInfoQuery {
 	return query
 }
 
-// QueryCourseChapter queries the course_chapter edge of a Course.
-func (c *CourseClient) QueryCourseChapter(co *Course) *CourseChapterQuery {
+// QueryChapters queries the chapters edge of a Course.
+func (c *CourseClient) QueryChapters(co *Course) *CourseChapterQuery {
 	query := &CourseChapterQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := co.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(course.Table, course.FieldID, id),
 			sqlgraph.To(coursechapter.Table, coursechapter.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, course.CourseChapterTable, course.CourseChapterColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, course.ChaptersTable, course.ChaptersColumn),
 		)
 		fromV = sqlgraph.Neighbors(co.driver.Dialect(), step)
 		return fromV, nil
@@ -285,15 +306,47 @@ func (c *CourseClient) QueryCourseChapter(co *Course) *CourseChapterQuery {
 	return query
 }
 
-// QueryCourseSection queries the course_section edge of a Course.
-func (c *CourseClient) QueryCourseSection(co *Course) *CourseSectionQuery {
+// QuerySections queries the sections edge of a Course.
+func (c *CourseClient) QuerySections(co *Course) *CourseSectionQuery {
 	query := &CourseSectionQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := co.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(course.Table, course.FieldID, id),
 			sqlgraph.To(coursesection.Table, coursesection.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, course.CourseSectionTable, course.CourseSectionColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, course.SectionsTable, course.SectionsColumn),
+		)
+		fromV = sqlgraph.Neighbors(co.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QuerySwipers queries the swipers edge of a Course.
+func (c *CourseClient) QuerySwipers(co *Course) *CourseSwiperQuery {
+	query := &CourseSwiperQuery{config: c.config}
+	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
+		id := co.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(course.Table, course.FieldID, id),
+			sqlgraph.To(courseswiper.Table, courseswiper.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, course.SwipersTable, course.SwipersColumn),
+		)
+		fromV = sqlgraph.Neighbors(co.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryUsers queries the users edge of a Course.
+func (c *CourseClient) QueryUsers(co *Course) *UserQuery {
+	query := &UserQuery{config: c.config}
+	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
+		id := co.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(course.Table, course.FieldID, id),
+			sqlgraph.To(user.Table, user.FieldID),
+			sqlgraph.Edge(sqlgraph.M2M, true, course.UsersTable, course.UsersPrimaryKey...),
 		)
 		fromV = sqlgraph.Neighbors(co.driver.Dialect(), step)
 		return fromV, nil
@@ -410,6 +463,96 @@ func (c *CourseChapterClient) QueryCourseSection(cc *CourseChapter) *CourseSecti
 // Hooks returns the client hooks.
 func (c *CourseChapterClient) Hooks() []Hook {
 	return c.hooks.CourseChapter
+}
+
+// CourseCommentClient is a client for the CourseComment schema.
+type CourseCommentClient struct {
+	config
+}
+
+// NewCourseCommentClient returns a client for the CourseComment from the given config.
+func NewCourseCommentClient(c config) *CourseCommentClient {
+	return &CourseCommentClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `coursecomment.Hooks(f(g(h())))`.
+func (c *CourseCommentClient) Use(hooks ...Hook) {
+	c.hooks.CourseComment = append(c.hooks.CourseComment, hooks...)
+}
+
+// Create returns a builder for creating a CourseComment entity.
+func (c *CourseCommentClient) Create() *CourseCommentCreate {
+	mutation := newCourseCommentMutation(c.config, OpCreate)
+	return &CourseCommentCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of CourseComment entities.
+func (c *CourseCommentClient) CreateBulk(builders ...*CourseCommentCreate) *CourseCommentCreateBulk {
+	return &CourseCommentCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for CourseComment.
+func (c *CourseCommentClient) Update() *CourseCommentUpdate {
+	mutation := newCourseCommentMutation(c.config, OpUpdate)
+	return &CourseCommentUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *CourseCommentClient) UpdateOne(cc *CourseComment) *CourseCommentUpdateOne {
+	mutation := newCourseCommentMutation(c.config, OpUpdateOne, withCourseComment(cc))
+	return &CourseCommentUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *CourseCommentClient) UpdateOneID(id int) *CourseCommentUpdateOne {
+	mutation := newCourseCommentMutation(c.config, OpUpdateOne, withCourseCommentID(id))
+	return &CourseCommentUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for CourseComment.
+func (c *CourseCommentClient) Delete() *CourseCommentDelete {
+	mutation := newCourseCommentMutation(c.config, OpDelete)
+	return &CourseCommentDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *CourseCommentClient) DeleteOne(cc *CourseComment) *CourseCommentDeleteOne {
+	return c.DeleteOneID(cc.ID)
+}
+
+// DeleteOne returns a builder for deleting the given entity by its id.
+func (c *CourseCommentClient) DeleteOneID(id int) *CourseCommentDeleteOne {
+	builder := c.Delete().Where(coursecomment.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &CourseCommentDeleteOne{builder}
+}
+
+// Query returns a query builder for CourseComment.
+func (c *CourseCommentClient) Query() *CourseCommentQuery {
+	return &CourseCommentQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a CourseComment entity by its id.
+func (c *CourseCommentClient) Get(ctx context.Context, id int) (*CourseComment, error) {
+	return c.Query().Where(coursecomment.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *CourseCommentClient) GetX(ctx context.Context, id int) *CourseComment {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *CourseCommentClient) Hooks() []Hook {
+	return c.hooks.CourseComment
 }
 
 // CourseInfoClient is a client for the CourseInfo schema.
@@ -592,84 +735,84 @@ func (c *CourseSectionClient) Hooks() []Hook {
 	return c.hooks.CourseSection
 }
 
-// CourseTeacherClient is a client for the CourseTeacher schema.
-type CourseTeacherClient struct {
+// CourseSwiperClient is a client for the CourseSwiper schema.
+type CourseSwiperClient struct {
 	config
 }
 
-// NewCourseTeacherClient returns a client for the CourseTeacher from the given config.
-func NewCourseTeacherClient(c config) *CourseTeacherClient {
-	return &CourseTeacherClient{config: c}
+// NewCourseSwiperClient returns a client for the CourseSwiper from the given config.
+func NewCourseSwiperClient(c config) *CourseSwiperClient {
+	return &CourseSwiperClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `courseteacher.Hooks(f(g(h())))`.
-func (c *CourseTeacherClient) Use(hooks ...Hook) {
-	c.hooks.CourseTeacher = append(c.hooks.CourseTeacher, hooks...)
+// A call to `Use(f, g, h)` equals to `courseswiper.Hooks(f(g(h())))`.
+func (c *CourseSwiperClient) Use(hooks ...Hook) {
+	c.hooks.CourseSwiper = append(c.hooks.CourseSwiper, hooks...)
 }
 
-// Create returns a builder for creating a CourseTeacher entity.
-func (c *CourseTeacherClient) Create() *CourseTeacherCreate {
-	mutation := newCourseTeacherMutation(c.config, OpCreate)
-	return &CourseTeacherCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a CourseSwiper entity.
+func (c *CourseSwiperClient) Create() *CourseSwiperCreate {
+	mutation := newCourseSwiperMutation(c.config, OpCreate)
+	return &CourseSwiperCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of CourseTeacher entities.
-func (c *CourseTeacherClient) CreateBulk(builders ...*CourseTeacherCreate) *CourseTeacherCreateBulk {
-	return &CourseTeacherCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of CourseSwiper entities.
+func (c *CourseSwiperClient) CreateBulk(builders ...*CourseSwiperCreate) *CourseSwiperCreateBulk {
+	return &CourseSwiperCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for CourseTeacher.
-func (c *CourseTeacherClient) Update() *CourseTeacherUpdate {
-	mutation := newCourseTeacherMutation(c.config, OpUpdate)
-	return &CourseTeacherUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for CourseSwiper.
+func (c *CourseSwiperClient) Update() *CourseSwiperUpdate {
+	mutation := newCourseSwiperMutation(c.config, OpUpdate)
+	return &CourseSwiperUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *CourseTeacherClient) UpdateOne(ct *CourseTeacher) *CourseTeacherUpdateOne {
-	mutation := newCourseTeacherMutation(c.config, OpUpdateOne, withCourseTeacher(ct))
-	return &CourseTeacherUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *CourseSwiperClient) UpdateOne(cs *CourseSwiper) *CourseSwiperUpdateOne {
+	mutation := newCourseSwiperMutation(c.config, OpUpdateOne, withCourseSwiper(cs))
+	return &CourseSwiperUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *CourseTeacherClient) UpdateOneID(id int) *CourseTeacherUpdateOne {
-	mutation := newCourseTeacherMutation(c.config, OpUpdateOne, withCourseTeacherID(id))
-	return &CourseTeacherUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *CourseSwiperClient) UpdateOneID(id int) *CourseSwiperUpdateOne {
+	mutation := newCourseSwiperMutation(c.config, OpUpdateOne, withCourseSwiperID(id))
+	return &CourseSwiperUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for CourseTeacher.
-func (c *CourseTeacherClient) Delete() *CourseTeacherDelete {
-	mutation := newCourseTeacherMutation(c.config, OpDelete)
-	return &CourseTeacherDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for CourseSwiper.
+func (c *CourseSwiperClient) Delete() *CourseSwiperDelete {
+	mutation := newCourseSwiperMutation(c.config, OpDelete)
+	return &CourseSwiperDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *CourseTeacherClient) DeleteOne(ct *CourseTeacher) *CourseTeacherDeleteOne {
-	return c.DeleteOneID(ct.ID)
+func (c *CourseSwiperClient) DeleteOne(cs *CourseSwiper) *CourseSwiperDeleteOne {
+	return c.DeleteOneID(cs.ID)
 }
 
 // DeleteOne returns a builder for deleting the given entity by its id.
-func (c *CourseTeacherClient) DeleteOneID(id int) *CourseTeacherDeleteOne {
-	builder := c.Delete().Where(courseteacher.ID(id))
+func (c *CourseSwiperClient) DeleteOneID(id int) *CourseSwiperDeleteOne {
+	builder := c.Delete().Where(courseswiper.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &CourseTeacherDeleteOne{builder}
+	return &CourseSwiperDeleteOne{builder}
 }
 
-// Query returns a query builder for CourseTeacher.
-func (c *CourseTeacherClient) Query() *CourseTeacherQuery {
-	return &CourseTeacherQuery{
+// Query returns a query builder for CourseSwiper.
+func (c *CourseSwiperClient) Query() *CourseSwiperQuery {
+	return &CourseSwiperQuery{
 		config: c.config,
 	}
 }
 
-// Get returns a CourseTeacher entity by its id.
-func (c *CourseTeacherClient) Get(ctx context.Context, id int) (*CourseTeacher, error) {
-	return c.Query().Where(courseteacher.ID(id)).Only(ctx)
+// Get returns a CourseSwiper entity by its id.
+func (c *CourseSwiperClient) Get(ctx context.Context, id int) (*CourseSwiper, error) {
+	return c.Query().Where(courseswiper.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *CourseTeacherClient) GetX(ctx context.Context, id int) *CourseTeacher {
+func (c *CourseSwiperClient) GetX(ctx context.Context, id int) *CourseSwiper {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -677,23 +820,219 @@ func (c *CourseTeacherClient) GetX(ctx context.Context, id int) *CourseTeacher {
 	return obj
 }
 
-// QueryCourse queries the course edge of a CourseTeacher.
-func (c *CourseTeacherClient) QueryCourse(ct *CourseTeacher) *CourseQuery {
+// Hooks returns the client hooks.
+func (c *CourseSwiperClient) Hooks() []Hook {
+	return c.hooks.CourseSwiper
+}
+
+// TeacherClient is a client for the Teacher schema.
+type TeacherClient struct {
+	config
+}
+
+// NewTeacherClient returns a client for the Teacher from the given config.
+func NewTeacherClient(c config) *TeacherClient {
+	return &TeacherClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `teacher.Hooks(f(g(h())))`.
+func (c *TeacherClient) Use(hooks ...Hook) {
+	c.hooks.Teacher = append(c.hooks.Teacher, hooks...)
+}
+
+// Create returns a builder for creating a Teacher entity.
+func (c *TeacherClient) Create() *TeacherCreate {
+	mutation := newTeacherMutation(c.config, OpCreate)
+	return &TeacherCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Teacher entities.
+func (c *TeacherClient) CreateBulk(builders ...*TeacherCreate) *TeacherCreateBulk {
+	return &TeacherCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Teacher.
+func (c *TeacherClient) Update() *TeacherUpdate {
+	mutation := newTeacherMutation(c.config, OpUpdate)
+	return &TeacherUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *TeacherClient) UpdateOne(t *Teacher) *TeacherUpdateOne {
+	mutation := newTeacherMutation(c.config, OpUpdateOne, withTeacher(t))
+	return &TeacherUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *TeacherClient) UpdateOneID(id int) *TeacherUpdateOne {
+	mutation := newTeacherMutation(c.config, OpUpdateOne, withTeacherID(id))
+	return &TeacherUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Teacher.
+func (c *TeacherClient) Delete() *TeacherDelete {
+	mutation := newTeacherMutation(c.config, OpDelete)
+	return &TeacherDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *TeacherClient) DeleteOne(t *Teacher) *TeacherDeleteOne {
+	return c.DeleteOneID(t.ID)
+}
+
+// DeleteOne returns a builder for deleting the given entity by its id.
+func (c *TeacherClient) DeleteOneID(id int) *TeacherDeleteOne {
+	builder := c.Delete().Where(teacher.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &TeacherDeleteOne{builder}
+}
+
+// Query returns a query builder for Teacher.
+func (c *TeacherClient) Query() *TeacherQuery {
+	return &TeacherQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a Teacher entity by its id.
+func (c *TeacherClient) Get(ctx context.Context, id int) (*Teacher, error) {
+	return c.Query().Where(teacher.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *TeacherClient) GetX(ctx context.Context, id int) *Teacher {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryCourses queries the courses edge of a Teacher.
+func (c *TeacherClient) QueryCourses(t *Teacher) *CourseQuery {
 	query := &CourseQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
-		id := ct.ID
+		id := t.ID
 		step := sqlgraph.NewStep(
-			sqlgraph.From(courseteacher.Table, courseteacher.FieldID, id),
+			sqlgraph.From(teacher.Table, teacher.FieldID, id),
 			sqlgraph.To(course.Table, course.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, courseteacher.CourseTable, courseteacher.CourseColumn),
+			sqlgraph.Edge(sqlgraph.M2M, false, teacher.CoursesTable, teacher.CoursesPrimaryKey...),
 		)
-		fromV = sqlgraph.Neighbors(ct.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(t.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // Hooks returns the client hooks.
-func (c *CourseTeacherClient) Hooks() []Hook {
-	return c.hooks.CourseTeacher
+func (c *TeacherClient) Hooks() []Hook {
+	return c.hooks.Teacher
+}
+
+// UserClient is a client for the User schema.
+type UserClient struct {
+	config
+}
+
+// NewUserClient returns a client for the User from the given config.
+func NewUserClient(c config) *UserClient {
+	return &UserClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `user.Hooks(f(g(h())))`.
+func (c *UserClient) Use(hooks ...Hook) {
+	c.hooks.User = append(c.hooks.User, hooks...)
+}
+
+// Create returns a builder for creating a User entity.
+func (c *UserClient) Create() *UserCreate {
+	mutation := newUserMutation(c.config, OpCreate)
+	return &UserCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of User entities.
+func (c *UserClient) CreateBulk(builders ...*UserCreate) *UserCreateBulk {
+	return &UserCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for User.
+func (c *UserClient) Update() *UserUpdate {
+	mutation := newUserMutation(c.config, OpUpdate)
+	return &UserUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *UserClient) UpdateOne(u *User) *UserUpdateOne {
+	mutation := newUserMutation(c.config, OpUpdateOne, withUser(u))
+	return &UserUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *UserClient) UpdateOneID(id int) *UserUpdateOne {
+	mutation := newUserMutation(c.config, OpUpdateOne, withUserID(id))
+	return &UserUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for User.
+func (c *UserClient) Delete() *UserDelete {
+	mutation := newUserMutation(c.config, OpDelete)
+	return &UserDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *UserClient) DeleteOne(u *User) *UserDeleteOne {
+	return c.DeleteOneID(u.ID)
+}
+
+// DeleteOne returns a builder for deleting the given entity by its id.
+func (c *UserClient) DeleteOneID(id int) *UserDeleteOne {
+	builder := c.Delete().Where(user.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &UserDeleteOne{builder}
+}
+
+// Query returns a query builder for User.
+func (c *UserClient) Query() *UserQuery {
+	return &UserQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a User entity by its id.
+func (c *UserClient) Get(ctx context.Context, id int) (*User, error) {
+	return c.Query().Where(user.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *UserClient) GetX(ctx context.Context, id int) *User {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryCourses queries the courses edge of a User.
+func (c *UserClient) QueryCourses(u *User) *CourseQuery {
+	query := &CourseQuery{config: c.config}
+	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
+		id := u.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(user.Table, user.FieldID, id),
+			sqlgraph.To(course.Table, course.FieldID),
+			sqlgraph.Edge(sqlgraph.M2M, false, user.CoursesTable, user.CoursesPrimaryKey...),
+		)
+		fromV = sqlgraph.Neighbors(u.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *UserClient) Hooks() []Hook {
+	return c.hooks.User
 }

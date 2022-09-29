@@ -11,8 +11,10 @@ import (
 	"online-teaching/internal/ent/coursechapter"
 	"online-teaching/internal/ent/courseinfo"
 	"online-teaching/internal/ent/coursesection"
-	"online-teaching/internal/ent/courseteacher"
+	"online-teaching/internal/ent/courseswiper"
 	"online-teaching/internal/ent/predicate"
+	"online-teaching/internal/ent/teacher"
+	"online-teaching/internal/ent/user"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -22,17 +24,18 @@ import (
 // CourseQuery is the builder for querying Course entities.
 type CourseQuery struct {
 	config
-	limit             *int
-	offset            *int
-	unique            *bool
-	order             []OrderFunc
-	fields            []string
-	predicates        []predicate.Course
-	withCourseTeacher *CourseTeacherQuery
-	withCourseInfo    *CourseInfoQuery
-	withCourseChapter *CourseChapterQuery
-	withCourseSection *CourseSectionQuery
-	withFKs           bool
+	limit        *int
+	offset       *int
+	unique       *bool
+	order        []OrderFunc
+	fields       []string
+	predicates   []predicate.Course
+	withTeachers *TeacherQuery
+	withInfos    *CourseInfoQuery
+	withChapters *CourseChapterQuery
+	withSections *CourseSectionQuery
+	withSwipers  *CourseSwiperQuery
+	withUsers    *UserQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -69,9 +72,9 @@ func (cq *CourseQuery) Order(o ...OrderFunc) *CourseQuery {
 	return cq
 }
 
-// QueryCourseTeacher chains the current query on the "course_teacher" edge.
-func (cq *CourseQuery) QueryCourseTeacher() *CourseTeacherQuery {
-	query := &CourseTeacherQuery{config: cq.config}
+// QueryTeachers chains the current query on the "teachers" edge.
+func (cq *CourseQuery) QueryTeachers() *TeacherQuery {
+	query := &TeacherQuery{config: cq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := cq.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -82,8 +85,8 @@ func (cq *CourseQuery) QueryCourseTeacher() *CourseTeacherQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(course.Table, course.FieldID, selector),
-			sqlgraph.To(courseteacher.Table, courseteacher.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, course.CourseTeacherTable, course.CourseTeacherColumn),
+			sqlgraph.To(teacher.Table, teacher.FieldID),
+			sqlgraph.Edge(sqlgraph.M2M, true, course.TeachersTable, course.TeachersPrimaryKey...),
 		)
 		fromU = sqlgraph.SetNeighbors(cq.driver.Dialect(), step)
 		return fromU, nil
@@ -91,8 +94,8 @@ func (cq *CourseQuery) QueryCourseTeacher() *CourseTeacherQuery {
 	return query
 }
 
-// QueryCourseInfo chains the current query on the "course_info" edge.
-func (cq *CourseQuery) QueryCourseInfo() *CourseInfoQuery {
+// QueryInfos chains the current query on the "infos" edge.
+func (cq *CourseQuery) QueryInfos() *CourseInfoQuery {
 	query := &CourseInfoQuery{config: cq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := cq.prepareQuery(ctx); err != nil {
@@ -105,7 +108,7 @@ func (cq *CourseQuery) QueryCourseInfo() *CourseInfoQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(course.Table, course.FieldID, selector),
 			sqlgraph.To(courseinfo.Table, courseinfo.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, course.CourseInfoTable, course.CourseInfoColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, course.InfosTable, course.InfosColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(cq.driver.Dialect(), step)
 		return fromU, nil
@@ -113,8 +116,8 @@ func (cq *CourseQuery) QueryCourseInfo() *CourseInfoQuery {
 	return query
 }
 
-// QueryCourseChapter chains the current query on the "course_chapter" edge.
-func (cq *CourseQuery) QueryCourseChapter() *CourseChapterQuery {
+// QueryChapters chains the current query on the "chapters" edge.
+func (cq *CourseQuery) QueryChapters() *CourseChapterQuery {
 	query := &CourseChapterQuery{config: cq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := cq.prepareQuery(ctx); err != nil {
@@ -127,7 +130,7 @@ func (cq *CourseQuery) QueryCourseChapter() *CourseChapterQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(course.Table, course.FieldID, selector),
 			sqlgraph.To(coursechapter.Table, coursechapter.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, course.CourseChapterTable, course.CourseChapterColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, course.ChaptersTable, course.ChaptersColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(cq.driver.Dialect(), step)
 		return fromU, nil
@@ -135,8 +138,8 @@ func (cq *CourseQuery) QueryCourseChapter() *CourseChapterQuery {
 	return query
 }
 
-// QueryCourseSection chains the current query on the "course_section" edge.
-func (cq *CourseQuery) QueryCourseSection() *CourseSectionQuery {
+// QuerySections chains the current query on the "sections" edge.
+func (cq *CourseQuery) QuerySections() *CourseSectionQuery {
 	query := &CourseSectionQuery{config: cq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := cq.prepareQuery(ctx); err != nil {
@@ -149,7 +152,51 @@ func (cq *CourseQuery) QueryCourseSection() *CourseSectionQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(course.Table, course.FieldID, selector),
 			sqlgraph.To(coursesection.Table, coursesection.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, course.CourseSectionTable, course.CourseSectionColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, course.SectionsTable, course.SectionsColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(cq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QuerySwipers chains the current query on the "swipers" edge.
+func (cq *CourseQuery) QuerySwipers() *CourseSwiperQuery {
+	query := &CourseSwiperQuery{config: cq.config}
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := cq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := cq.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(course.Table, course.FieldID, selector),
+			sqlgraph.To(courseswiper.Table, courseswiper.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, course.SwipersTable, course.SwipersColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(cq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryUsers chains the current query on the "users" edge.
+func (cq *CourseQuery) QueryUsers() *UserQuery {
+	query := &UserQuery{config: cq.config}
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := cq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := cq.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(course.Table, course.FieldID, selector),
+			sqlgraph.To(user.Table, user.FieldID),
+			sqlgraph.Edge(sqlgraph.M2M, true, course.UsersTable, course.UsersPrimaryKey...),
 		)
 		fromU = sqlgraph.SetNeighbors(cq.driver.Dialect(), step)
 		return fromU, nil
@@ -333,15 +380,17 @@ func (cq *CourseQuery) Clone() *CourseQuery {
 		return nil
 	}
 	return &CourseQuery{
-		config:            cq.config,
-		limit:             cq.limit,
-		offset:            cq.offset,
-		order:             append([]OrderFunc{}, cq.order...),
-		predicates:        append([]predicate.Course{}, cq.predicates...),
-		withCourseTeacher: cq.withCourseTeacher.Clone(),
-		withCourseInfo:    cq.withCourseInfo.Clone(),
-		withCourseChapter: cq.withCourseChapter.Clone(),
-		withCourseSection: cq.withCourseSection.Clone(),
+		config:       cq.config,
+		limit:        cq.limit,
+		offset:       cq.offset,
+		order:        append([]OrderFunc{}, cq.order...),
+		predicates:   append([]predicate.Course{}, cq.predicates...),
+		withTeachers: cq.withTeachers.Clone(),
+		withInfos:    cq.withInfos.Clone(),
+		withChapters: cq.withChapters.Clone(),
+		withSections: cq.withSections.Clone(),
+		withSwipers:  cq.withSwipers.Clone(),
+		withUsers:    cq.withUsers.Clone(),
 		// clone intermediate query.
 		sql:    cq.sql.Clone(),
 		path:   cq.path,
@@ -349,47 +398,69 @@ func (cq *CourseQuery) Clone() *CourseQuery {
 	}
 }
 
-// WithCourseTeacher tells the query-builder to eager-load the nodes that are connected to
-// the "course_teacher" edge. The optional arguments are used to configure the query builder of the edge.
-func (cq *CourseQuery) WithCourseTeacher(opts ...func(*CourseTeacherQuery)) *CourseQuery {
-	query := &CourseTeacherQuery{config: cq.config}
+// WithTeachers tells the query-builder to eager-load the nodes that are connected to
+// the "teachers" edge. The optional arguments are used to configure the query builder of the edge.
+func (cq *CourseQuery) WithTeachers(opts ...func(*TeacherQuery)) *CourseQuery {
+	query := &TeacherQuery{config: cq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
-	cq.withCourseTeacher = query
+	cq.withTeachers = query
 	return cq
 }
 
-// WithCourseInfo tells the query-builder to eager-load the nodes that are connected to
-// the "course_info" edge. The optional arguments are used to configure the query builder of the edge.
-func (cq *CourseQuery) WithCourseInfo(opts ...func(*CourseInfoQuery)) *CourseQuery {
+// WithInfos tells the query-builder to eager-load the nodes that are connected to
+// the "infos" edge. The optional arguments are used to configure the query builder of the edge.
+func (cq *CourseQuery) WithInfos(opts ...func(*CourseInfoQuery)) *CourseQuery {
 	query := &CourseInfoQuery{config: cq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
-	cq.withCourseInfo = query
+	cq.withInfos = query
 	return cq
 }
 
-// WithCourseChapter tells the query-builder to eager-load the nodes that are connected to
-// the "course_chapter" edge. The optional arguments are used to configure the query builder of the edge.
-func (cq *CourseQuery) WithCourseChapter(opts ...func(*CourseChapterQuery)) *CourseQuery {
+// WithChapters tells the query-builder to eager-load the nodes that are connected to
+// the "chapters" edge. The optional arguments are used to configure the query builder of the edge.
+func (cq *CourseQuery) WithChapters(opts ...func(*CourseChapterQuery)) *CourseQuery {
 	query := &CourseChapterQuery{config: cq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
-	cq.withCourseChapter = query
+	cq.withChapters = query
 	return cq
 }
 
-// WithCourseSection tells the query-builder to eager-load the nodes that are connected to
-// the "course_section" edge. The optional arguments are used to configure the query builder of the edge.
-func (cq *CourseQuery) WithCourseSection(opts ...func(*CourseSectionQuery)) *CourseQuery {
+// WithSections tells the query-builder to eager-load the nodes that are connected to
+// the "sections" edge. The optional arguments are used to configure the query builder of the edge.
+func (cq *CourseQuery) WithSections(opts ...func(*CourseSectionQuery)) *CourseQuery {
 	query := &CourseSectionQuery{config: cq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
-	cq.withCourseSection = query
+	cq.withSections = query
+	return cq
+}
+
+// WithSwipers tells the query-builder to eager-load the nodes that are connected to
+// the "swipers" edge. The optional arguments are used to configure the query builder of the edge.
+func (cq *CourseQuery) WithSwipers(opts ...func(*CourseSwiperQuery)) *CourseQuery {
+	query := &CourseSwiperQuery{config: cq.config}
+	for _, opt := range opts {
+		opt(query)
+	}
+	cq.withSwipers = query
+	return cq
+}
+
+// WithUsers tells the query-builder to eager-load the nodes that are connected to
+// the "users" edge. The optional arguments are used to configure the query builder of the edge.
+func (cq *CourseQuery) WithUsers(opts ...func(*UserQuery)) *CourseQuery {
+	query := &UserQuery{config: cq.config}
+	for _, opt := range opts {
+		opt(query)
+	}
+	cq.withUsers = query
 	return cq
 }
 
@@ -462,18 +533,16 @@ func (cq *CourseQuery) prepareQuery(ctx context.Context) error {
 func (cq *CourseQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Course, error) {
 	var (
 		nodes       = []*Course{}
-		withFKs     = cq.withFKs
 		_spec       = cq.querySpec()
-		loadedTypes = [4]bool{
-			cq.withCourseTeacher != nil,
-			cq.withCourseInfo != nil,
-			cq.withCourseChapter != nil,
-			cq.withCourseSection != nil,
+		loadedTypes = [6]bool{
+			cq.withTeachers != nil,
+			cq.withInfos != nil,
+			cq.withChapters != nil,
+			cq.withSections != nil,
+			cq.withSwipers != nil,
+			cq.withUsers != nil,
 		}
 	)
-	if withFKs {
-		_spec.Node.Columns = append(_spec.Node.Columns, course.ForeignKeys...)
-	}
 	_spec.ScanValues = func(columns []string) ([]interface{}, error) {
 		return (*Course).scanValues(nil, columns)
 	}
@@ -492,69 +561,110 @@ func (cq *CourseQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Cours
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := cq.withCourseTeacher; query != nil {
-		if err := cq.loadCourseTeacher(ctx, query, nodes,
-			func(n *Course) { n.Edges.CourseTeacher = []*CourseTeacher{} },
-			func(n *Course, e *CourseTeacher) { n.Edges.CourseTeacher = append(n.Edges.CourseTeacher, e) }); err != nil {
+	if query := cq.withTeachers; query != nil {
+		if err := cq.loadTeachers(ctx, query, nodes,
+			func(n *Course) { n.Edges.Teachers = []*Teacher{} },
+			func(n *Course, e *Teacher) { n.Edges.Teachers = append(n.Edges.Teachers, e) }); err != nil {
 			return nil, err
 		}
 	}
-	if query := cq.withCourseInfo; query != nil {
-		if err := cq.loadCourseInfo(ctx, query, nodes,
-			func(n *Course) { n.Edges.CourseInfo = []*CourseInfo{} },
-			func(n *Course, e *CourseInfo) { n.Edges.CourseInfo = append(n.Edges.CourseInfo, e) }); err != nil {
+	if query := cq.withInfos; query != nil {
+		if err := cq.loadInfos(ctx, query, nodes,
+			func(n *Course) { n.Edges.Infos = []*CourseInfo{} },
+			func(n *Course, e *CourseInfo) { n.Edges.Infos = append(n.Edges.Infos, e) }); err != nil {
 			return nil, err
 		}
 	}
-	if query := cq.withCourseChapter; query != nil {
-		if err := cq.loadCourseChapter(ctx, query, nodes,
-			func(n *Course) { n.Edges.CourseChapter = []*CourseChapter{} },
-			func(n *Course, e *CourseChapter) { n.Edges.CourseChapter = append(n.Edges.CourseChapter, e) }); err != nil {
+	if query := cq.withChapters; query != nil {
+		if err := cq.loadChapters(ctx, query, nodes,
+			func(n *Course) { n.Edges.Chapters = []*CourseChapter{} },
+			func(n *Course, e *CourseChapter) { n.Edges.Chapters = append(n.Edges.Chapters, e) }); err != nil {
 			return nil, err
 		}
 	}
-	if query := cq.withCourseSection; query != nil {
-		if err := cq.loadCourseSection(ctx, query, nodes,
-			func(n *Course) { n.Edges.CourseSection = []*CourseSection{} },
-			func(n *Course, e *CourseSection) { n.Edges.CourseSection = append(n.Edges.CourseSection, e) }); err != nil {
+	if query := cq.withSections; query != nil {
+		if err := cq.loadSections(ctx, query, nodes,
+			func(n *Course) { n.Edges.Sections = []*CourseSection{} },
+			func(n *Course, e *CourseSection) { n.Edges.Sections = append(n.Edges.Sections, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := cq.withSwipers; query != nil {
+		if err := cq.loadSwipers(ctx, query, nodes,
+			func(n *Course) { n.Edges.Swipers = []*CourseSwiper{} },
+			func(n *Course, e *CourseSwiper) { n.Edges.Swipers = append(n.Edges.Swipers, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := cq.withUsers; query != nil {
+		if err := cq.loadUsers(ctx, query, nodes,
+			func(n *Course) { n.Edges.Users = []*User{} },
+			func(n *Course, e *User) { n.Edges.Users = append(n.Edges.Users, e) }); err != nil {
 			return nil, err
 		}
 	}
 	return nodes, nil
 }
 
-func (cq *CourseQuery) loadCourseTeacher(ctx context.Context, query *CourseTeacherQuery, nodes []*Course, init func(*Course), assign func(*Course, *CourseTeacher)) error {
-	fks := make([]driver.Value, 0, len(nodes))
-	nodeids := make(map[int]*Course)
-	for i := range nodes {
-		fks = append(fks, nodes[i].ID)
-		nodeids[nodes[i].ID] = nodes[i]
+func (cq *CourseQuery) loadTeachers(ctx context.Context, query *TeacherQuery, nodes []*Course, init func(*Course), assign func(*Course, *Teacher)) error {
+	edgeIDs := make([]driver.Value, len(nodes))
+	byID := make(map[int]*Course)
+	nids := make(map[int]map[*Course]struct{})
+	for i, node := range nodes {
+		edgeIDs[i] = node.ID
+		byID[node.ID] = node
 		if init != nil {
-			init(nodes[i])
+			init(node)
 		}
 	}
-	query.withFKs = true
-	query.Where(predicate.CourseTeacher(func(s *sql.Selector) {
-		s.Where(sql.InValues(course.CourseTeacherColumn, fks...))
-	}))
-	neighbors, err := query.All(ctx)
+	query.Where(func(s *sql.Selector) {
+		joinT := sql.Table(course.TeachersTable)
+		s.Join(joinT).On(s.C(teacher.FieldID), joinT.C(course.TeachersPrimaryKey[0]))
+		s.Where(sql.InValues(joinT.C(course.TeachersPrimaryKey[1]), edgeIDs...))
+		columns := s.SelectedColumns()
+		s.Select(joinT.C(course.TeachersPrimaryKey[1]))
+		s.AppendSelect(columns...)
+		s.SetDistinct(false)
+	})
+	if err := query.prepareQuery(ctx); err != nil {
+		return err
+	}
+	neighbors, err := query.sqlAll(ctx, func(_ context.Context, spec *sqlgraph.QuerySpec) {
+		assign := spec.Assign
+		values := spec.ScanValues
+		spec.ScanValues = func(columns []string) ([]interface{}, error) {
+			values, err := values(columns[1:])
+			if err != nil {
+				return nil, err
+			}
+			return append([]interface{}{new(sql.NullInt64)}, values...), nil
+		}
+		spec.Assign = func(columns []string, values []interface{}) error {
+			outValue := int(values[0].(*sql.NullInt64).Int64)
+			inValue := int(values[1].(*sql.NullInt64).Int64)
+			if nids[inValue] == nil {
+				nids[inValue] = map[*Course]struct{}{byID[outValue]: struct{}{}}
+				return assign(columns[1:], values[1:])
+			}
+			nids[inValue][byID[outValue]] = struct{}{}
+			return nil
+		}
+	})
 	if err != nil {
 		return err
 	}
 	for _, n := range neighbors {
-		fk := n.course_course_teacher
-		if fk == nil {
-			return fmt.Errorf(`foreign-key "course_course_teacher" is nil for node %v`, n.ID)
-		}
-		node, ok := nodeids[*fk]
+		nodes, ok := nids[n.ID]
 		if !ok {
-			return fmt.Errorf(`unexpected foreign-key "course_course_teacher" returned %v for node %v`, *fk, n.ID)
+			return fmt.Errorf(`unexpected "teachers" node returned %v`, n.ID)
 		}
-		assign(node, n)
+		for kn := range nodes {
+			assign(kn, n)
+		}
 	}
 	return nil
 }
-func (cq *CourseQuery) loadCourseInfo(ctx context.Context, query *CourseInfoQuery, nodes []*Course, init func(*Course), assign func(*Course, *CourseInfo)) error {
+func (cq *CourseQuery) loadInfos(ctx context.Context, query *CourseInfoQuery, nodes []*Course, init func(*Course), assign func(*Course, *CourseInfo)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*Course)
 	for i := range nodes {
@@ -566,26 +676,26 @@ func (cq *CourseQuery) loadCourseInfo(ctx context.Context, query *CourseInfoQuer
 	}
 	query.withFKs = true
 	query.Where(predicate.CourseInfo(func(s *sql.Selector) {
-		s.Where(sql.InValues(course.CourseInfoColumn, fks...))
+		s.Where(sql.InValues(course.InfosColumn, fks...))
 	}))
 	neighbors, err := query.All(ctx)
 	if err != nil {
 		return err
 	}
 	for _, n := range neighbors {
-		fk := n.course_course_info
+		fk := n.course_infos
 		if fk == nil {
-			return fmt.Errorf(`foreign-key "course_course_info" is nil for node %v`, n.ID)
+			return fmt.Errorf(`foreign-key "course_infos" is nil for node %v`, n.ID)
 		}
 		node, ok := nodeids[*fk]
 		if !ok {
-			return fmt.Errorf(`unexpected foreign-key "course_course_info" returned %v for node %v`, *fk, n.ID)
+			return fmt.Errorf(`unexpected foreign-key "course_infos" returned %v for node %v`, *fk, n.ID)
 		}
 		assign(node, n)
 	}
 	return nil
 }
-func (cq *CourseQuery) loadCourseChapter(ctx context.Context, query *CourseChapterQuery, nodes []*Course, init func(*Course), assign func(*Course, *CourseChapter)) error {
+func (cq *CourseQuery) loadChapters(ctx context.Context, query *CourseChapterQuery, nodes []*Course, init func(*Course), assign func(*Course, *CourseChapter)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*Course)
 	for i := range nodes {
@@ -597,26 +707,26 @@ func (cq *CourseQuery) loadCourseChapter(ctx context.Context, query *CourseChapt
 	}
 	query.withFKs = true
 	query.Where(predicate.CourseChapter(func(s *sql.Selector) {
-		s.Where(sql.InValues(course.CourseChapterColumn, fks...))
+		s.Where(sql.InValues(course.ChaptersColumn, fks...))
 	}))
 	neighbors, err := query.All(ctx)
 	if err != nil {
 		return err
 	}
 	for _, n := range neighbors {
-		fk := n.course_course_chapter
+		fk := n.course_chapters
 		if fk == nil {
-			return fmt.Errorf(`foreign-key "course_course_chapter" is nil for node %v`, n.ID)
+			return fmt.Errorf(`foreign-key "course_chapters" is nil for node %v`, n.ID)
 		}
 		node, ok := nodeids[*fk]
 		if !ok {
-			return fmt.Errorf(`unexpected foreign-key "course_course_chapter" returned %v for node %v`, *fk, n.ID)
+			return fmt.Errorf(`unexpected foreign-key "course_chapters" returned %v for node %v`, *fk, n.ID)
 		}
 		assign(node, n)
 	}
 	return nil
 }
-func (cq *CourseQuery) loadCourseSection(ctx context.Context, query *CourseSectionQuery, nodes []*Course, init func(*Course), assign func(*Course, *CourseSection)) error {
+func (cq *CourseQuery) loadSections(ctx context.Context, query *CourseSectionQuery, nodes []*Course, init func(*Course), assign func(*Course, *CourseSection)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*Course)
 	for i := range nodes {
@@ -628,22 +738,111 @@ func (cq *CourseQuery) loadCourseSection(ctx context.Context, query *CourseSecti
 	}
 	query.withFKs = true
 	query.Where(predicate.CourseSection(func(s *sql.Selector) {
-		s.Where(sql.InValues(course.CourseSectionColumn, fks...))
+		s.Where(sql.InValues(course.SectionsColumn, fks...))
 	}))
 	neighbors, err := query.All(ctx)
 	if err != nil {
 		return err
 	}
 	for _, n := range neighbors {
-		fk := n.course_course_section
+		fk := n.course_sections
 		if fk == nil {
-			return fmt.Errorf(`foreign-key "course_course_section" is nil for node %v`, n.ID)
+			return fmt.Errorf(`foreign-key "course_sections" is nil for node %v`, n.ID)
 		}
 		node, ok := nodeids[*fk]
 		if !ok {
-			return fmt.Errorf(`unexpected foreign-key "course_course_section" returned %v for node %v`, *fk, n.ID)
+			return fmt.Errorf(`unexpected foreign-key "course_sections" returned %v for node %v`, *fk, n.ID)
 		}
 		assign(node, n)
+	}
+	return nil
+}
+func (cq *CourseQuery) loadSwipers(ctx context.Context, query *CourseSwiperQuery, nodes []*Course, init func(*Course), assign func(*Course, *CourseSwiper)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[int]*Course)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	query.withFKs = true
+	query.Where(predicate.CourseSwiper(func(s *sql.Selector) {
+		s.Where(sql.InValues(course.SwipersColumn, fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.course_swipers
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "course_swipers" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected foreign-key "course_swipers" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (cq *CourseQuery) loadUsers(ctx context.Context, query *UserQuery, nodes []*Course, init func(*Course), assign func(*Course, *User)) error {
+	edgeIDs := make([]driver.Value, len(nodes))
+	byID := make(map[int]*Course)
+	nids := make(map[int]map[*Course]struct{})
+	for i, node := range nodes {
+		edgeIDs[i] = node.ID
+		byID[node.ID] = node
+		if init != nil {
+			init(node)
+		}
+	}
+	query.Where(func(s *sql.Selector) {
+		joinT := sql.Table(course.UsersTable)
+		s.Join(joinT).On(s.C(user.FieldID), joinT.C(course.UsersPrimaryKey[0]))
+		s.Where(sql.InValues(joinT.C(course.UsersPrimaryKey[1]), edgeIDs...))
+		columns := s.SelectedColumns()
+		s.Select(joinT.C(course.UsersPrimaryKey[1]))
+		s.AppendSelect(columns...)
+		s.SetDistinct(false)
+	})
+	if err := query.prepareQuery(ctx); err != nil {
+		return err
+	}
+	neighbors, err := query.sqlAll(ctx, func(_ context.Context, spec *sqlgraph.QuerySpec) {
+		assign := spec.Assign
+		values := spec.ScanValues
+		spec.ScanValues = func(columns []string) ([]interface{}, error) {
+			values, err := values(columns[1:])
+			if err != nil {
+				return nil, err
+			}
+			return append([]interface{}{new(sql.NullInt64)}, values...), nil
+		}
+		spec.Assign = func(columns []string, values []interface{}) error {
+			outValue := int(values[0].(*sql.NullInt64).Int64)
+			inValue := int(values[1].(*sql.NullInt64).Int64)
+			if nids[inValue] == nil {
+				nids[inValue] = map[*Course]struct{}{byID[outValue]: struct{}{}}
+				return assign(columns[1:], values[1:])
+			}
+			nids[inValue][byID[outValue]] = struct{}{}
+			return nil
+		}
+	})
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		nodes, ok := nids[n.ID]
+		if !ok {
+			return fmt.Errorf(`unexpected "users" node returned %v`, n.ID)
+		}
+		for kn := range nodes {
+			assign(kn, n)
+		}
 	}
 	return nil
 }

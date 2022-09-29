@@ -123,9 +123,23 @@ func Detail(v string) predicate.CourseInfo {
 }
 
 // State applies equality check predicate on the "state" field. It's identical to StateEQ.
-func State(v string) predicate.CourseInfo {
+func State(v int) predicate.CourseInfo {
 	return predicate.CourseInfo(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldState), v))
+	})
+}
+
+// Order applies equality check predicate on the "order" field. It's identical to OrderEQ.
+func Order(v int) predicate.CourseInfo {
+	return predicate.CourseInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldOrder), v))
+	})
+}
+
+// IsQuality applies equality check predicate on the "is_quality" field. It's identical to IsQualityEQ.
+func IsQuality(v bool) predicate.CourseInfo {
+	return predicate.CourseInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldIsQuality), v))
 	})
 }
 
@@ -147,13 +161,6 @@ func CreatedAt(v time.Time) predicate.CourseInfo {
 func UpdatedAt(v time.Time) predicate.CourseInfo {
 	return predicate.CourseInfo(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldUpdatedAt), v))
-	})
-}
-
-// DeletedAt applies equality check predicate on the "deleted_at" field. It's identical to DeletedAtEQ.
-func DeletedAt(v time.Time) predicate.CourseInfo {
-	return predicate.CourseInfo(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldDeletedAt), v))
 	})
 }
 
@@ -577,21 +584,21 @@ func DetailContainsFold(v string) predicate.CourseInfo {
 }
 
 // StateEQ applies the EQ predicate on the "state" field.
-func StateEQ(v string) predicate.CourseInfo {
+func StateEQ(v int) predicate.CourseInfo {
 	return predicate.CourseInfo(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldState), v))
 	})
 }
 
 // StateNEQ applies the NEQ predicate on the "state" field.
-func StateNEQ(v string) predicate.CourseInfo {
+func StateNEQ(v int) predicate.CourseInfo {
 	return predicate.CourseInfo(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldState), v))
 	})
 }
 
 // StateIn applies the In predicate on the "state" field.
-func StateIn(vs ...string) predicate.CourseInfo {
+func StateIn(vs ...int) predicate.CourseInfo {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -602,7 +609,7 @@ func StateIn(vs ...string) predicate.CourseInfo {
 }
 
 // StateNotIn applies the NotIn predicate on the "state" field.
-func StateNotIn(vs ...string) predicate.CourseInfo {
+func StateNotIn(vs ...int) predicate.CourseInfo {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -613,65 +620,108 @@ func StateNotIn(vs ...string) predicate.CourseInfo {
 }
 
 // StateGT applies the GT predicate on the "state" field.
-func StateGT(v string) predicate.CourseInfo {
+func StateGT(v int) predicate.CourseInfo {
 	return predicate.CourseInfo(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldState), v))
 	})
 }
 
 // StateGTE applies the GTE predicate on the "state" field.
-func StateGTE(v string) predicate.CourseInfo {
+func StateGTE(v int) predicate.CourseInfo {
 	return predicate.CourseInfo(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldState), v))
 	})
 }
 
 // StateLT applies the LT predicate on the "state" field.
-func StateLT(v string) predicate.CourseInfo {
+func StateLT(v int) predicate.CourseInfo {
 	return predicate.CourseInfo(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldState), v))
 	})
 }
 
 // StateLTE applies the LTE predicate on the "state" field.
-func StateLTE(v string) predicate.CourseInfo {
+func StateLTE(v int) predicate.CourseInfo {
 	return predicate.CourseInfo(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldState), v))
 	})
 }
 
-// StateContains applies the Contains predicate on the "state" field.
-func StateContains(v string) predicate.CourseInfo {
+// OrderEQ applies the EQ predicate on the "order" field.
+func OrderEQ(v int) predicate.CourseInfo {
 	return predicate.CourseInfo(func(s *sql.Selector) {
-		s.Where(sql.Contains(s.C(FieldState), v))
+		s.Where(sql.EQ(s.C(FieldOrder), v))
 	})
 }
 
-// StateHasPrefix applies the HasPrefix predicate on the "state" field.
-func StateHasPrefix(v string) predicate.CourseInfo {
+// OrderNEQ applies the NEQ predicate on the "order" field.
+func OrderNEQ(v int) predicate.CourseInfo {
 	return predicate.CourseInfo(func(s *sql.Selector) {
-		s.Where(sql.HasPrefix(s.C(FieldState), v))
+		s.Where(sql.NEQ(s.C(FieldOrder), v))
 	})
 }
 
-// StateHasSuffix applies the HasSuffix predicate on the "state" field.
-func StateHasSuffix(v string) predicate.CourseInfo {
+// OrderIn applies the In predicate on the "order" field.
+func OrderIn(vs ...int) predicate.CourseInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
 	return predicate.CourseInfo(func(s *sql.Selector) {
-		s.Where(sql.HasSuffix(s.C(FieldState), v))
+		s.Where(sql.In(s.C(FieldOrder), v...))
 	})
 }
 
-// StateEqualFold applies the EqualFold predicate on the "state" field.
-func StateEqualFold(v string) predicate.CourseInfo {
+// OrderNotIn applies the NotIn predicate on the "order" field.
+func OrderNotIn(vs ...int) predicate.CourseInfo {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
 	return predicate.CourseInfo(func(s *sql.Selector) {
-		s.Where(sql.EqualFold(s.C(FieldState), v))
+		s.Where(sql.NotIn(s.C(FieldOrder), v...))
 	})
 }
 
-// StateContainsFold applies the ContainsFold predicate on the "state" field.
-func StateContainsFold(v string) predicate.CourseInfo {
+// OrderGT applies the GT predicate on the "order" field.
+func OrderGT(v int) predicate.CourseInfo {
 	return predicate.CourseInfo(func(s *sql.Selector) {
-		s.Where(sql.ContainsFold(s.C(FieldState), v))
+		s.Where(sql.GT(s.C(FieldOrder), v))
+	})
+}
+
+// OrderGTE applies the GTE predicate on the "order" field.
+func OrderGTE(v int) predicate.CourseInfo {
+	return predicate.CourseInfo(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldOrder), v))
+	})
+}
+
+// OrderLT applies the LT predicate on the "order" field.
+func OrderLT(v int) predicate.CourseInfo {
+	return predicate.CourseInfo(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldOrder), v))
+	})
+}
+
+// OrderLTE applies the LTE predicate on the "order" field.
+func OrderLTE(v int) predicate.CourseInfo {
+	return predicate.CourseInfo(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldOrder), v))
+	})
+}
+
+// IsQualityEQ applies the EQ predicate on the "is_quality" field.
+func IsQualityEQ(v bool) predicate.CourseInfo {
+	return predicate.CourseInfo(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldIsQuality), v))
+	})
+}
+
+// IsQualityNEQ applies the NEQ predicate on the "is_quality" field.
+func IsQualityNEQ(v bool) predicate.CourseInfo {
+	return predicate.CourseInfo(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldIsQuality), v))
 	})
 }
 
@@ -814,70 +864,6 @@ func UpdatedAtLT(v time.Time) predicate.CourseInfo {
 func UpdatedAtLTE(v time.Time) predicate.CourseInfo {
 	return predicate.CourseInfo(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldUpdatedAt), v))
-	})
-}
-
-// DeletedAtEQ applies the EQ predicate on the "deleted_at" field.
-func DeletedAtEQ(v time.Time) predicate.CourseInfo {
-	return predicate.CourseInfo(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldDeletedAt), v))
-	})
-}
-
-// DeletedAtNEQ applies the NEQ predicate on the "deleted_at" field.
-func DeletedAtNEQ(v time.Time) predicate.CourseInfo {
-	return predicate.CourseInfo(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldDeletedAt), v))
-	})
-}
-
-// DeletedAtIn applies the In predicate on the "deleted_at" field.
-func DeletedAtIn(vs ...time.Time) predicate.CourseInfo {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.CourseInfo(func(s *sql.Selector) {
-		s.Where(sql.In(s.C(FieldDeletedAt), v...))
-	})
-}
-
-// DeletedAtNotIn applies the NotIn predicate on the "deleted_at" field.
-func DeletedAtNotIn(vs ...time.Time) predicate.CourseInfo {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.CourseInfo(func(s *sql.Selector) {
-		s.Where(sql.NotIn(s.C(FieldDeletedAt), v...))
-	})
-}
-
-// DeletedAtGT applies the GT predicate on the "deleted_at" field.
-func DeletedAtGT(v time.Time) predicate.CourseInfo {
-	return predicate.CourseInfo(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldDeletedAt), v))
-	})
-}
-
-// DeletedAtGTE applies the GTE predicate on the "deleted_at" field.
-func DeletedAtGTE(v time.Time) predicate.CourseInfo {
-	return predicate.CourseInfo(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldDeletedAt), v))
-	})
-}
-
-// DeletedAtLT applies the LT predicate on the "deleted_at" field.
-func DeletedAtLT(v time.Time) predicate.CourseInfo {
-	return predicate.CourseInfo(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldDeletedAt), v))
-	})
-}
-
-// DeletedAtLTE applies the LTE predicate on the "deleted_at" field.
-func DeletedAtLTE(v time.Time) predicate.CourseInfo {
-	return predicate.CourseInfo(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldDeletedAt), v))
 	})
 }
 

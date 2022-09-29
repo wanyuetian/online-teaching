@@ -5,10 +5,13 @@ package ent
 import (
 	"online-teaching/internal/ent/course"
 	"online-teaching/internal/ent/coursechapter"
+	"online-teaching/internal/ent/coursecomment"
 	"online-teaching/internal/ent/courseinfo"
 	"online-teaching/internal/ent/coursesection"
-	"online-teaching/internal/ent/courseteacher"
+	"online-teaching/internal/ent/courseswiper"
 	"online-teaching/internal/ent/schema"
+	"online-teaching/internal/ent/teacher"
+	"online-teaching/internal/ent/user"
 	"time"
 )
 
@@ -23,15 +26,15 @@ func init() {
 	// course.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	course.NameValidator = courseDescName.Validators[0].(func(string) error)
 	// courseDescIsDeleted is the schema descriptor for is_deleted field.
-	courseDescIsDeleted := courseFields[3].Descriptor()
+	courseDescIsDeleted := courseFields[5].Descriptor()
 	// course.DefaultIsDeleted holds the default value on creation for the is_deleted field.
 	course.DefaultIsDeleted = courseDescIsDeleted.Default.(bool)
 	// courseDescCreatedAt is the schema descriptor for created_at field.
-	courseDescCreatedAt := courseFields[4].Descriptor()
+	courseDescCreatedAt := courseFields[6].Descriptor()
 	// course.DefaultCreatedAt holds the default value on creation for the created_at field.
 	course.DefaultCreatedAt = courseDescCreatedAt.Default.(func() time.Time)
 	// courseDescUpdatedAt is the schema descriptor for updated_at field.
-	courseDescUpdatedAt := courseFields[5].Descriptor()
+	courseDescUpdatedAt := courseFields[7].Descriptor()
 	// course.DefaultUpdatedAt holds the default value on creation for the updated_at field.
 	course.DefaultUpdatedAt = courseDescUpdatedAt.Default.(func() time.Time)
 	// course.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
@@ -56,26 +59,76 @@ func init() {
 	coursechapter.DefaultUpdatedAt = coursechapterDescUpdatedAt.Default.(func() time.Time)
 	// coursechapter.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
 	coursechapter.UpdateDefaultUpdatedAt = coursechapterDescUpdatedAt.UpdateDefault.(func() time.Time)
+	coursecommentFields := schema.CourseComment{}.Fields()
+	_ = coursecommentFields
+	// coursecommentDescOrder is the schema descriptor for order field.
+	coursecommentDescOrder := coursecommentFields[2].Descriptor()
+	// coursecomment.DefaultOrder holds the default value on creation for the order field.
+	coursecomment.DefaultOrder = coursecommentDescOrder.Default.(int)
+	// coursecommentDescIsShow is the schema descriptor for is_show field.
+	coursecommentDescIsShow := coursecommentFields[3].Descriptor()
+	// coursecomment.DefaultIsShow holds the default value on creation for the is_show field.
+	coursecomment.DefaultIsShow = coursecommentDescIsShow.Default.(bool)
+	// coursecommentDescIsDeleted is the schema descriptor for is_deleted field.
+	coursecommentDescIsDeleted := coursecommentFields[4].Descriptor()
+	// coursecomment.DefaultIsDeleted holds the default value on creation for the is_deleted field.
+	coursecomment.DefaultIsDeleted = coursecommentDescIsDeleted.Default.(bool)
+	// coursecommentDescCreatedAt is the schema descriptor for created_at field.
+	coursecommentDescCreatedAt := coursecommentFields[5].Descriptor()
+	// coursecomment.DefaultCreatedAt holds the default value on creation for the created_at field.
+	coursecomment.DefaultCreatedAt = coursecommentDescCreatedAt.Default.(func() time.Time)
+	// coursecommentDescUpdatedAt is the schema descriptor for updated_at field.
+	coursecommentDescUpdatedAt := coursecommentFields[6].Descriptor()
+	// coursecomment.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	coursecomment.DefaultUpdatedAt = coursecommentDescUpdatedAt.Default.(func() time.Time)
+	// coursecomment.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	coursecomment.UpdateDefaultUpdatedAt = coursecommentDescUpdatedAt.UpdateDefault.(func() time.Time)
 	courseinfoFields := schema.CourseInfo{}.Fields()
 	_ = courseinfoFields
+	// courseinfoDescClickCount is the schema descriptor for click_count field.
+	courseinfoDescClickCount := courseinfoFields[0].Descriptor()
+	// courseinfo.DefaultClickCount holds the default value on creation for the click_count field.
+	courseinfo.DefaultClickCount = courseinfoDescClickCount.Default.(int)
+	// courseinfoDescLearnCount is the schema descriptor for learn_count field.
+	courseinfoDescLearnCount := courseinfoFields[1].Descriptor()
+	// courseinfo.DefaultLearnCount holds the default value on creation for the learn_count field.
+	courseinfo.DefaultLearnCount = courseinfoDescLearnCount.Default.(int)
+	// courseinfoDescTotalDuration is the schema descriptor for total_duration field.
+	courseinfoDescTotalDuration := courseinfoFields[2].Descriptor()
+	// courseinfo.DefaultTotalDuration holds the default value on creation for the total_duration field.
+	courseinfo.DefaultTotalDuration = courseinfoDescTotalDuration.Default.(int)
+	// courseinfoDescSectionCount is the schema descriptor for section_count field.
+	courseinfoDescSectionCount := courseinfoFields[3].Descriptor()
+	// courseinfo.DefaultSectionCount holds the default value on creation for the section_count field.
+	courseinfo.DefaultSectionCount = courseinfoDescSectionCount.Default.(int)
 	// courseinfoDescDetail is the schema descriptor for detail field.
 	courseinfoDescDetail := courseinfoFields[5].Descriptor()
 	// courseinfo.DefaultDetail holds the default value on creation for the detail field.
 	courseinfo.DefaultDetail = courseinfoDescDetail.Default.(string)
+	// courseinfo.DetailValidator is a validator for the "detail" field. It is called by the builders before save.
+	courseinfo.DetailValidator = courseinfoDescDetail.Validators[0].(func(string) error)
 	// courseinfoDescState is the schema descriptor for state field.
 	courseinfoDescState := courseinfoFields[6].Descriptor()
 	// courseinfo.DefaultState holds the default value on creation for the state field.
-	courseinfo.DefaultState = courseinfoDescState.Default.(string)
+	courseinfo.DefaultState = courseinfoDescState.Default.(int)
+	// courseinfoDescOrder is the schema descriptor for order field.
+	courseinfoDescOrder := courseinfoFields[7].Descriptor()
+	// courseinfo.DefaultOrder holds the default value on creation for the order field.
+	courseinfo.DefaultOrder = courseinfoDescOrder.Default.(int)
+	// courseinfoDescIsQuality is the schema descriptor for is_quality field.
+	courseinfoDescIsQuality := courseinfoFields[8].Descriptor()
+	// courseinfo.DefaultIsQuality holds the default value on creation for the is_quality field.
+	courseinfo.DefaultIsQuality = courseinfoDescIsQuality.Default.(bool)
 	// courseinfoDescIsDeleted is the schema descriptor for is_deleted field.
-	courseinfoDescIsDeleted := courseinfoFields[7].Descriptor()
+	courseinfoDescIsDeleted := courseinfoFields[9].Descriptor()
 	// courseinfo.DefaultIsDeleted holds the default value on creation for the is_deleted field.
 	courseinfo.DefaultIsDeleted = courseinfoDescIsDeleted.Default.(bool)
 	// courseinfoDescCreatedAt is the schema descriptor for created_at field.
-	courseinfoDescCreatedAt := courseinfoFields[8].Descriptor()
+	courseinfoDescCreatedAt := courseinfoFields[10].Descriptor()
 	// courseinfo.DefaultCreatedAt holds the default value on creation for the created_at field.
 	courseinfo.DefaultCreatedAt = courseinfoDescCreatedAt.Default.(func() time.Time)
 	// courseinfoDescUpdatedAt is the schema descriptor for updated_at field.
-	courseinfoDescUpdatedAt := courseinfoFields[9].Descriptor()
+	courseinfoDescUpdatedAt := courseinfoFields[11].Descriptor()
 	// courseinfo.DefaultUpdatedAt holds the default value on creation for the updated_at field.
 	courseinfo.DefaultUpdatedAt = courseinfoDescUpdatedAt.Default.(func() time.Time)
 	// courseinfo.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
@@ -104,24 +157,60 @@ func init() {
 	coursesection.DefaultUpdatedAt = coursesectionDescUpdatedAt.Default.(func() time.Time)
 	// coursesection.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
 	coursesection.UpdateDefaultUpdatedAt = coursesectionDescUpdatedAt.UpdateDefault.(func() time.Time)
-	courseteacherFields := schema.CourseTeacher{}.Fields()
-	_ = courseteacherFields
-	// courseteacherDescName is the schema descriptor for name field.
-	courseteacherDescName := courseteacherFields[0].Descriptor()
-	// courseteacher.NameValidator is a validator for the "name" field. It is called by the builders before save.
-	courseteacher.NameValidator = courseteacherDescName.Validators[0].(func(string) error)
-	// courseteacherDescIsDeleted is the schema descriptor for is_deleted field.
-	courseteacherDescIsDeleted := courseteacherFields[4].Descriptor()
-	// courseteacher.DefaultIsDeleted holds the default value on creation for the is_deleted field.
-	courseteacher.DefaultIsDeleted = courseteacherDescIsDeleted.Default.(bool)
-	// courseteacherDescCreatedAt is the schema descriptor for created_at field.
-	courseteacherDescCreatedAt := courseteacherFields[5].Descriptor()
-	// courseteacher.DefaultCreatedAt holds the default value on creation for the created_at field.
-	courseteacher.DefaultCreatedAt = courseteacherDescCreatedAt.Default.(func() time.Time)
-	// courseteacherDescUpdatedAt is the schema descriptor for updated_at field.
-	courseteacherDescUpdatedAt := courseteacherFields[6].Descriptor()
-	// courseteacher.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	courseteacher.DefaultUpdatedAt = courseteacherDescUpdatedAt.Default.(func() time.Time)
-	// courseteacher.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	courseteacher.UpdateDefaultUpdatedAt = courseteacherDescUpdatedAt.UpdateDefault.(func() time.Time)
+	courseswiperFields := schema.CourseSwiper{}.Fields()
+	_ = courseswiperFields
+	// courseswiperDescIsDeleted is the schema descriptor for is_deleted field.
+	courseswiperDescIsDeleted := courseswiperFields[4].Descriptor()
+	// courseswiper.DefaultIsDeleted holds the default value on creation for the is_deleted field.
+	courseswiper.DefaultIsDeleted = courseswiperDescIsDeleted.Default.(bool)
+	// courseswiperDescCreatedAt is the schema descriptor for created_at field.
+	courseswiperDescCreatedAt := courseswiperFields[5].Descriptor()
+	// courseswiper.DefaultCreatedAt holds the default value on creation for the created_at field.
+	courseswiper.DefaultCreatedAt = courseswiperDescCreatedAt.Default.(func() time.Time)
+	// courseswiperDescUpdatedAt is the schema descriptor for updated_at field.
+	courseswiperDescUpdatedAt := courseswiperFields[6].Descriptor()
+	// courseswiper.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	courseswiper.DefaultUpdatedAt = courseswiperDescUpdatedAt.Default.(func() time.Time)
+	// courseswiper.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	courseswiper.UpdateDefaultUpdatedAt = courseswiperDescUpdatedAt.UpdateDefault.(func() time.Time)
+	teacherFields := schema.Teacher{}.Fields()
+	_ = teacherFields
+	// teacherDescName is the schema descriptor for name field.
+	teacherDescName := teacherFields[0].Descriptor()
+	// teacher.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	teacher.NameValidator = teacherDescName.Validators[0].(func(string) error)
+	// teacherDescIsDeleted is the schema descriptor for is_deleted field.
+	teacherDescIsDeleted := teacherFields[4].Descriptor()
+	// teacher.DefaultIsDeleted holds the default value on creation for the is_deleted field.
+	teacher.DefaultIsDeleted = teacherDescIsDeleted.Default.(bool)
+	// teacherDescCreatedAt is the schema descriptor for created_at field.
+	teacherDescCreatedAt := teacherFields[5].Descriptor()
+	// teacher.DefaultCreatedAt holds the default value on creation for the created_at field.
+	teacher.DefaultCreatedAt = teacherDescCreatedAt.Default.(func() time.Time)
+	// teacherDescUpdatedAt is the schema descriptor for updated_at field.
+	teacherDescUpdatedAt := teacherFields[6].Descriptor()
+	// teacher.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	teacher.DefaultUpdatedAt = teacherDescUpdatedAt.Default.(func() time.Time)
+	// teacher.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	teacher.UpdateDefaultUpdatedAt = teacherDescUpdatedAt.UpdateDefault.(func() time.Time)
+	userFields := schema.User{}.Fields()
+	_ = userFields
+	// userDescName is the schema descriptor for name field.
+	userDescName := userFields[0].Descriptor()
+	// user.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	user.NameValidator = userDescName.Validators[0].(func(string) error)
+	// userDescIsDeleted is the schema descriptor for is_deleted field.
+	userDescIsDeleted := userFields[4].Descriptor()
+	// user.DefaultIsDeleted holds the default value on creation for the is_deleted field.
+	user.DefaultIsDeleted = userDescIsDeleted.Default.(bool)
+	// userDescCreatedAt is the schema descriptor for created_at field.
+	userDescCreatedAt := userFields[5].Descriptor()
+	// user.DefaultCreatedAt holds the default value on creation for the created_at field.
+	user.DefaultCreatedAt = userDescCreatedAt.Default.(func() time.Time)
+	// userDescUpdatedAt is the schema descriptor for updated_at field.
+	userDescUpdatedAt := userFields[6].Descriptor()
+	// user.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	user.DefaultUpdatedAt = userDescUpdatedAt.Default.(func() time.Time)
+	// user.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	user.UpdateDefaultUpdatedAt = userDescUpdatedAt.UpdateDefault.(func() time.Time)
 }

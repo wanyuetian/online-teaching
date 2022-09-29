@@ -10,8 +10,10 @@ import (
 	"online-teaching/internal/ent/coursechapter"
 	"online-teaching/internal/ent/courseinfo"
 	"online-teaching/internal/ent/coursesection"
-	"online-teaching/internal/ent/courseteacher"
+	"online-teaching/internal/ent/courseswiper"
 	"online-teaching/internal/ent/predicate"
+	"online-teaching/internal/ent/teacher"
+	"online-teaching/internal/ent/user"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
@@ -44,9 +46,21 @@ func (cu *CourseUpdate) SetDesc(s string) *CourseUpdate {
 	return cu
 }
 
-// SetBackgroundImage sets the "background_image" field.
-func (cu *CourseUpdate) SetBackgroundImage(s string) *CourseUpdate {
-	cu.mutation.SetBackgroundImage(s)
+// SetImage sets the "image" field.
+func (cu *CourseUpdate) SetImage(s string) *CourseUpdate {
+	cu.mutation.SetImage(s)
+	return cu
+}
+
+// SetTags sets the "tags" field.
+func (cu *CourseUpdate) SetTags(s string) *CourseUpdate {
+	cu.mutation.SetTags(s)
+	return cu
+}
+
+// SetClassification sets the "classification" field.
+func (cu *CourseUpdate) SetClassification(s string) *CourseUpdate {
+	cu.mutation.SetClassification(s)
 	return cu
 }
 
@@ -84,70 +98,94 @@ func (cu *CourseUpdate) SetUpdatedAt(t time.Time) *CourseUpdate {
 	return cu
 }
 
-// SetDeletedAt sets the "deleted_at" field.
-func (cu *CourseUpdate) SetDeletedAt(t time.Time) *CourseUpdate {
-	cu.mutation.SetDeletedAt(t)
+// AddTeacherIDs adds the "teachers" edge to the Teacher entity by IDs.
+func (cu *CourseUpdate) AddTeacherIDs(ids ...int) *CourseUpdate {
+	cu.mutation.AddTeacherIDs(ids...)
 	return cu
 }
 
-// AddCourseTeacherIDs adds the "course_teacher" edge to the CourseTeacher entity by IDs.
-func (cu *CourseUpdate) AddCourseTeacherIDs(ids ...int) *CourseUpdate {
-	cu.mutation.AddCourseTeacherIDs(ids...)
+// AddTeachers adds the "teachers" edges to the Teacher entity.
+func (cu *CourseUpdate) AddTeachers(t ...*Teacher) *CourseUpdate {
+	ids := make([]int, len(t))
+	for i := range t {
+		ids[i] = t[i].ID
+	}
+	return cu.AddTeacherIDs(ids...)
+}
+
+// AddInfoIDs adds the "infos" edge to the CourseInfo entity by IDs.
+func (cu *CourseUpdate) AddInfoIDs(ids ...int) *CourseUpdate {
+	cu.mutation.AddInfoIDs(ids...)
 	return cu
 }
 
-// AddCourseTeacher adds the "course_teacher" edges to the CourseTeacher entity.
-func (cu *CourseUpdate) AddCourseTeacher(c ...*CourseTeacher) *CourseUpdate {
+// AddInfos adds the "infos" edges to the CourseInfo entity.
+func (cu *CourseUpdate) AddInfos(c ...*CourseInfo) *CourseUpdate {
 	ids := make([]int, len(c))
 	for i := range c {
 		ids[i] = c[i].ID
 	}
-	return cu.AddCourseTeacherIDs(ids...)
+	return cu.AddInfoIDs(ids...)
 }
 
-// AddCourseInfoIDs adds the "course_info" edge to the CourseInfo entity by IDs.
-func (cu *CourseUpdate) AddCourseInfoIDs(ids ...int) *CourseUpdate {
-	cu.mutation.AddCourseInfoIDs(ids...)
+// AddChapterIDs adds the "chapters" edge to the CourseChapter entity by IDs.
+func (cu *CourseUpdate) AddChapterIDs(ids ...int) *CourseUpdate {
+	cu.mutation.AddChapterIDs(ids...)
 	return cu
 }
 
-// AddCourseInfo adds the "course_info" edges to the CourseInfo entity.
-func (cu *CourseUpdate) AddCourseInfo(c ...*CourseInfo) *CourseUpdate {
+// AddChapters adds the "chapters" edges to the CourseChapter entity.
+func (cu *CourseUpdate) AddChapters(c ...*CourseChapter) *CourseUpdate {
 	ids := make([]int, len(c))
 	for i := range c {
 		ids[i] = c[i].ID
 	}
-	return cu.AddCourseInfoIDs(ids...)
+	return cu.AddChapterIDs(ids...)
 }
 
-// AddCourseChapterIDs adds the "course_chapter" edge to the CourseChapter entity by IDs.
-func (cu *CourseUpdate) AddCourseChapterIDs(ids ...int) *CourseUpdate {
-	cu.mutation.AddCourseChapterIDs(ids...)
+// AddSectionIDs adds the "sections" edge to the CourseSection entity by IDs.
+func (cu *CourseUpdate) AddSectionIDs(ids ...int) *CourseUpdate {
+	cu.mutation.AddSectionIDs(ids...)
 	return cu
 }
 
-// AddCourseChapter adds the "course_chapter" edges to the CourseChapter entity.
-func (cu *CourseUpdate) AddCourseChapter(c ...*CourseChapter) *CourseUpdate {
+// AddSections adds the "sections" edges to the CourseSection entity.
+func (cu *CourseUpdate) AddSections(c ...*CourseSection) *CourseUpdate {
 	ids := make([]int, len(c))
 	for i := range c {
 		ids[i] = c[i].ID
 	}
-	return cu.AddCourseChapterIDs(ids...)
+	return cu.AddSectionIDs(ids...)
 }
 
-// AddCourseSectionIDs adds the "course_section" edge to the CourseSection entity by IDs.
-func (cu *CourseUpdate) AddCourseSectionIDs(ids ...int) *CourseUpdate {
-	cu.mutation.AddCourseSectionIDs(ids...)
+// AddSwiperIDs adds the "swipers" edge to the CourseSwiper entity by IDs.
+func (cu *CourseUpdate) AddSwiperIDs(ids ...int) *CourseUpdate {
+	cu.mutation.AddSwiperIDs(ids...)
 	return cu
 }
 
-// AddCourseSection adds the "course_section" edges to the CourseSection entity.
-func (cu *CourseUpdate) AddCourseSection(c ...*CourseSection) *CourseUpdate {
+// AddSwipers adds the "swipers" edges to the CourseSwiper entity.
+func (cu *CourseUpdate) AddSwipers(c ...*CourseSwiper) *CourseUpdate {
 	ids := make([]int, len(c))
 	for i := range c {
 		ids[i] = c[i].ID
 	}
-	return cu.AddCourseSectionIDs(ids...)
+	return cu.AddSwiperIDs(ids...)
+}
+
+// AddUserIDs adds the "users" edge to the User entity by IDs.
+func (cu *CourseUpdate) AddUserIDs(ids ...int) *CourseUpdate {
+	cu.mutation.AddUserIDs(ids...)
+	return cu
+}
+
+// AddUsers adds the "users" edges to the User entity.
+func (cu *CourseUpdate) AddUsers(u ...*User) *CourseUpdate {
+	ids := make([]int, len(u))
+	for i := range u {
+		ids[i] = u[i].ID
+	}
+	return cu.AddUserIDs(ids...)
 }
 
 // Mutation returns the CourseMutation object of the builder.
@@ -155,88 +193,130 @@ func (cu *CourseUpdate) Mutation() *CourseMutation {
 	return cu.mutation
 }
 
-// ClearCourseTeacher clears all "course_teacher" edges to the CourseTeacher entity.
-func (cu *CourseUpdate) ClearCourseTeacher() *CourseUpdate {
-	cu.mutation.ClearCourseTeacher()
+// ClearTeachers clears all "teachers" edges to the Teacher entity.
+func (cu *CourseUpdate) ClearTeachers() *CourseUpdate {
+	cu.mutation.ClearTeachers()
 	return cu
 }
 
-// RemoveCourseTeacherIDs removes the "course_teacher" edge to CourseTeacher entities by IDs.
-func (cu *CourseUpdate) RemoveCourseTeacherIDs(ids ...int) *CourseUpdate {
-	cu.mutation.RemoveCourseTeacherIDs(ids...)
+// RemoveTeacherIDs removes the "teachers" edge to Teacher entities by IDs.
+func (cu *CourseUpdate) RemoveTeacherIDs(ids ...int) *CourseUpdate {
+	cu.mutation.RemoveTeacherIDs(ids...)
 	return cu
 }
 
-// RemoveCourseTeacher removes "course_teacher" edges to CourseTeacher entities.
-func (cu *CourseUpdate) RemoveCourseTeacher(c ...*CourseTeacher) *CourseUpdate {
+// RemoveTeachers removes "teachers" edges to Teacher entities.
+func (cu *CourseUpdate) RemoveTeachers(t ...*Teacher) *CourseUpdate {
+	ids := make([]int, len(t))
+	for i := range t {
+		ids[i] = t[i].ID
+	}
+	return cu.RemoveTeacherIDs(ids...)
+}
+
+// ClearInfos clears all "infos" edges to the CourseInfo entity.
+func (cu *CourseUpdate) ClearInfos() *CourseUpdate {
+	cu.mutation.ClearInfos()
+	return cu
+}
+
+// RemoveInfoIDs removes the "infos" edge to CourseInfo entities by IDs.
+func (cu *CourseUpdate) RemoveInfoIDs(ids ...int) *CourseUpdate {
+	cu.mutation.RemoveInfoIDs(ids...)
+	return cu
+}
+
+// RemoveInfos removes "infos" edges to CourseInfo entities.
+func (cu *CourseUpdate) RemoveInfos(c ...*CourseInfo) *CourseUpdate {
 	ids := make([]int, len(c))
 	for i := range c {
 		ids[i] = c[i].ID
 	}
-	return cu.RemoveCourseTeacherIDs(ids...)
+	return cu.RemoveInfoIDs(ids...)
 }
 
-// ClearCourseInfo clears all "course_info" edges to the CourseInfo entity.
-func (cu *CourseUpdate) ClearCourseInfo() *CourseUpdate {
-	cu.mutation.ClearCourseInfo()
+// ClearChapters clears all "chapters" edges to the CourseChapter entity.
+func (cu *CourseUpdate) ClearChapters() *CourseUpdate {
+	cu.mutation.ClearChapters()
 	return cu
 }
 
-// RemoveCourseInfoIDs removes the "course_info" edge to CourseInfo entities by IDs.
-func (cu *CourseUpdate) RemoveCourseInfoIDs(ids ...int) *CourseUpdate {
-	cu.mutation.RemoveCourseInfoIDs(ids...)
+// RemoveChapterIDs removes the "chapters" edge to CourseChapter entities by IDs.
+func (cu *CourseUpdate) RemoveChapterIDs(ids ...int) *CourseUpdate {
+	cu.mutation.RemoveChapterIDs(ids...)
 	return cu
 }
 
-// RemoveCourseInfo removes "course_info" edges to CourseInfo entities.
-func (cu *CourseUpdate) RemoveCourseInfo(c ...*CourseInfo) *CourseUpdate {
+// RemoveChapters removes "chapters" edges to CourseChapter entities.
+func (cu *CourseUpdate) RemoveChapters(c ...*CourseChapter) *CourseUpdate {
 	ids := make([]int, len(c))
 	for i := range c {
 		ids[i] = c[i].ID
 	}
-	return cu.RemoveCourseInfoIDs(ids...)
+	return cu.RemoveChapterIDs(ids...)
 }
 
-// ClearCourseChapter clears all "course_chapter" edges to the CourseChapter entity.
-func (cu *CourseUpdate) ClearCourseChapter() *CourseUpdate {
-	cu.mutation.ClearCourseChapter()
+// ClearSections clears all "sections" edges to the CourseSection entity.
+func (cu *CourseUpdate) ClearSections() *CourseUpdate {
+	cu.mutation.ClearSections()
 	return cu
 }
 
-// RemoveCourseChapterIDs removes the "course_chapter" edge to CourseChapter entities by IDs.
-func (cu *CourseUpdate) RemoveCourseChapterIDs(ids ...int) *CourseUpdate {
-	cu.mutation.RemoveCourseChapterIDs(ids...)
+// RemoveSectionIDs removes the "sections" edge to CourseSection entities by IDs.
+func (cu *CourseUpdate) RemoveSectionIDs(ids ...int) *CourseUpdate {
+	cu.mutation.RemoveSectionIDs(ids...)
 	return cu
 }
 
-// RemoveCourseChapter removes "course_chapter" edges to CourseChapter entities.
-func (cu *CourseUpdate) RemoveCourseChapter(c ...*CourseChapter) *CourseUpdate {
+// RemoveSections removes "sections" edges to CourseSection entities.
+func (cu *CourseUpdate) RemoveSections(c ...*CourseSection) *CourseUpdate {
 	ids := make([]int, len(c))
 	for i := range c {
 		ids[i] = c[i].ID
 	}
-	return cu.RemoveCourseChapterIDs(ids...)
+	return cu.RemoveSectionIDs(ids...)
 }
 
-// ClearCourseSection clears all "course_section" edges to the CourseSection entity.
-func (cu *CourseUpdate) ClearCourseSection() *CourseUpdate {
-	cu.mutation.ClearCourseSection()
+// ClearSwipers clears all "swipers" edges to the CourseSwiper entity.
+func (cu *CourseUpdate) ClearSwipers() *CourseUpdate {
+	cu.mutation.ClearSwipers()
 	return cu
 }
 
-// RemoveCourseSectionIDs removes the "course_section" edge to CourseSection entities by IDs.
-func (cu *CourseUpdate) RemoveCourseSectionIDs(ids ...int) *CourseUpdate {
-	cu.mutation.RemoveCourseSectionIDs(ids...)
+// RemoveSwiperIDs removes the "swipers" edge to CourseSwiper entities by IDs.
+func (cu *CourseUpdate) RemoveSwiperIDs(ids ...int) *CourseUpdate {
+	cu.mutation.RemoveSwiperIDs(ids...)
 	return cu
 }
 
-// RemoveCourseSection removes "course_section" edges to CourseSection entities.
-func (cu *CourseUpdate) RemoveCourseSection(c ...*CourseSection) *CourseUpdate {
+// RemoveSwipers removes "swipers" edges to CourseSwiper entities.
+func (cu *CourseUpdate) RemoveSwipers(c ...*CourseSwiper) *CourseUpdate {
 	ids := make([]int, len(c))
 	for i := range c {
 		ids[i] = c[i].ID
 	}
-	return cu.RemoveCourseSectionIDs(ids...)
+	return cu.RemoveSwiperIDs(ids...)
+}
+
+// ClearUsers clears all "users" edges to the User entity.
+func (cu *CourseUpdate) ClearUsers() *CourseUpdate {
+	cu.mutation.ClearUsers()
+	return cu
+}
+
+// RemoveUserIDs removes the "users" edge to User entities by IDs.
+func (cu *CourseUpdate) RemoveUserIDs(ids ...int) *CourseUpdate {
+	cu.mutation.RemoveUserIDs(ids...)
+	return cu
+}
+
+// RemoveUsers removes "users" edges to User entities.
+func (cu *CourseUpdate) RemoveUsers(u ...*User) *CourseUpdate {
+	ids := make([]int, len(u))
+	for i := range u {
+		ids[i] = u[i].ID
+	}
+	return cu.RemoveUserIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -350,11 +430,25 @@ func (cu *CourseUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: course.FieldDesc,
 		})
 	}
-	if value, ok := cu.mutation.BackgroundImage(); ok {
+	if value, ok := cu.mutation.Image(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
-			Column: course.FieldBackgroundImage,
+			Column: course.FieldImage,
+		})
+	}
+	if value, ok := cu.mutation.Tags(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: course.FieldTags,
+		})
+	}
+	if value, ok := cu.mutation.Classification(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: course.FieldClassification,
 		})
 	}
 	if value, ok := cu.mutation.IsDeleted(); ok {
@@ -378,40 +472,33 @@ func (cu *CourseUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: course.FieldUpdatedAt,
 		})
 	}
-	if value, ok := cu.mutation.DeletedAt(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeTime,
-			Value:  value,
-			Column: course.FieldDeletedAt,
-		})
-	}
-	if cu.mutation.CourseTeacherCleared() {
+	if cu.mutation.TeachersCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   course.CourseTeacherTable,
-			Columns: []string{course.CourseTeacherColumn},
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   course.TeachersTable,
+			Columns: course.TeachersPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: courseteacher.FieldID,
+					Column: teacher.FieldID,
 				},
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cu.mutation.RemovedCourseTeacherIDs(); len(nodes) > 0 && !cu.mutation.CourseTeacherCleared() {
+	if nodes := cu.mutation.RemovedTeachersIDs(); len(nodes) > 0 && !cu.mutation.TeachersCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   course.CourseTeacherTable,
-			Columns: []string{course.CourseTeacherColumn},
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   course.TeachersTable,
+			Columns: course.TeachersPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: courseteacher.FieldID,
+					Column: teacher.FieldID,
 				},
 			},
 		}
@@ -420,17 +507,17 @@ func (cu *CourseUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cu.mutation.CourseTeacherIDs(); len(nodes) > 0 {
+	if nodes := cu.mutation.TeachersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   course.CourseTeacherTable,
-			Columns: []string{course.CourseTeacherColumn},
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   course.TeachersTable,
+			Columns: course.TeachersPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: courseteacher.FieldID,
+					Column: teacher.FieldID,
 				},
 			},
 		}
@@ -439,12 +526,12 @@ func (cu *CourseUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if cu.mutation.CourseInfoCleared() {
+	if cu.mutation.InfosCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   course.CourseInfoTable,
-			Columns: []string{course.CourseInfoColumn},
+			Table:   course.InfosTable,
+			Columns: []string{course.InfosColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -455,12 +542,12 @@ func (cu *CourseUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cu.mutation.RemovedCourseInfoIDs(); len(nodes) > 0 && !cu.mutation.CourseInfoCleared() {
+	if nodes := cu.mutation.RemovedInfosIDs(); len(nodes) > 0 && !cu.mutation.InfosCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   course.CourseInfoTable,
-			Columns: []string{course.CourseInfoColumn},
+			Table:   course.InfosTable,
+			Columns: []string{course.InfosColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -474,12 +561,12 @@ func (cu *CourseUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cu.mutation.CourseInfoIDs(); len(nodes) > 0 {
+	if nodes := cu.mutation.InfosIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   course.CourseInfoTable,
-			Columns: []string{course.CourseInfoColumn},
+			Table:   course.InfosTable,
+			Columns: []string{course.InfosColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -493,12 +580,12 @@ func (cu *CourseUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if cu.mutation.CourseChapterCleared() {
+	if cu.mutation.ChaptersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   course.CourseChapterTable,
-			Columns: []string{course.CourseChapterColumn},
+			Table:   course.ChaptersTable,
+			Columns: []string{course.ChaptersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -509,12 +596,12 @@ func (cu *CourseUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cu.mutation.RemovedCourseChapterIDs(); len(nodes) > 0 && !cu.mutation.CourseChapterCleared() {
+	if nodes := cu.mutation.RemovedChaptersIDs(); len(nodes) > 0 && !cu.mutation.ChaptersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   course.CourseChapterTable,
-			Columns: []string{course.CourseChapterColumn},
+			Table:   course.ChaptersTable,
+			Columns: []string{course.ChaptersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -528,12 +615,12 @@ func (cu *CourseUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cu.mutation.CourseChapterIDs(); len(nodes) > 0 {
+	if nodes := cu.mutation.ChaptersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   course.CourseChapterTable,
-			Columns: []string{course.CourseChapterColumn},
+			Table:   course.ChaptersTable,
+			Columns: []string{course.ChaptersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -547,12 +634,12 @@ func (cu *CourseUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if cu.mutation.CourseSectionCleared() {
+	if cu.mutation.SectionsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   course.CourseSectionTable,
-			Columns: []string{course.CourseSectionColumn},
+			Table:   course.SectionsTable,
+			Columns: []string{course.SectionsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -563,12 +650,12 @@ func (cu *CourseUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cu.mutation.RemovedCourseSectionIDs(); len(nodes) > 0 && !cu.mutation.CourseSectionCleared() {
+	if nodes := cu.mutation.RemovedSectionsIDs(); len(nodes) > 0 && !cu.mutation.SectionsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   course.CourseSectionTable,
-			Columns: []string{course.CourseSectionColumn},
+			Table:   course.SectionsTable,
+			Columns: []string{course.SectionsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -582,17 +669,125 @@ func (cu *CourseUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cu.mutation.CourseSectionIDs(); len(nodes) > 0 {
+	if nodes := cu.mutation.SectionsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   course.CourseSectionTable,
-			Columns: []string{course.CourseSectionColumn},
+			Table:   course.SectionsTable,
+			Columns: []string{course.SectionsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
 					Column: coursesection.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if cu.mutation.SwipersCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   course.SwipersTable,
+			Columns: []string{course.SwipersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: courseswiper.FieldID,
+				},
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cu.mutation.RemovedSwipersIDs(); len(nodes) > 0 && !cu.mutation.SwipersCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   course.SwipersTable,
+			Columns: []string{course.SwipersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: courseswiper.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cu.mutation.SwipersIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   course.SwipersTable,
+			Columns: []string{course.SwipersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: courseswiper.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if cu.mutation.UsersCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   course.UsersTable,
+			Columns: course.UsersPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: user.FieldID,
+				},
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cu.mutation.RemovedUsersIDs(); len(nodes) > 0 && !cu.mutation.UsersCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   course.UsersTable,
+			Columns: course.UsersPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: user.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cu.mutation.UsersIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   course.UsersTable,
+			Columns: course.UsersPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: user.FieldID,
 				},
 			},
 		}
@@ -632,9 +827,21 @@ func (cuo *CourseUpdateOne) SetDesc(s string) *CourseUpdateOne {
 	return cuo
 }
 
-// SetBackgroundImage sets the "background_image" field.
-func (cuo *CourseUpdateOne) SetBackgroundImage(s string) *CourseUpdateOne {
-	cuo.mutation.SetBackgroundImage(s)
+// SetImage sets the "image" field.
+func (cuo *CourseUpdateOne) SetImage(s string) *CourseUpdateOne {
+	cuo.mutation.SetImage(s)
+	return cuo
+}
+
+// SetTags sets the "tags" field.
+func (cuo *CourseUpdateOne) SetTags(s string) *CourseUpdateOne {
+	cuo.mutation.SetTags(s)
+	return cuo
+}
+
+// SetClassification sets the "classification" field.
+func (cuo *CourseUpdateOne) SetClassification(s string) *CourseUpdateOne {
+	cuo.mutation.SetClassification(s)
 	return cuo
 }
 
@@ -672,70 +879,94 @@ func (cuo *CourseUpdateOne) SetUpdatedAt(t time.Time) *CourseUpdateOne {
 	return cuo
 }
 
-// SetDeletedAt sets the "deleted_at" field.
-func (cuo *CourseUpdateOne) SetDeletedAt(t time.Time) *CourseUpdateOne {
-	cuo.mutation.SetDeletedAt(t)
+// AddTeacherIDs adds the "teachers" edge to the Teacher entity by IDs.
+func (cuo *CourseUpdateOne) AddTeacherIDs(ids ...int) *CourseUpdateOne {
+	cuo.mutation.AddTeacherIDs(ids...)
 	return cuo
 }
 
-// AddCourseTeacherIDs adds the "course_teacher" edge to the CourseTeacher entity by IDs.
-func (cuo *CourseUpdateOne) AddCourseTeacherIDs(ids ...int) *CourseUpdateOne {
-	cuo.mutation.AddCourseTeacherIDs(ids...)
+// AddTeachers adds the "teachers" edges to the Teacher entity.
+func (cuo *CourseUpdateOne) AddTeachers(t ...*Teacher) *CourseUpdateOne {
+	ids := make([]int, len(t))
+	for i := range t {
+		ids[i] = t[i].ID
+	}
+	return cuo.AddTeacherIDs(ids...)
+}
+
+// AddInfoIDs adds the "infos" edge to the CourseInfo entity by IDs.
+func (cuo *CourseUpdateOne) AddInfoIDs(ids ...int) *CourseUpdateOne {
+	cuo.mutation.AddInfoIDs(ids...)
 	return cuo
 }
 
-// AddCourseTeacher adds the "course_teacher" edges to the CourseTeacher entity.
-func (cuo *CourseUpdateOne) AddCourseTeacher(c ...*CourseTeacher) *CourseUpdateOne {
+// AddInfos adds the "infos" edges to the CourseInfo entity.
+func (cuo *CourseUpdateOne) AddInfos(c ...*CourseInfo) *CourseUpdateOne {
 	ids := make([]int, len(c))
 	for i := range c {
 		ids[i] = c[i].ID
 	}
-	return cuo.AddCourseTeacherIDs(ids...)
+	return cuo.AddInfoIDs(ids...)
 }
 
-// AddCourseInfoIDs adds the "course_info" edge to the CourseInfo entity by IDs.
-func (cuo *CourseUpdateOne) AddCourseInfoIDs(ids ...int) *CourseUpdateOne {
-	cuo.mutation.AddCourseInfoIDs(ids...)
+// AddChapterIDs adds the "chapters" edge to the CourseChapter entity by IDs.
+func (cuo *CourseUpdateOne) AddChapterIDs(ids ...int) *CourseUpdateOne {
+	cuo.mutation.AddChapterIDs(ids...)
 	return cuo
 }
 
-// AddCourseInfo adds the "course_info" edges to the CourseInfo entity.
-func (cuo *CourseUpdateOne) AddCourseInfo(c ...*CourseInfo) *CourseUpdateOne {
+// AddChapters adds the "chapters" edges to the CourseChapter entity.
+func (cuo *CourseUpdateOne) AddChapters(c ...*CourseChapter) *CourseUpdateOne {
 	ids := make([]int, len(c))
 	for i := range c {
 		ids[i] = c[i].ID
 	}
-	return cuo.AddCourseInfoIDs(ids...)
+	return cuo.AddChapterIDs(ids...)
 }
 
-// AddCourseChapterIDs adds the "course_chapter" edge to the CourseChapter entity by IDs.
-func (cuo *CourseUpdateOne) AddCourseChapterIDs(ids ...int) *CourseUpdateOne {
-	cuo.mutation.AddCourseChapterIDs(ids...)
+// AddSectionIDs adds the "sections" edge to the CourseSection entity by IDs.
+func (cuo *CourseUpdateOne) AddSectionIDs(ids ...int) *CourseUpdateOne {
+	cuo.mutation.AddSectionIDs(ids...)
 	return cuo
 }
 
-// AddCourseChapter adds the "course_chapter" edges to the CourseChapter entity.
-func (cuo *CourseUpdateOne) AddCourseChapter(c ...*CourseChapter) *CourseUpdateOne {
+// AddSections adds the "sections" edges to the CourseSection entity.
+func (cuo *CourseUpdateOne) AddSections(c ...*CourseSection) *CourseUpdateOne {
 	ids := make([]int, len(c))
 	for i := range c {
 		ids[i] = c[i].ID
 	}
-	return cuo.AddCourseChapterIDs(ids...)
+	return cuo.AddSectionIDs(ids...)
 }
 
-// AddCourseSectionIDs adds the "course_section" edge to the CourseSection entity by IDs.
-func (cuo *CourseUpdateOne) AddCourseSectionIDs(ids ...int) *CourseUpdateOne {
-	cuo.mutation.AddCourseSectionIDs(ids...)
+// AddSwiperIDs adds the "swipers" edge to the CourseSwiper entity by IDs.
+func (cuo *CourseUpdateOne) AddSwiperIDs(ids ...int) *CourseUpdateOne {
+	cuo.mutation.AddSwiperIDs(ids...)
 	return cuo
 }
 
-// AddCourseSection adds the "course_section" edges to the CourseSection entity.
-func (cuo *CourseUpdateOne) AddCourseSection(c ...*CourseSection) *CourseUpdateOne {
+// AddSwipers adds the "swipers" edges to the CourseSwiper entity.
+func (cuo *CourseUpdateOne) AddSwipers(c ...*CourseSwiper) *CourseUpdateOne {
 	ids := make([]int, len(c))
 	for i := range c {
 		ids[i] = c[i].ID
 	}
-	return cuo.AddCourseSectionIDs(ids...)
+	return cuo.AddSwiperIDs(ids...)
+}
+
+// AddUserIDs adds the "users" edge to the User entity by IDs.
+func (cuo *CourseUpdateOne) AddUserIDs(ids ...int) *CourseUpdateOne {
+	cuo.mutation.AddUserIDs(ids...)
+	return cuo
+}
+
+// AddUsers adds the "users" edges to the User entity.
+func (cuo *CourseUpdateOne) AddUsers(u ...*User) *CourseUpdateOne {
+	ids := make([]int, len(u))
+	for i := range u {
+		ids[i] = u[i].ID
+	}
+	return cuo.AddUserIDs(ids...)
 }
 
 // Mutation returns the CourseMutation object of the builder.
@@ -743,88 +974,130 @@ func (cuo *CourseUpdateOne) Mutation() *CourseMutation {
 	return cuo.mutation
 }
 
-// ClearCourseTeacher clears all "course_teacher" edges to the CourseTeacher entity.
-func (cuo *CourseUpdateOne) ClearCourseTeacher() *CourseUpdateOne {
-	cuo.mutation.ClearCourseTeacher()
+// ClearTeachers clears all "teachers" edges to the Teacher entity.
+func (cuo *CourseUpdateOne) ClearTeachers() *CourseUpdateOne {
+	cuo.mutation.ClearTeachers()
 	return cuo
 }
 
-// RemoveCourseTeacherIDs removes the "course_teacher" edge to CourseTeacher entities by IDs.
-func (cuo *CourseUpdateOne) RemoveCourseTeacherIDs(ids ...int) *CourseUpdateOne {
-	cuo.mutation.RemoveCourseTeacherIDs(ids...)
+// RemoveTeacherIDs removes the "teachers" edge to Teacher entities by IDs.
+func (cuo *CourseUpdateOne) RemoveTeacherIDs(ids ...int) *CourseUpdateOne {
+	cuo.mutation.RemoveTeacherIDs(ids...)
 	return cuo
 }
 
-// RemoveCourseTeacher removes "course_teacher" edges to CourseTeacher entities.
-func (cuo *CourseUpdateOne) RemoveCourseTeacher(c ...*CourseTeacher) *CourseUpdateOne {
+// RemoveTeachers removes "teachers" edges to Teacher entities.
+func (cuo *CourseUpdateOne) RemoveTeachers(t ...*Teacher) *CourseUpdateOne {
+	ids := make([]int, len(t))
+	for i := range t {
+		ids[i] = t[i].ID
+	}
+	return cuo.RemoveTeacherIDs(ids...)
+}
+
+// ClearInfos clears all "infos" edges to the CourseInfo entity.
+func (cuo *CourseUpdateOne) ClearInfos() *CourseUpdateOne {
+	cuo.mutation.ClearInfos()
+	return cuo
+}
+
+// RemoveInfoIDs removes the "infos" edge to CourseInfo entities by IDs.
+func (cuo *CourseUpdateOne) RemoveInfoIDs(ids ...int) *CourseUpdateOne {
+	cuo.mutation.RemoveInfoIDs(ids...)
+	return cuo
+}
+
+// RemoveInfos removes "infos" edges to CourseInfo entities.
+func (cuo *CourseUpdateOne) RemoveInfos(c ...*CourseInfo) *CourseUpdateOne {
 	ids := make([]int, len(c))
 	for i := range c {
 		ids[i] = c[i].ID
 	}
-	return cuo.RemoveCourseTeacherIDs(ids...)
+	return cuo.RemoveInfoIDs(ids...)
 }
 
-// ClearCourseInfo clears all "course_info" edges to the CourseInfo entity.
-func (cuo *CourseUpdateOne) ClearCourseInfo() *CourseUpdateOne {
-	cuo.mutation.ClearCourseInfo()
+// ClearChapters clears all "chapters" edges to the CourseChapter entity.
+func (cuo *CourseUpdateOne) ClearChapters() *CourseUpdateOne {
+	cuo.mutation.ClearChapters()
 	return cuo
 }
 
-// RemoveCourseInfoIDs removes the "course_info" edge to CourseInfo entities by IDs.
-func (cuo *CourseUpdateOne) RemoveCourseInfoIDs(ids ...int) *CourseUpdateOne {
-	cuo.mutation.RemoveCourseInfoIDs(ids...)
+// RemoveChapterIDs removes the "chapters" edge to CourseChapter entities by IDs.
+func (cuo *CourseUpdateOne) RemoveChapterIDs(ids ...int) *CourseUpdateOne {
+	cuo.mutation.RemoveChapterIDs(ids...)
 	return cuo
 }
 
-// RemoveCourseInfo removes "course_info" edges to CourseInfo entities.
-func (cuo *CourseUpdateOne) RemoveCourseInfo(c ...*CourseInfo) *CourseUpdateOne {
+// RemoveChapters removes "chapters" edges to CourseChapter entities.
+func (cuo *CourseUpdateOne) RemoveChapters(c ...*CourseChapter) *CourseUpdateOne {
 	ids := make([]int, len(c))
 	for i := range c {
 		ids[i] = c[i].ID
 	}
-	return cuo.RemoveCourseInfoIDs(ids...)
+	return cuo.RemoveChapterIDs(ids...)
 }
 
-// ClearCourseChapter clears all "course_chapter" edges to the CourseChapter entity.
-func (cuo *CourseUpdateOne) ClearCourseChapter() *CourseUpdateOne {
-	cuo.mutation.ClearCourseChapter()
+// ClearSections clears all "sections" edges to the CourseSection entity.
+func (cuo *CourseUpdateOne) ClearSections() *CourseUpdateOne {
+	cuo.mutation.ClearSections()
 	return cuo
 }
 
-// RemoveCourseChapterIDs removes the "course_chapter" edge to CourseChapter entities by IDs.
-func (cuo *CourseUpdateOne) RemoveCourseChapterIDs(ids ...int) *CourseUpdateOne {
-	cuo.mutation.RemoveCourseChapterIDs(ids...)
+// RemoveSectionIDs removes the "sections" edge to CourseSection entities by IDs.
+func (cuo *CourseUpdateOne) RemoveSectionIDs(ids ...int) *CourseUpdateOne {
+	cuo.mutation.RemoveSectionIDs(ids...)
 	return cuo
 }
 
-// RemoveCourseChapter removes "course_chapter" edges to CourseChapter entities.
-func (cuo *CourseUpdateOne) RemoveCourseChapter(c ...*CourseChapter) *CourseUpdateOne {
+// RemoveSections removes "sections" edges to CourseSection entities.
+func (cuo *CourseUpdateOne) RemoveSections(c ...*CourseSection) *CourseUpdateOne {
 	ids := make([]int, len(c))
 	for i := range c {
 		ids[i] = c[i].ID
 	}
-	return cuo.RemoveCourseChapterIDs(ids...)
+	return cuo.RemoveSectionIDs(ids...)
 }
 
-// ClearCourseSection clears all "course_section" edges to the CourseSection entity.
-func (cuo *CourseUpdateOne) ClearCourseSection() *CourseUpdateOne {
-	cuo.mutation.ClearCourseSection()
+// ClearSwipers clears all "swipers" edges to the CourseSwiper entity.
+func (cuo *CourseUpdateOne) ClearSwipers() *CourseUpdateOne {
+	cuo.mutation.ClearSwipers()
 	return cuo
 }
 
-// RemoveCourseSectionIDs removes the "course_section" edge to CourseSection entities by IDs.
-func (cuo *CourseUpdateOne) RemoveCourseSectionIDs(ids ...int) *CourseUpdateOne {
-	cuo.mutation.RemoveCourseSectionIDs(ids...)
+// RemoveSwiperIDs removes the "swipers" edge to CourseSwiper entities by IDs.
+func (cuo *CourseUpdateOne) RemoveSwiperIDs(ids ...int) *CourseUpdateOne {
+	cuo.mutation.RemoveSwiperIDs(ids...)
 	return cuo
 }
 
-// RemoveCourseSection removes "course_section" edges to CourseSection entities.
-func (cuo *CourseUpdateOne) RemoveCourseSection(c ...*CourseSection) *CourseUpdateOne {
+// RemoveSwipers removes "swipers" edges to CourseSwiper entities.
+func (cuo *CourseUpdateOne) RemoveSwipers(c ...*CourseSwiper) *CourseUpdateOne {
 	ids := make([]int, len(c))
 	for i := range c {
 		ids[i] = c[i].ID
 	}
-	return cuo.RemoveCourseSectionIDs(ids...)
+	return cuo.RemoveSwiperIDs(ids...)
+}
+
+// ClearUsers clears all "users" edges to the User entity.
+func (cuo *CourseUpdateOne) ClearUsers() *CourseUpdateOne {
+	cuo.mutation.ClearUsers()
+	return cuo
+}
+
+// RemoveUserIDs removes the "users" edge to User entities by IDs.
+func (cuo *CourseUpdateOne) RemoveUserIDs(ids ...int) *CourseUpdateOne {
+	cuo.mutation.RemoveUserIDs(ids...)
+	return cuo
+}
+
+// RemoveUsers removes "users" edges to User entities.
+func (cuo *CourseUpdateOne) RemoveUsers(u ...*User) *CourseUpdateOne {
+	ids := make([]int, len(u))
+	for i := range u {
+		ids[i] = u[i].ID
+	}
+	return cuo.RemoveUserIDs(ids...)
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
@@ -968,11 +1241,25 @@ func (cuo *CourseUpdateOne) sqlSave(ctx context.Context) (_node *Course, err err
 			Column: course.FieldDesc,
 		})
 	}
-	if value, ok := cuo.mutation.BackgroundImage(); ok {
+	if value, ok := cuo.mutation.Image(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
-			Column: course.FieldBackgroundImage,
+			Column: course.FieldImage,
+		})
+	}
+	if value, ok := cuo.mutation.Tags(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: course.FieldTags,
+		})
+	}
+	if value, ok := cuo.mutation.Classification(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: course.FieldClassification,
 		})
 	}
 	if value, ok := cuo.mutation.IsDeleted(); ok {
@@ -996,40 +1283,33 @@ func (cuo *CourseUpdateOne) sqlSave(ctx context.Context) (_node *Course, err err
 			Column: course.FieldUpdatedAt,
 		})
 	}
-	if value, ok := cuo.mutation.DeletedAt(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeTime,
-			Value:  value,
-			Column: course.FieldDeletedAt,
-		})
-	}
-	if cuo.mutation.CourseTeacherCleared() {
+	if cuo.mutation.TeachersCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   course.CourseTeacherTable,
-			Columns: []string{course.CourseTeacherColumn},
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   course.TeachersTable,
+			Columns: course.TeachersPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: courseteacher.FieldID,
+					Column: teacher.FieldID,
 				},
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cuo.mutation.RemovedCourseTeacherIDs(); len(nodes) > 0 && !cuo.mutation.CourseTeacherCleared() {
+	if nodes := cuo.mutation.RemovedTeachersIDs(); len(nodes) > 0 && !cuo.mutation.TeachersCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   course.CourseTeacherTable,
-			Columns: []string{course.CourseTeacherColumn},
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   course.TeachersTable,
+			Columns: course.TeachersPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: courseteacher.FieldID,
+					Column: teacher.FieldID,
 				},
 			},
 		}
@@ -1038,17 +1318,17 @@ func (cuo *CourseUpdateOne) sqlSave(ctx context.Context) (_node *Course, err err
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cuo.mutation.CourseTeacherIDs(); len(nodes) > 0 {
+	if nodes := cuo.mutation.TeachersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   course.CourseTeacherTable,
-			Columns: []string{course.CourseTeacherColumn},
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   course.TeachersTable,
+			Columns: course.TeachersPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: courseteacher.FieldID,
+					Column: teacher.FieldID,
 				},
 			},
 		}
@@ -1057,12 +1337,12 @@ func (cuo *CourseUpdateOne) sqlSave(ctx context.Context) (_node *Course, err err
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if cuo.mutation.CourseInfoCleared() {
+	if cuo.mutation.InfosCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   course.CourseInfoTable,
-			Columns: []string{course.CourseInfoColumn},
+			Table:   course.InfosTable,
+			Columns: []string{course.InfosColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -1073,12 +1353,12 @@ func (cuo *CourseUpdateOne) sqlSave(ctx context.Context) (_node *Course, err err
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cuo.mutation.RemovedCourseInfoIDs(); len(nodes) > 0 && !cuo.mutation.CourseInfoCleared() {
+	if nodes := cuo.mutation.RemovedInfosIDs(); len(nodes) > 0 && !cuo.mutation.InfosCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   course.CourseInfoTable,
-			Columns: []string{course.CourseInfoColumn},
+			Table:   course.InfosTable,
+			Columns: []string{course.InfosColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -1092,12 +1372,12 @@ func (cuo *CourseUpdateOne) sqlSave(ctx context.Context) (_node *Course, err err
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cuo.mutation.CourseInfoIDs(); len(nodes) > 0 {
+	if nodes := cuo.mutation.InfosIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   course.CourseInfoTable,
-			Columns: []string{course.CourseInfoColumn},
+			Table:   course.InfosTable,
+			Columns: []string{course.InfosColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -1111,12 +1391,12 @@ func (cuo *CourseUpdateOne) sqlSave(ctx context.Context) (_node *Course, err err
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if cuo.mutation.CourseChapterCleared() {
+	if cuo.mutation.ChaptersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   course.CourseChapterTable,
-			Columns: []string{course.CourseChapterColumn},
+			Table:   course.ChaptersTable,
+			Columns: []string{course.ChaptersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -1127,12 +1407,12 @@ func (cuo *CourseUpdateOne) sqlSave(ctx context.Context) (_node *Course, err err
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cuo.mutation.RemovedCourseChapterIDs(); len(nodes) > 0 && !cuo.mutation.CourseChapterCleared() {
+	if nodes := cuo.mutation.RemovedChaptersIDs(); len(nodes) > 0 && !cuo.mutation.ChaptersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   course.CourseChapterTable,
-			Columns: []string{course.CourseChapterColumn},
+			Table:   course.ChaptersTable,
+			Columns: []string{course.ChaptersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -1146,12 +1426,12 @@ func (cuo *CourseUpdateOne) sqlSave(ctx context.Context) (_node *Course, err err
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cuo.mutation.CourseChapterIDs(); len(nodes) > 0 {
+	if nodes := cuo.mutation.ChaptersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   course.CourseChapterTable,
-			Columns: []string{course.CourseChapterColumn},
+			Table:   course.ChaptersTable,
+			Columns: []string{course.ChaptersColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -1165,12 +1445,12 @@ func (cuo *CourseUpdateOne) sqlSave(ctx context.Context) (_node *Course, err err
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if cuo.mutation.CourseSectionCleared() {
+	if cuo.mutation.SectionsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   course.CourseSectionTable,
-			Columns: []string{course.CourseSectionColumn},
+			Table:   course.SectionsTable,
+			Columns: []string{course.SectionsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -1181,12 +1461,12 @@ func (cuo *CourseUpdateOne) sqlSave(ctx context.Context) (_node *Course, err err
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cuo.mutation.RemovedCourseSectionIDs(); len(nodes) > 0 && !cuo.mutation.CourseSectionCleared() {
+	if nodes := cuo.mutation.RemovedSectionsIDs(); len(nodes) > 0 && !cuo.mutation.SectionsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   course.CourseSectionTable,
-			Columns: []string{course.CourseSectionColumn},
+			Table:   course.SectionsTable,
+			Columns: []string{course.SectionsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -1200,17 +1480,125 @@ func (cuo *CourseUpdateOne) sqlSave(ctx context.Context) (_node *Course, err err
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cuo.mutation.CourseSectionIDs(); len(nodes) > 0 {
+	if nodes := cuo.mutation.SectionsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   course.CourseSectionTable,
-			Columns: []string{course.CourseSectionColumn},
+			Table:   course.SectionsTable,
+			Columns: []string{course.SectionsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
 					Column: coursesection.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if cuo.mutation.SwipersCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   course.SwipersTable,
+			Columns: []string{course.SwipersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: courseswiper.FieldID,
+				},
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cuo.mutation.RemovedSwipersIDs(); len(nodes) > 0 && !cuo.mutation.SwipersCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   course.SwipersTable,
+			Columns: []string{course.SwipersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: courseswiper.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cuo.mutation.SwipersIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   course.SwipersTable,
+			Columns: []string{course.SwipersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: courseswiper.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if cuo.mutation.UsersCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   course.UsersTable,
+			Columns: course.UsersPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: user.FieldID,
+				},
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cuo.mutation.RemovedUsersIDs(); len(nodes) > 0 && !cuo.mutation.UsersCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   course.UsersTable,
+			Columns: course.UsersPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: user.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cuo.mutation.UsersIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   course.UsersTable,
+			Columns: course.UsersPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: user.FieldID,
 				},
 			},
 		}

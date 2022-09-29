@@ -16,7 +16,7 @@ type CourseChapter struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// Title holds the value of the "title" field.
+	// 章标题
 	Title string `json:"title,omitempty"`
 	// IsDeleted holds the value of the "is_deleted" field.
 	IsDeleted bool `json:"is_deleted,omitempty"`
@@ -24,12 +24,10 @@ type CourseChapter struct {
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	// UpdatedAt holds the value of the "updated_at" field.
 	UpdatedAt time.Time `json:"updated_at,omitempty"`
-	// DeletedAt holds the value of the "deleted_at" field.
-	DeletedAt time.Time `json:"deleted_at,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the CourseChapterQuery when eager-loading is set.
-	Edges                 CourseChapterEdges `json:"edges"`
-	course_course_chapter *int
+	Edges           CourseChapterEdges `json:"edges"`
+	course_chapters *int
 }
 
 // CourseChapterEdges holds the relations/edges for other nodes in the graph.
@@ -61,9 +59,9 @@ func (*CourseChapter) scanValues(columns []string) ([]interface{}, error) {
 			values[i] = new(sql.NullInt64)
 		case coursechapter.FieldTitle:
 			values[i] = new(sql.NullString)
-		case coursechapter.FieldCreatedAt, coursechapter.FieldUpdatedAt, coursechapter.FieldDeletedAt:
+		case coursechapter.FieldCreatedAt, coursechapter.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
-		case coursechapter.ForeignKeys[0]: // course_course_chapter
+		case coursechapter.ForeignKeys[0]: // course_chapters
 			values[i] = new(sql.NullInt64)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type CourseChapter", columns[i])
@@ -110,18 +108,12 @@ func (cc *CourseChapter) assignValues(columns []string, values []interface{}) er
 			} else if value.Valid {
 				cc.UpdatedAt = value.Time
 			}
-		case coursechapter.FieldDeletedAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field deleted_at", values[i])
-			} else if value.Valid {
-				cc.DeletedAt = value.Time
-			}
 		case coursechapter.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field course_course_chapter", value)
+				return fmt.Errorf("unexpected type %T for edge-field course_chapters", value)
 			} else if value.Valid {
-				cc.course_course_chapter = new(int)
-				*cc.course_course_chapter = int(value.Int64)
+				cc.course_chapters = new(int)
+				*cc.course_chapters = int(value.Int64)
 			}
 		}
 	}
@@ -167,9 +159,6 @@ func (cc *CourseChapter) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
 	builder.WriteString(cc.UpdatedAt.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("deleted_at=")
-	builder.WriteString(cc.DeletedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

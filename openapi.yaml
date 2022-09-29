@@ -3,11 +3,44 @@
 
 openapi: 3.0.3
 info:
-    title: Course API
-    description: The course service definition.
+    title: ""
     version: 0.0.1
 paths:
+    /teaching/api/v1/Users:
+        get:
+            tags:
+                - User
+            operationId: User_SearchUser
+            parameters:
+                - name: keyword
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/teaching.v1.SearchUsersReply'
     /teaching/api/v1/course:
+        put:
+            tags:
+                - Course
+            operationId: Course_UpdateCourse
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/teaching.v1.UpdateCourseRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/teaching.v1.UpdateCourseReply'
         post:
             tags:
                 - Course
@@ -25,6 +58,43 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/teaching.v1.CreateCourseReply'
+    /teaching/api/v1/course/{courseId}:
+        get:
+            tags:
+                - Course
+            operationId: Course_GetCourseDetail
+            parameters:
+                - name: courseId
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/teaching.v1.GetCourseDetailReply'
+        delete:
+            tags:
+                - Course
+            operationId: Course_DeleteCourse
+            parameters:
+                - name: courseId
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/teaching.v1.DeleteCourseReply'
     /teaching/api/v1/courses:
         get:
             tags:
@@ -41,7 +111,168 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/teaching.v1.SearchCourseReply'
+                                $ref: '#/components/schemas/teaching.v1.SearchCoursesReply'
+    /teaching/api/v1/teacher:
+        put:
+            tags:
+                - Teacher
+            operationId: Teacher_UpdateTeacher
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/teaching.v1.UpdateTeacherRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/teaching.v1.UpdateTeacherReply'
+        post:
+            tags:
+                - Teacher
+            operationId: Teacher_CreateTeacher
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/teaching.v1.CreateTeacherRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/teaching.v1.CreateTeacherReply'
+    /teaching/api/v1/teacher/{teacherId}:
+        get:
+            tags:
+                - Teacher
+            operationId: Teacher_GetTeacher
+            parameters:
+                - name: teacherId
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/teaching.v1.GetTeacherReply'
+        delete:
+            tags:
+                - Teacher
+            operationId: Teacher_DeleteTeacher
+            parameters:
+                - name: teacherId
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/teaching.v1.DeleteTeacherReply'
+    /teaching/api/v1/teachers:
+        get:
+            tags:
+                - Teacher
+            operationId: Teacher_SearchTeacher
+            parameters:
+                - name: keyword
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/teaching.v1.SearchTeachersReply'
+    /teaching/api/v1/user:
+        put:
+            tags:
+                - User
+            operationId: User_UpdateUser
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/teaching.v1.UpdateUserRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/teaching.v1.UpdateUserReply'
+        post:
+            tags:
+                - User
+            operationId: User_CreateUser
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/teaching.v1.CreateUserRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/teaching.v1.CreateUserReply'
+    /teaching/api/v1/user/{userId}:
+        get:
+            tags:
+                - User
+            operationId: User_GetUser
+            parameters:
+                - name: userId
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/teaching.v1.GetUserReply'
+        delete:
+            tags:
+                - User
+            operationId: User_DeleteUser
+            parameters:
+                - name: userId
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/teaching.v1.DeleteUserReply'
 components:
     schemas:
         teaching.v1.CreateCourseReply:
@@ -54,22 +285,42 @@ components:
                     format: int32
                 message:
                     type: string
-        teaching.v1.CreateCourseReply_Course:
+        teaching.v1.CreateCourseReply_Data:
             type: object
             properties:
                 name:
                     type: string
                 desc:
                     type: string
-                backgroundImage:
+                image:
                     type: string
                 summary:
                     type: string
-        teaching.v1.CreateCourseReply_Data:
-            type: object
-            properties:
-                course:
-                    $ref: '#/components/schemas/teaching.v1.CreateCourseReply_Course'
+                tags:
+                    type: string
+                classification:
+                    type: string
+                price:
+                    type: integer
+                    format: fixed64
+                detail:
+                    type: string
+                state:
+                    type: integer
+                    format: enum
+                order:
+                    type: integer
+                    format: int32
+                isQuality:
+                    type: boolean
+                teacherId:
+                    type: array
+                    items:
+                        type: integer
+                        format: int32
+                courseId:
+                    type: integer
+                    format: int32
         teaching.v1.CreateCourseRequest:
             type: object
             properties:
@@ -77,37 +328,570 @@ components:
                     type: string
                 desc:
                     type: string
-                backgroundImage:
+                image:
                     type: string
                 summary:
                     type: string
-        teaching.v1.SearchCourseReply:
+                tags:
+                    type: string
+                classification:
+                    type: string
+                price:
+                    type: integer
+                    format: fixed64
+                detail:
+                    type: string
+                state:
+                    type: integer
+                    format: enum
+                order:
+                    type: integer
+                    format: int32
+                isQuality:
+                    type: boolean
+                teacherId:
+                    type: array
+                    items:
+                        type: integer
+                        format: int32
+        teaching.v1.CreateTeacherReply:
             type: object
             properties:
                 data:
-                    $ref: '#/components/schemas/teaching.v1.SearchCourseReply_Data'
+                    $ref: '#/components/schemas/teaching.v1.CreateTeacherReply_Data'
                 code:
                     type: integer
                     format: int32
                 message:
                     type: string
-        teaching.v1.SearchCourseReply_Course:
+        teaching.v1.CreateTeacherReply_Data:
+            type: object
+            properties:
+                teacher:
+                    $ref: '#/components/schemas/teaching.v1.CreateTeacherReply_Teacher'
+        teaching.v1.CreateTeacherReply_Teacher:
+            type: object
+            properties:
+                teacherId:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                desc:
+                    type: string
+                avatar:
+                    type: string
+                title:
+                    type: string
+        teaching.v1.CreateTeacherRequest:
             type: object
             properties:
                 name:
                     type: string
                 desc:
                     type: string
-                backgroundImage:
+                avatar:
+                    type: string
+                title:
+                    type: string
+        teaching.v1.CreateUserReply:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/teaching.v1.CreateUserReply_Data'
+                code:
+                    type: integer
+                    format: int32
+                message:
+                    type: string
+        teaching.v1.CreateUserReply_Data:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/teaching.v1.CreateUserReply_User'
+        teaching.v1.CreateUserReply_User:
+            type: object
+            properties:
+                userId:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                desc:
+                    type: string
+                avatar:
+                    type: string
+                title:
+                    type: string
+        teaching.v1.CreateUserRequest:
+            type: object
+            properties:
+                name:
+                    type: string
+                desc:
+                    type: string
+                avatar:
+                    type: string
+                title:
+                    type: string
+        teaching.v1.DeleteCourseReply:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/teaching.v1.DeleteCourseReply_Data'
+                code:
+                    type: integer
+                    format: int32
+                message:
+                    type: string
+        teaching.v1.DeleteCourseReply_Course:
+            type: object
+            properties:
+                name:
+                    type: string
+                desc:
+                    type: string
+                image:
+                    type: string
+                courseId:
+                    type: integer
+                    format: int32
+        teaching.v1.DeleteCourseReply_Data:
+            type: object
+            properties:
+                course:
+                    $ref: '#/components/schemas/teaching.v1.DeleteCourseReply_Course'
+        teaching.v1.DeleteTeacherReply:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/teaching.v1.DeleteTeacherReply_Data'
+                code:
+                    type: integer
+                    format: int32
+                message:
+                    type: string
+        teaching.v1.DeleteTeacherReply_Data:
+            type: object
+            properties:
+                teacher:
+                    $ref: '#/components/schemas/teaching.v1.DeleteTeacherReply_Teacher'
+        teaching.v1.DeleteTeacherReply_Teacher:
+            type: object
+            properties:
+                name:
+                    type: string
+                desc:
+                    type: string
+                avatar:
+                    type: string
+                title:
+                    type: string
+        teaching.v1.DeleteUserReply:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/teaching.v1.DeleteUserReply_Data'
+                code:
+                    type: integer
+                    format: int32
+                message:
+                    type: string
+        teaching.v1.DeleteUserReply_Data:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/teaching.v1.DeleteUserReply_User'
+        teaching.v1.DeleteUserReply_User:
+            type: object
+            properties:
+                name:
+                    type: string
+                desc:
+                    type: string
+                avatar:
+                    type: string
+                title:
+                    type: string
+        teaching.v1.GetCourseDetailReply:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/teaching.v1.GetCourseDetailReply_Data'
+                code:
+                    type: integer
+                    format: int32
+                message:
+                    type: string
+        teaching.v1.GetCourseDetailReply_Course:
+            type: object
+            properties:
+                name:
+                    type: string
+                desc:
+                    type: string
+                image:
                     type: string
                 summary:
                     type: string
-        teaching.v1.SearchCourseReply_Data:
+                tags:
+                    type: string
+                classification:
+                    type: string
+                price:
+                    type: integer
+                    format: fixed64
+                detail:
+                    type: string
+                state:
+                    type: integer
+                    format: enum
+                order:
+                    type: integer
+                    format: int32
+                isQuality:
+                    type: boolean
+                teachers:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/teaching.v1.GetCourseDetailReply_Teacher'
+        teaching.v1.GetCourseDetailReply_Data:
+            type: object
+            properties:
+                course:
+                    $ref: '#/components/schemas/teaching.v1.GetCourseDetailReply_Course'
+        teaching.v1.GetCourseDetailReply_Teacher:
+            type: object
+            properties:
+                teacherId:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                desc:
+                    type: string
+                avatar:
+                    type: string
+                title:
+                    type: string
+        teaching.v1.GetCourseReply:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/teaching.v1.GetCourseReply_Data'
+                code:
+                    type: integer
+                    format: int32
+                message:
+                    type: string
+        teaching.v1.GetCourseReply_Course:
+            type: object
+            properties:
+                name:
+                    type: string
+                desc:
+                    type: string
+                image:
+                    type: string
+                summary:
+                    type: string
+                courseId:
+                    type: integer
+                    format: int32
+        teaching.v1.GetCourseReply_Data:
+            type: object
+            properties:
+                course:
+                    $ref: '#/components/schemas/teaching.v1.GetCourseReply_Course'
+        teaching.v1.GetTeacherReply:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/teaching.v1.GetTeacherReply_Data'
+                code:
+                    type: integer
+                    format: int32
+                message:
+                    type: string
+        teaching.v1.GetTeacherReply_Data:
+            type: object
+            properties:
+                name:
+                    type: string
+                desc:
+                    type: string
+                avatar:
+                    type: string
+                title:
+                    type: string
+                id:
+                    type: integer
+                    format: int32
+        teaching.v1.GetUserReply:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/teaching.v1.GetUserReply_Data'
+                code:
+                    type: integer
+                    format: int32
+                message:
+                    type: string
+        teaching.v1.GetUserReply_Data:
+            type: object
+            properties:
+                name:
+                    type: string
+                desc:
+                    type: string
+                avatar:
+                    type: string
+                title:
+                    type: string
+                id:
+                    type: integer
+                    format: int32
+        teaching.v1.SearchCoursesReply:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/teaching.v1.SearchCoursesReply_Data'
+                code:
+                    type: integer
+                    format: int32
+                message:
+                    type: string
+        teaching.v1.SearchCoursesReply_Course:
+            type: object
+            properties:
+                name:
+                    type: string
+                desc:
+                    type: string
+                image:
+                    type: string
+                tags:
+                    type: string
+                classification:
+                    type: string
+                teachers:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/teaching.v1.SearchCoursesReply_Teacher'
+        teaching.v1.SearchCoursesReply_Data:
             type: object
             properties:
                 courses:
                     type: array
                     items:
-                        $ref: '#/components/schemas/teaching.v1.SearchCourseReply_Course'
+                        $ref: '#/components/schemas/teaching.v1.SearchCoursesReply_Course'
+        teaching.v1.SearchCoursesReply_Teacher:
+            type: object
+            properties:
+                teacherId:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                desc:
+                    type: string
+                avatar:
+                    type: string
+                title:
+                    type: string
+        teaching.v1.SearchTeachersReply:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/teaching.v1.SearchTeachersReply_Data'
+                code:
+                    type: integer
+                    format: int32
+                message:
+                    type: string
+        teaching.v1.SearchTeachersReply_Data:
+            type: object
+            properties:
+                teachers:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/teaching.v1.SearchTeachersReply_Teacher'
+        teaching.v1.SearchTeachersReply_Teacher:
+            type: object
+            properties:
+                name:
+                    type: string
+                desc:
+                    type: string
+                avatar:
+                    type: string
+                title:
+                    type: string
+                id:
+                    type: integer
+                    format: int32
+        teaching.v1.SearchUsersReply:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/teaching.v1.SearchUsersReply_Data'
+                code:
+                    type: integer
+                    format: int32
+                message:
+                    type: string
+        teaching.v1.SearchUsersReply_Data:
+            type: object
+            properties:
+                users:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/teaching.v1.SearchUsersReply_User'
+        teaching.v1.SearchUsersReply_User:
+            type: object
+            properties:
+                name:
+                    type: string
+                desc:
+                    type: string
+                avatar:
+                    type: string
+                title:
+                    type: string
+                id:
+                    type: integer
+                    format: int32
+        teaching.v1.UpdateCourseReply:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/teaching.v1.UpdateCourseReply_Data'
+                code:
+                    type: integer
+                    format: int32
+                message:
+                    type: string
+        teaching.v1.UpdateCourseReply_Course:
+            type: object
+            properties:
+                courseId:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                desc:
+                    type: string
+                image:
+                    type: string
+                summary:
+                    type: string
+        teaching.v1.UpdateCourseReply_Data:
+            type: object
+            properties:
+                course:
+                    $ref: '#/components/schemas/teaching.v1.UpdateCourseReply_Course'
+        teaching.v1.UpdateCourseRequest:
+            type: object
+            properties:
+                courseId:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                desc:
+                    type: string
+                image:
+                    type: string
+                summary:
+                    type: string
+        teaching.v1.UpdateTeacherReply:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/teaching.v1.UpdateTeacherReply_Data'
+                code:
+                    type: integer
+                    format: int32
+                message:
+                    type: string
+        teaching.v1.UpdateTeacherReply_Data:
+            type: object
+            properties:
+                teacher:
+                    $ref: '#/components/schemas/teaching.v1.UpdateTeacherReply_Teacher'
+        teaching.v1.UpdateTeacherReply_Teacher:
+            type: object
+            properties:
+                teacherId:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                desc:
+                    type: string
+                avatar:
+                    type: string
+                title:
+                    type: string
+        teaching.v1.UpdateTeacherRequest:
+            type: object
+            properties:
+                teacherId:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                desc:
+                    type: string
+                avatar:
+                    type: string
+                title:
+                    type: string
+        teaching.v1.UpdateUserReply:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/teaching.v1.UpdateUserReply_Data'
+                code:
+                    type: integer
+                    format: int32
+                message:
+                    type: string
+        teaching.v1.UpdateUserReply_Data:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/teaching.v1.UpdateUserReply_User'
+        teaching.v1.UpdateUserReply_User:
+            type: object
+            properties:
+                userId:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                desc:
+                    type: string
+                avatar:
+                    type: string
+                title:
+                    type: string
+        teaching.v1.UpdateUserRequest:
+            type: object
+            properties:
+                userId:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                desc:
+                    type: string
+                avatar:
+                    type: string
+                title:
+                    type: string
 tags:
     - name: Course
+      description: The course service definition.
+    - name: Teacher
+    - name: User

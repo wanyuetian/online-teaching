@@ -1,0 +1,152 @@
+syntax = "proto3";
+
+package teaching.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "online-teaching/api/teaching/v1;v1";
+option java_multiple_files = true;
+option java_package = "dev.kratos.api.teaching.v1";
+option java_outer_classname = "TeachingProtoV1";
+
+
+service User {
+  rpc SearchUser (SearchUsersRequest) returns (SearchUsersReply) {
+    option (google.api.http) = {
+      get: "/teaching/api/v1/Users"
+    };
+  }
+
+  rpc GetUser (GetUserRequest) returns (GetUserReply) {
+    option (google.api.http) = {
+      get: "/teaching/api/v1/user/{user_id}"
+    };
+  }
+
+  rpc DeleteUser (DeleteUserRequest) returns (DeleteUserReply) {
+    option (google.api.http) = {
+      delete: "/teaching/api/v1/user/{user_id}"
+    };
+  }
+
+  rpc UpdateUser (UpdateUserRequest) returns (UpdateUserReply) {
+    option (google.api.http) = {
+      put: "/teaching/api/v1/user"
+      body: "*"
+    };
+  }
+
+  rpc CreateUser (CreateUserRequest) returns (CreateUserReply) {
+    option (google.api.http) = {
+      post: "/teaching/api/v1/user"
+      body: "*"
+    };
+  }
+}
+
+message SearchUsersRequest {
+  string keyword = 1;
+}
+
+message SearchUsersReply{
+  message User {
+    string name   = 1;
+    string desc   = 2;
+    string avatar = 3;
+    string title  = 4;
+    int32  id     = 5;
+  }
+
+  message Data {
+    repeated User users = 1;
+  }
+
+  Data   data    = 1;
+  int32  code    = 2;
+  string message = 3;
+}
+
+message GetUserRequest{
+  int32 user_id = 1;
+}
+
+message GetUserReply{
+  message Data {
+    string name   = 1;
+    string desc   = 2;
+    string avatar = 3;
+    string title  = 4;
+    int32  id     = 5;
+  }
+
+  Data   data    = 1;
+  int32  code    = 2;
+  string message = 3;
+}
+
+message DeleteUserRequest{
+  int32 user_id = 1;
+}
+
+message DeleteUserReply{
+  message User {
+    string name   = 1;
+    string desc   = 2;
+    string avatar = 3;
+    string title  = 4;
+  }
+  message Data {
+    User user = 1;
+  }
+  Data   data    = 1;
+  int32  code    = 2;
+  string message = 3;
+}
+
+message UpdateUserRequest{
+  int32  user_id = 1;
+  string name       = 2;
+  string desc       = 3;
+  string avatar     = 4;
+  string title      = 5;
+}
+
+message UpdateUserReply{
+  message User {
+    int32  user_id = 1;
+    string name       = 2;
+    string desc       = 3;
+    string avatar     = 4;
+    string title      = 5;
+  }
+  message Data {
+    User user = 1;
+  }
+  Data   data    = 1;
+  int32  code    = 2;
+  string message = 3;
+}
+
+message CreateUserRequest{
+  string name   = 2;
+  string desc   = 3;
+  string avatar = 4;
+  string title  = 5;
+}
+
+message CreateUserReply{
+  message User {
+    int32  user_id = 1;
+    string name       = 2;
+    string desc       = 3;
+    string avatar     = 4;
+    string title      = 5;
+  }
+  message Data {
+    User user = 1;
+  }
+  Data   data    = 1;
+  int32  code    = 2;
+  string message = 3;
+}
+

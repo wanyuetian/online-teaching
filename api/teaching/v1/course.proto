@@ -11,9 +11,34 @@ option java_outer_classname = "TeachingProtoV1";
 
 // The course service definition.
 service Course {
-  rpc SearchCourse (SearchCourseRequest) returns (SearchCourseReply) {
+  rpc SearchCourse (SearchCoursesRequest) returns (SearchCoursesReply) {
     option (google.api.http) = {
       get: "/teaching/api/v1/courses"
+    };
+  }
+
+  rpc GetCourse (GetCourseRequest) returns (GetCourseReply) {
+    option (google.api.http) = {
+      get: "/teaching/api/v1/course/{course_id}"
+    };
+  }
+
+  rpc GetCourseDetail (GetCourseDetailRequest) returns (GetCourseDetailReply) {
+    option (google.api.http) = {
+      get: "/teaching/api/v1/course/{course_id}"
+    };
+  }
+
+  rpc DeleteCourse (DeleteCourseRequest) returns (DeleteCourseReply) {
+    option (google.api.http) = {
+      delete: "/teaching/api/v1/course/{course_id}"
+    };
+  }
+
+  rpc UpdateCourse (UpdateCourseRequest) returns (UpdateCourseReply) {
+    option (google.api.http) = {
+      put: "/teaching/api/v1/course"
+      body: "*"
     };
   }
 
@@ -25,43 +50,176 @@ service Course {
   }
 }
 
-message SearchCourseRequest {
+message SearchCoursesRequest {
   string keyword = 1;
 }
 
-message SearchCourseReply {
+message SearchCoursesReply {
+  message Teacher {
+    int32  teacher_id = 1;
+    string name       = 2;
+    string desc       = 3;
+    string avatar     = 4;
+    string title      = 5;
+  }
+
   message Course {
-    string name = 1;
-    string desc = 2;
-    string background_image = 3;
-    string summary = 4;
+    string           name           = 1;
+    string           desc           = 2;
+    string           image          = 3;
+    string           tags           = 4;
+    string           classification = 5;
+    repeated Teacher teachers       = 6;
   }
   message Data {
     repeated Course courses = 1;
   }
-  Data data = 1;
-  int32 code = 2;
+  Data   data    = 1;
+  int32  code    = 2;
   string message = 3;
 }
 
-message CreateCourseRequest {
-  string name = 1;
-  string desc = 2;
-  string background_image = 3;
-  string summary = 4;
+message GetCourseRequest {
+  int32 course_id = 1;
 }
 
-message CreateCourseReply {
+message GetCourseReply {
   message Course {
-    string name = 1;
-    string desc = 2;
-    string background_image = 3;
-    string summary = 4;
+    string name      = 1;
+    string desc      = 2;
+    string image     = 3;
+    string summary   = 4;
+    int32  course_id = 5;
   }
   message Data {
     Course course = 1;
   }
-  Data data = 1;
-  int32 code = 2;
+  Data   data    = 1;
+  int32  code    = 2;
+  string message = 3;
+}
+
+message GetCourseDetailRequest {
+  int32 course_id = 1;
+}
+
+message GetCourseDetailReply {
+  message Teacher {
+    int32  teacher_id = 1;
+    string name       = 2;
+    string desc       = 3;
+    string avatar     = 4;
+    string title      = 5;
+  }
+  message Course {
+    string           name           = 1;
+    string           desc           = 2;
+    string           image          = 3;
+    string           summary        = 4;
+    string           tags           = 5;
+    string           classification = 6;
+    fixed64          price          = 7;
+    string           detail         = 8;
+    enum State {
+      OFF = 0;
+      ON  = 1;
+    }
+    State            state          = 9;
+    int32            order          = 10;
+    bool             is_quality     = 11;
+    repeated Teacher teachers       = 12;
+  }
+  message Data {
+    Course course = 1;
+  }
+  Data   data    = 1;
+  int32  code    = 2;
+  string message = 3;
+}
+
+message DeleteCourseRequest {
+  int32 course_id = 1;
+}
+
+message DeleteCourseReply {
+  message Course {
+    string name      = 1;
+    string desc      = 2;
+    string image     = 3;
+    int32  course_id = 4;
+  }
+  message Data {
+    Course course = 1;
+  }
+  Data   data    = 1;
+  int32  code    = 2;
+  string message = 3;
+}
+
+message CreateCourseRequest {
+  string         name           = 1;
+  string         desc           = 2;
+  string         image          = 3;
+  string         summary        = 4;
+  string         tags           = 5;
+  string         classification = 6;
+  fixed64        price          = 7;
+  string         detail         = 8;
+  enum State {
+    OFF = 0;
+    ON  = 1;
+  }
+  State          state          = 9;
+  int32          order          = 10;
+  bool           is_quality     = 11;
+  repeated int32 teacher_id     = 12;
+}
+
+message CreateCourseReply {
+  message Data {
+    string         name           = 1;
+    string         desc           = 2;
+    string         image          = 3;
+    string         summary        = 4;
+    string         tags           = 5;
+    string         classification = 6;
+    fixed64        price          = 7;
+    string         detail         = 8;
+    enum State {
+      OFF = 0;
+      ON  = 1;
+    }
+    State          state          = 9;
+    int32          order          = 10;
+    bool           is_quality     = 11;
+    repeated int32 teacher_id     = 12;
+    int32          course_id      = 13;
+  }
+  Data   data    = 1;
+  int32  code    = 2;
+  string message = 3;
+}
+
+message UpdateCourseRequest {
+  int32  course_id = 1;
+  string name      = 2;
+  string desc      = 3;
+  string image     = 4;
+  string summary   = 5;
+}
+
+message UpdateCourseReply {
+  message Course {
+    int32  course_id = 1;
+    string name      = 2;
+    string desc      = 3;
+    string image     = 4;
+    string summary   = 5;
+  }
+  message Data {
+    Course course = 1;
+  }
+  Data   data    = 1;
+  int32  code    = 2;
   string message = 3;
 }

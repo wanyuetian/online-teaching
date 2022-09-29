@@ -25,14 +25,16 @@ const (
 	FieldDetail = "detail"
 	// FieldState holds the string denoting the state field in the database.
 	FieldState = "state"
+	// FieldOrder holds the string denoting the order field in the database.
+	FieldOrder = "order"
+	// FieldIsQuality holds the string denoting the is_quality field in the database.
+	FieldIsQuality = "is_quality"
 	// FieldIsDeleted holds the string denoting the is_deleted field in the database.
 	FieldIsDeleted = "is_deleted"
 	// FieldCreatedAt holds the string denoting the created_at field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
-	// FieldDeletedAt holds the string denoting the deleted_at field in the database.
-	FieldDeletedAt = "deleted_at"
 	// Table holds the table name of the courseinfo in the database.
 	Table = "course_infos"
 )
@@ -47,16 +49,17 @@ var Columns = []string{
 	FieldPrice,
 	FieldDetail,
 	FieldState,
+	FieldOrder,
+	FieldIsQuality,
 	FieldIsDeleted,
 	FieldCreatedAt,
 	FieldUpdatedAt,
-	FieldDeletedAt,
 }
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the "course_infos"
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
-	"course_course_info",
+	"course_infos",
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -75,10 +78,24 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// DefaultClickCount holds the default value on creation for the "click_count" field.
+	DefaultClickCount int
+	// DefaultLearnCount holds the default value on creation for the "learn_count" field.
+	DefaultLearnCount int
+	// DefaultTotalDuration holds the default value on creation for the "total_duration" field.
+	DefaultTotalDuration int
+	// DefaultSectionCount holds the default value on creation for the "section_count" field.
+	DefaultSectionCount int
 	// DefaultDetail holds the default value on creation for the "detail" field.
 	DefaultDetail string
+	// DetailValidator is a validator for the "detail" field. It is called by the builders before save.
+	DetailValidator func(string) error
 	// DefaultState holds the default value on creation for the "state" field.
-	DefaultState string
+	DefaultState int
+	// DefaultOrder holds the default value on creation for the "order" field.
+	DefaultOrder int
+	// DefaultIsQuality holds the default value on creation for the "is_quality" field.
+	DefaultIsQuality bool
 	// DefaultIsDeleted holds the default value on creation for the "is_deleted" field.
 	DefaultIsDeleted bool
 	// DefaultCreatedAt holds the default value on creation for the "created_at" field.

@@ -12,11 +12,20 @@ type Course func(*sql.Selector)
 // CourseChapter is the predicate function for coursechapter builders.
 type CourseChapter func(*sql.Selector)
 
+// CourseComment is the predicate function for coursecomment builders.
+type CourseComment func(*sql.Selector)
+
 // CourseInfo is the predicate function for courseinfo builders.
 type CourseInfo func(*sql.Selector)
 
 // CourseSection is the predicate function for coursesection builders.
 type CourseSection func(*sql.Selector)
 
-// CourseTeacher is the predicate function for courseteacher builders.
-type CourseTeacher func(*sql.Selector)
+// CourseSwiper is the predicate function for courseswiper builders.
+type CourseSwiper func(*sql.Selector)
+
+// Teacher is the predicate function for teacher builders.
+type Teacher func(*sql.Selector)
+
+// User is the predicate function for user builders.
+type User func(*sql.Selector)

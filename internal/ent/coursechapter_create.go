@@ -69,12 +69,6 @@ func (ccc *CourseChapterCreate) SetNillableUpdatedAt(t *time.Time) *CourseChapte
 	return ccc
 }
 
-// SetDeletedAt sets the "deleted_at" field.
-func (ccc *CourseChapterCreate) SetDeletedAt(t time.Time) *CourseChapterCreate {
-	ccc.mutation.SetDeletedAt(t)
-	return ccc
-}
-
 // AddCourseSectionIDs adds the "course_section" edge to the CourseSection entity by IDs.
 func (ccc *CourseChapterCreate) AddCourseSectionIDs(ids ...int) *CourseChapterCreate {
 	ccc.mutation.AddCourseSectionIDs(ids...)
@@ -200,9 +194,6 @@ func (ccc *CourseChapterCreate) check() error {
 	if _, ok := ccc.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "CourseChapter.updated_at"`)}
 	}
-	if _, ok := ccc.mutation.DeletedAt(); !ok {
-		return &ValidationError{Name: "deleted_at", err: errors.New(`ent: missing required field "CourseChapter.deleted_at"`)}
-	}
 	return nil
 }
 
@@ -261,14 +252,6 @@ func (ccc *CourseChapterCreate) createSpec() (*CourseChapter, *sqlgraph.CreateSp
 			Column: coursechapter.FieldUpdatedAt,
 		})
 		_node.UpdatedAt = value
-	}
-	if value, ok := ccc.mutation.DeletedAt(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeTime,
-			Value:  value,
-			Column: coursechapter.FieldDeletedAt,
-		})
-		_node.DeletedAt = value
 	}
 	if nodes := ccc.mutation.CourseSectionIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{

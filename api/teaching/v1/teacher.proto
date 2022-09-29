@@ -1,0 +1,152 @@
+syntax = "proto3";
+
+package teaching.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "online-teaching/api/teaching/v1;v1";
+option java_multiple_files = true;
+option java_package = "dev.kratos.api.teaching.v1";
+option java_outer_classname = "TeachingProtoV1";
+
+
+service Teacher {
+  rpc SearchTeacher (SearchTeachersRequest) returns (SearchTeachersReply) {
+    option (google.api.http) = {
+      get: "/teaching/api/v1/teachers"
+    };
+  }
+
+  rpc GetTeacher (GetTeacherRequest) returns (GetTeacherReply) {
+    option (google.api.http) = {
+      get: "/teaching/api/v1/teacher/{teacher_id}"
+    };
+  }
+
+  rpc DeleteTeacher (DeleteTeacherRequest) returns (DeleteTeacherReply) {
+    option (google.api.http) = {
+      delete: "/teaching/api/v1/teacher/{teacher_id}"
+    };
+  }
+
+  rpc UpdateTeacher (UpdateTeacherRequest) returns (UpdateTeacherReply) {
+    option (google.api.http) = {
+      put: "/teaching/api/v1/teacher"
+      body: "*"
+    };
+  }
+
+  rpc CreateTeacher (CreateTeacherRequest) returns (CreateTeacherReply) {
+    option (google.api.http) = {
+      post: "/teaching/api/v1/teacher"
+      body: "*"
+    };
+  }
+}
+
+message SearchTeachersRequest {
+  string keyword = 1;
+}
+
+message SearchTeachersReply{
+  message Teacher {
+    string name   = 1;
+    string desc   = 2;
+    string avatar = 3;
+    string title  = 4;
+    int32  id     = 5;
+  }
+
+  message Data {
+    repeated Teacher teachers = 1;
+  }
+
+  Data   data    = 1;
+  int32  code    = 2;
+  string message = 3;
+}
+
+message GetTeacherRequest{
+  int32 teacher_id = 1;
+}
+
+message GetTeacherReply{
+  message Data {
+    string name   = 1;
+    string desc   = 2;
+    string avatar = 3;
+    string title  = 4;
+    int32  id     = 5;
+  }
+
+  Data   data    = 1;
+  int32  code    = 2;
+  string message = 3;
+}
+
+message DeleteTeacherRequest{
+  int32 teacher_id = 1;
+}
+
+message DeleteTeacherReply{
+  message Teacher {
+    string name   = 1;
+    string desc   = 2;
+    string avatar = 3;
+    string title  = 4;
+  }
+  message Data {
+    Teacher teacher = 1;
+  }
+  Data   data    = 1;
+  int32  code    = 2;
+  string message = 3;
+}
+
+message UpdateTeacherRequest{
+  int32  teacher_id = 1;
+  string name       = 2;
+  string desc       = 3;
+  string avatar     = 4;
+  string title      = 5;
+}
+
+message UpdateTeacherReply{
+  message Teacher {
+    int32  teacher_id = 1;
+    string name       = 2;
+    string desc       = 3;
+    string avatar     = 4;
+    string title      = 5;
+  }
+  message Data {
+    Teacher teacher = 1;
+  }
+  Data   data    = 1;
+  int32  code    = 2;
+  string message = 3;
+}
+
+message CreateTeacherRequest{
+  string name   = 2;
+  string desc   = 3;
+  string avatar = 4;
+  string title  = 5;
+}
+
+message CreateTeacherReply{
+  message Teacher {
+    int32  teacher_id = 1;
+    string name       = 2;
+    string desc       = 3;
+    string avatar     = 4;
+    string title      = 5;
+  }
+  message Data {
+    Teacher teacher = 1;
+  }
+  Data   data    = 1;
+  int32  code    = 2;
+  string message = 3;
+}
+

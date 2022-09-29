@@ -34,6 +34,19 @@ func (f CourseChapterFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Valu
 	return f(ctx, mv)
 }
 
+// The CourseCommentFunc type is an adapter to allow the use of ordinary
+// function as CourseComment mutator.
+type CourseCommentFunc func(context.Context, *ent.CourseCommentMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f CourseCommentFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.CourseCommentMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CourseCommentMutation", m)
+	}
+	return f(ctx, mv)
+}
+
 // The CourseInfoFunc type is an adapter to allow the use of ordinary
 // function as CourseInfo mutator.
 type CourseInfoFunc func(context.Context, *ent.CourseInfoMutation) (ent.Value, error)
@@ -60,15 +73,41 @@ func (f CourseSectionFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Valu
 	return f(ctx, mv)
 }
 
-// The CourseTeacherFunc type is an adapter to allow the use of ordinary
-// function as CourseTeacher mutator.
-type CourseTeacherFunc func(context.Context, *ent.CourseTeacherMutation) (ent.Value, error)
+// The CourseSwiperFunc type is an adapter to allow the use of ordinary
+// function as CourseSwiper mutator.
+type CourseSwiperFunc func(context.Context, *ent.CourseSwiperMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f CourseTeacherFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	mv, ok := m.(*ent.CourseTeacherMutation)
+func (f CourseSwiperFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.CourseSwiperMutation)
 	if !ok {
-		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CourseTeacherMutation", m)
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CourseSwiperMutation", m)
+	}
+	return f(ctx, mv)
+}
+
+// The TeacherFunc type is an adapter to allow the use of ordinary
+// function as Teacher mutator.
+type TeacherFunc func(context.Context, *ent.TeacherMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f TeacherFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.TeacherMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TeacherMutation", m)
+	}
+	return f(ctx, mv)
+}
+
+// The UserFunc type is an adapter to allow the use of ordinary
+// function as User mutator.
+type UserFunc func(context.Context, *ent.UserMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f UserFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.UserMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserMutation", m)
 	}
 	return f(ctx, mv)
 }

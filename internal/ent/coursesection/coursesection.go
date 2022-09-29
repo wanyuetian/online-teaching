@@ -23,8 +23,6 @@ const (
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
-	// FieldDeletedAt holds the string denoting the deleted_at field in the database.
-	FieldDeletedAt = "deleted_at"
 	// Table holds the table name of the coursesection in the database.
 	Table = "course_sections"
 )
@@ -38,13 +36,12 @@ var Columns = []string{
 	FieldIsDeleted,
 	FieldCreatedAt,
 	FieldUpdatedAt,
-	FieldDeletedAt,
 }
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the "course_sections"
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
-	"course_course_section",
+	"course_sections",
 	"course_chapter_course_section",
 }
 

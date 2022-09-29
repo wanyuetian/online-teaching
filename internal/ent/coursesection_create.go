@@ -88,12 +88,6 @@ func (csc *CourseSectionCreate) SetNillableUpdatedAt(t *time.Time) *CourseSectio
 	return csc
 }
 
-// SetDeletedAt sets the "deleted_at" field.
-func (csc *CourseSectionCreate) SetDeletedAt(t time.Time) *CourseSectionCreate {
-	csc.mutation.SetDeletedAt(t)
-	return csc
-}
-
 // Mutation returns the CourseSectionMutation object of the builder.
 func (csc *CourseSectionCreate) Mutation() *CourseSectionMutation {
 	return csc.mutation
@@ -214,9 +208,6 @@ func (csc *CourseSectionCreate) check() error {
 	if _, ok := csc.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "CourseSection.updated_at"`)}
 	}
-	if _, ok := csc.mutation.DeletedAt(); !ok {
-		return &ValidationError{Name: "deleted_at", err: errors.New(`ent: missing required field "CourseSection.deleted_at"`)}
-	}
 	return nil
 }
 
@@ -291,14 +282,6 @@ func (csc *CourseSectionCreate) createSpec() (*CourseSection, *sqlgraph.CreateSp
 			Column: coursesection.FieldUpdatedAt,
 		})
 		_node.UpdatedAt = value
-	}
-	if value, ok := csc.mutation.DeletedAt(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeTime,
-			Value:  value,
-			Column: coursesection.FieldDeletedAt,
-		})
-		_node.DeletedAt = value
 	}
 	return _node, _spec
 }

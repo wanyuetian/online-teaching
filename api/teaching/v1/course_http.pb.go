@@ -20,34 +20,131 @@ var _ = binding.EncodeURL
 const _ = http.SupportPackageIsVersion1
 
 const OperationCourseCreateCourse = "/teaching.v1.Course/CreateCourse"
+const OperationCourseDeleteCourse = "/teaching.v1.Course/DeleteCourse"
+const OperationCourseGetCourse = "/teaching.v1.Course/GetCourse"
+const OperationCourseGetCourseDetail = "/teaching.v1.Course/GetCourseDetail"
 const OperationCourseSearchCourse = "/teaching.v1.Course/SearchCourse"
+const OperationCourseUpdateCourse = "/teaching.v1.Course/UpdateCourse"
 
 type CourseHTTPServer interface {
 	CreateCourse(context.Context, *CreateCourseRequest) (*CreateCourseReply, error)
-	SearchCourse(context.Context, *SearchCourseRequest) (*SearchCourseReply, error)
+	DeleteCourse(context.Context, *DeleteCourseRequest) (*DeleteCourseReply, error)
+	GetCourse(context.Context, *GetCourseRequest) (*GetCourseReply, error)
+	GetCourseDetail(context.Context, *GetCourseDetailRequest) (*GetCourseDetailReply, error)
+	SearchCourse(context.Context, *SearchCoursesRequest) (*SearchCoursesReply, error)
+	UpdateCourse(context.Context, *UpdateCourseRequest) (*UpdateCourseReply, error)
 }
 
 func RegisterCourseHTTPServer(s *http.Server, srv CourseHTTPServer) {
 	r := s.Route("/")
 	r.GET("/teaching/api/v1/courses", _Course_SearchCourse0_HTTP_Handler(srv))
+	r.GET("/teaching/api/v1/course/{course_id}", _Course_GetCourse0_HTTP_Handler(srv))
+	r.GET("/teaching/api/v1/course/{course_id}", _Course_GetCourseDetail0_HTTP_Handler(srv))
+	r.DELETE("/teaching/api/v1/course/{course_id}", _Course_DeleteCourse0_HTTP_Handler(srv))
+	r.PUT("/teaching/api/v1/course", _Course_UpdateCourse0_HTTP_Handler(srv))
 	r.POST("/teaching/api/v1/course", _Course_CreateCourse0_HTTP_Handler(srv))
 }
 
 func _Course_SearchCourse0_HTTP_Handler(srv CourseHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in SearchCourseRequest
+		var in SearchCoursesRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
 		http.SetOperation(ctx, OperationCourseSearchCourse)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.SearchCourse(ctx, req.(*SearchCourseRequest))
+			return srv.SearchCourse(ctx, req.(*SearchCoursesRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*SearchCourseReply)
+		reply := out.(*SearchCoursesReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Course_GetCourse0_HTTP_Handler(srv CourseHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetCourseRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationCourseGetCourse)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetCourse(ctx, req.(*GetCourseRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*GetCourseReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Course_GetCourseDetail0_HTTP_Handler(srv CourseHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetCourseDetailRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationCourseGetCourseDetail)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetCourseDetail(ctx, req.(*GetCourseDetailRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*GetCourseDetailReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Course_DeleteCourse0_HTTP_Handler(srv CourseHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in DeleteCourseRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationCourseDeleteCourse)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.DeleteCourse(ctx, req.(*DeleteCourseRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*DeleteCourseReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Course_UpdateCourse0_HTTP_Handler(srv CourseHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UpdateCourseRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationCourseUpdateCourse)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UpdateCourse(ctx, req.(*UpdateCourseRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*UpdateCourseReply)
 		return ctx.Result(200, reply)
 	}
 }
@@ -73,7 +170,11 @@ func _Course_CreateCourse0_HTTP_Handler(srv CourseHTTPServer) func(ctx http.Cont
 
 type CourseHTTPClient interface {
 	CreateCourse(ctx context.Context, req *CreateCourseRequest, opts ...http.CallOption) (rsp *CreateCourseReply, err error)
-	SearchCourse(ctx context.Context, req *SearchCourseRequest, opts ...http.CallOption) (rsp *SearchCourseReply, err error)
+	DeleteCourse(ctx context.Context, req *DeleteCourseRequest, opts ...http.CallOption) (rsp *DeleteCourseReply, err error)
+	GetCourse(ctx context.Context, req *GetCourseRequest, opts ...http.CallOption) (rsp *GetCourseReply, err error)
+	GetCourseDetail(ctx context.Context, req *GetCourseDetailRequest, opts ...http.CallOption) (rsp *GetCourseDetailReply, err error)
+	SearchCourse(ctx context.Context, req *SearchCoursesRequest, opts ...http.CallOption) (rsp *SearchCoursesReply, err error)
+	UpdateCourse(ctx context.Context, req *UpdateCourseRequest, opts ...http.CallOption) (rsp *UpdateCourseReply, err error)
 }
 
 type CourseHTTPClientImpl struct {
@@ -97,13 +198,65 @@ func (c *CourseHTTPClientImpl) CreateCourse(ctx context.Context, in *CreateCours
 	return &out, err
 }
 
-func (c *CourseHTTPClientImpl) SearchCourse(ctx context.Context, in *SearchCourseRequest, opts ...http.CallOption) (*SearchCourseReply, error) {
-	var out SearchCourseReply
+func (c *CourseHTTPClientImpl) DeleteCourse(ctx context.Context, in *DeleteCourseRequest, opts ...http.CallOption) (*DeleteCourseReply, error) {
+	var out DeleteCourseReply
+	pattern := "/teaching/api/v1/course/{course_id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationCourseDeleteCourse))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *CourseHTTPClientImpl) GetCourse(ctx context.Context, in *GetCourseRequest, opts ...http.CallOption) (*GetCourseReply, error) {
+	var out GetCourseReply
+	pattern := "/teaching/api/v1/course/{course_id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationCourseGetCourse))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *CourseHTTPClientImpl) GetCourseDetail(ctx context.Context, in *GetCourseDetailRequest, opts ...http.CallOption) (*GetCourseDetailReply, error) {
+	var out GetCourseDetailReply
+	pattern := "/teaching/api/v1/course/{course_id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationCourseGetCourseDetail))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *CourseHTTPClientImpl) SearchCourse(ctx context.Context, in *SearchCoursesRequest, opts ...http.CallOption) (*SearchCoursesReply, error) {
+	var out SearchCoursesReply
 	pattern := "/teaching/api/v1/courses"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationCourseSearchCourse))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *CourseHTTPClientImpl) UpdateCourse(ctx context.Context, in *UpdateCourseRequest, opts ...http.CallOption) (*UpdateCourseReply, error) {
+	var out UpdateCourseReply
+	pattern := "/teaching/api/v1/course"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationCourseUpdateCourse))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}
